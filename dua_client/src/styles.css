@@ -1,0 +1,11 @@
+.test {
+	color: aqua;
+}
+
+.test2, .test {
+	font-size: 60px;
+}
+
+* {
+	font-family: "Calibri", sans-serif;
+}
