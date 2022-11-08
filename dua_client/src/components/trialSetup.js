@@ -26,12 +26,10 @@ export default function TestSetupPage () {
 			</a>
 		</div>
 
-		<div className="container p-2">
 			<a href="/">
-				<button className="btn btn-primary project-btn" >Return</button>{' '}
+				<button className="btn btn-primary project-btn position-absolute bottom-0 end-0 m-5" >Return</button>{' '}
 			</a>
-		</div>
-
+			
 	</div>
 	)
 }
