@@ -27,8 +27,8 @@ export default function AdminPage () {
           <tr>
             <th scope="row">1</th>
             <td>JohnD</td>
+            <td><button className="btn btn-primary" >Incomplete</button></td>
             <td>Complete</td>
-            <td>Unfinished</td>
           </tr>
           <tr>
             <th scope="row">2</th>
@@ -39,12 +39,12 @@ export default function AdminPage () {
           <tr>
             <th scope="row">3</th>
             <td>1234</td>
-            <td>Unfinished</td>
+            <td>Complete</td>
             <td>Complete</td>
           </tr>
         </tbody>
       </table>
-      <a href="/">
+      <a href="/testingSetup">
         <button className="btn btn-primary dua-btn" >Return</button>{' '}
       </a>
       </div>
