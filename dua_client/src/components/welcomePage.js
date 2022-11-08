@@ -6,28 +6,31 @@ import "../css/styles.css";
 
 export default function WelcomePage() {
 	return (
-		<div className="container-fluid dua-general">
+		<div className="container-fluid text-center p-2">
+
 			<h1 className= "header" >Welcome</h1>
 
-			<a href="/testingSetup">
-				<button className="btn btn-primary dua-btn" >Start New Trial</button>{' '}
-			</a>
-
-			<div>
-				<a href="/placeHolder">
-					<button className="btn btn-primary dua-btn" >View Data</button>{' '}
+			<div className="container p-2">
+				<a href="/testingSetup">
+					<button className="btn btn-primary project-btn" >Start New Trial</button>{' '}
 				</a>
 			</div>
 
-			<div>
-				<a href="/placeHolder">
-					<button className="btn btn-primary dua-btn" >Edit Test</button>{' '}
+			<div className="container p-2">
+				<a href="/exportData">
+					<button className="btn btn-primary project-btn" >Export Data</button>{' '}
 				</a>
 			</div>
 
-			<div>
+			<div className="container p-2">
 				<a href="/placeHolder">
-					<button className="btn btn-primary dua-btn" >Upload</button>{' '}
+					<button className="btn btn-primary project-btn" >Edit Test</button>{' '}
+				</a>
+			</div>
+
+			<div className="container p-2">
+				<a href="/uploadData">
+					<button className="btn btn-primary project-btn" >Upload</button>{' '}
 				</a>
 			</div>
 
