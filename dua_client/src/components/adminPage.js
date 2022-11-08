@@ -28,7 +28,7 @@ export default function AdminPage () {
             <th scope="row">1</th>
             <td>JohnD</td>
             <td>Complete</td>
-            <td>Unfinished</td>
+            <td>Incomplete</td>
           </tr>
           <tr>
             <th scope="row">2</th>
@@ -39,7 +39,7 @@ export default function AdminPage () {
           <tr>
             <th scope="row">3</th>
             <td>1234</td>
-            <td>Unfinished</td>
+            <td>Complete</td>
             <td>Complete</td>
           </tr>
         </tbody>
