@@ -7,7 +7,7 @@
 *
 **********************************************/
 const express = require("express"); // express hook (web framework)
-const app = express();
+var app = express();
 const cors = require("cors"); // cross-origin resource sharing
 require("dotenv").config("./config.env"); // load environment vars from config file, not in code
 const port = process.env.PORT || 8000;
@@ -18,6 +18,7 @@ app.use(express.json());
 // app.use(require("./routes/getData"));
 // app.use(require("./routes/insert"));
 app.use(require("./routes/pollTest"));
+app.use(require("./routes/user"));
 
 const dbo = require('./db/connect');
 
@@ -25,8 +26,10 @@ app.listen(port, () => {
 	console.log("SQLite3 server started");
 
 	dbo.connectToServer(function (err) {
-		if(err)
+		if(err) {
 			console.error(err);
+			dbo.createDatabase();
+		}
 	});
 	console.log(`Server running on port: ${port}`);
 });

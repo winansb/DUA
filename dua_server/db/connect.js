@@ -4,9 +4,10 @@ var _db;
 
 module.exports = {
 	connectToServer: function (callback) {
-		var db = new sqlite3.Database('./db/test.db', sqlite3.OPEN_READWRITE, (err) => {
+		var db = new sqlite3.Database('./db/test.db', sqlite3.OPEN_READWRITE /* | sqlite3.OPEN_CREATE */, (err) => {
 			if(err && err.code == "SQLITE_CANTOPEN") {
-				createDatabase();
+				this.createDatabase();
+				console.log("Database does not exist, creating...");
 				return;
 			}else if(err) {
 				console.error("ERROR: " + err);
@@ -25,24 +26,24 @@ module.exports = {
 				console.error(err);
 				return;
 			}
-			createTables(newdb);
+			this.createTables(newdb);
 		});
 	},
 
 	createTables: function(db) {
 		db.exec(`CREATE TABLE USER_INFO (
-			UID int primary key not null,
+			UID integer primary key autoincrement,
 			USER_ID text not null,
 			TEST_ID_ACTIVE text,
 			TEST_ID_COMPLETE text
 		);`);
-		db.exec(`CREATE TABLE FROM TEST_INFO (
-			UID int primary key not null,
+		db.exec(`CREATE TABLE TEST_INFO (
+			UID integer primary key autoincrement,
 			TEST_ID text not null,
 			TEST_INFO text not null
 		);`);
 		db.exec(`CREATE TABLE TEST_RESULTS (
-			UID int primary key not null,
+			UID integer primary key autoincrement,
 			USER_ID text not null,
 			TEST_ID text not null,
 			TEST_DATA text not null

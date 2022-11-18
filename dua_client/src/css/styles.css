@@ -28,3 +28,14 @@
   grid-auto-rows: 30%
 
 }
+
+.submission-form {
+  width: 100%;
+  justify-content: center;
+  text-align:center;
+  padding-top:1em;
+}
+
+.id-textbox {
+  border-radius:5%;
+}
