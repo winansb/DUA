@@ -88,6 +88,8 @@ export default function StorageTestPage() {
 		window.location = "./storage";
 	}
 
+	
+
   	return(
      	<div className="container-fluid">
 			<div className="row">
