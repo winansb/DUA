@@ -1,19 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/styles.css"; 
 
 export default function WaitingPage () {
-	return(
 
-	<div className="container-fluid text-center">
+  const [_data, setData] = useState([]);
 
-		<h1 className= "waiting" >Please wait while we get your test ready</h1>
+	useEffect(() => {
+		async function waitForTest() {
+			const response = await fetch(`http://localhost:8000/pollTest`);
 
-		<a href="/testingSetup">
-			<button className="btn btn-primary project-btn position-absolute bottom-0 end-0 m-5" >Return</button>{' '}
-		</a>
+			if(!response.ok) {
+				window.alert(`ERROR: ${response.statusText}`);
+				return;
+			}
 
-	</div>
-	)
+			const _data = await response.json();
+			// console.log(_data.rows.length);
+			setData(_data.rows);
+		}
+
+		setInterval(waitForTest(), 5000);
+    
+		return;
+	}, [_data.length]);
+
+  if(_data.rows[0].TEST_ID_ACTIVE != null) {
+    return (
+      <div className="container-fluid">
+        <h1 className= "waiting" >A test has begun!</h1>
+        <a href="/">
+          <button className="btn btn-primary dua-btn" >Return</button>{' '}
+        </a>
+      </div>
+    );
+  }else{  
+    return(
+      <div className="container-fluid">
+        <h1 className= "waiting" >Please wait while we get your test ready</h1>
+        <a href="/">
+          <button className="btn btn-primary dua-btn" >Return</button>{' '}
+        </a>
+      </div>
+    );
+  }
 }

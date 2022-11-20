@@ -1,3 +1,6 @@
+# database files (creates on initial load of server)
+*/test.db
+
 # dependencies
 */node_modules
 */.pnp

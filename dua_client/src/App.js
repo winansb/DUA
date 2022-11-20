@@ -5,9 +5,9 @@ import WaitingPage from "./components/trialLandingPage";
 import TestSetupPage from "./components/trialSetup";
 import PlaceHolderPage from "./components/placeHolderPage";
 import AdminPage from "./components/adminPage";
-import ExportPage from "./components/exportDataPage";
-import UploadPage from "./components/uploadDataPage";
-import VideoPage from "./components/displayVideo"; 
+
+// Delete later, just for testing
+import StorageTestPage from "./components/storageTest";
 
 const App = () => 
 {
@@ -19,9 +19,7 @@ const App = () =>
 				<Route path="/testingSetup" element={<TestSetupPage />} />
 				<Route path="/placeHolder" element={<PlaceHolderPage />} />
 				<Route path="/adminSetup" element={<AdminPage/>} />
-				<Route path="/videoDisplay" element={<VideoPage/>} />
-				<Route path="/exportData" element={<ExportPage/>} />
-				<Route path="/uploadData" element={<UploadPage/>} />
+				<Route path="/storage" element={<StorageTestPage/> }/>
 			</Routes>
 		</div>
 	);

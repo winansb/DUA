@@ -1,44 +1,41 @@
 .header {
-	text-align: center;
+  color:  black;
+  text-align: center;
+
 }
 
 .waiting {
-	color: black;
-	text-align: center;
+  color: black;
+  text-align: center;
 }
 
 .dua-btn {
-	width: 150px;
-	height: 40px;
-	position: relative;
-	left: 46%
+  width: 150px;
+  height: 40px;
+  position: relative;
+  left: 46%
 }
-
 .quick-align{
-	position: relative;
-	left: 35%
+  position: relative;
+  left: 35%
 }
-
 .dua-general {
-	display: grid;
-	grid-auto-rows: 25%
+  display: grid;
+  grid-auto-rows: 25%
 }
-
 .dua-setup {
-	display: grid;
-	grid-auto-rows: 30%
+  display: grid;
+  grid-auto-rows: 30%
+
 }
 
-.project-btn {
-	border-radius: 20px;
-	font-size: 18px;
-	width: 170px;
-	height: 50px;
+.submission-form {
+  width: 100%;
+  justify-content: center;
+  text-align:center;
+  padding-top:1em;
 }
 
-.project-btn__small {
-	border-radius:  12px;
-	font-size:  14px;
-	width:  60px;
-	height:  35px;
+.id-textbox {
+  border-radius:5%;
 }
