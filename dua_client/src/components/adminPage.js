@@ -43,7 +43,7 @@ export default function AdminPage () {
 
 				<td>
 					<div class="custom-control custom-radio p-1">
-						<input type="radio" id="customRadio1" name="customRadio" class="custom-control-input m-1" />
+						<input type="radio" id="customRadio2" name="customRadio" class="custom-control-input m-1" />
 						Complete
 					</div>
 				</td>
