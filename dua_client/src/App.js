@@ -7,6 +7,7 @@ import PlaceHolderPage from "./components/placeHolderPage";
 import AdminPage from "./components/adminPage";
 import ExportPage from "./components/exportDataPage";
 import UploadPage from "./components/uploadDataPage";
+import VideoPage from "./components/displayVideo"; 
 
 const App = () => 
 {
@@ -18,6 +19,7 @@ const App = () =>
 				<Route path="/testingSetup" element={<TestSetupPage />} />
 				<Route path="/placeHolder" element={<PlaceHolderPage />} />
 				<Route path="/adminSetup" element={<AdminPage/>} />
+				<Route path="/videoDisplay" element={<VideoPage/>} />
 				<Route path="/exportData" element={<ExportPage/>} />
 				<Route path="/uploadData" element={<UploadPage/>} />
 			</Routes>
