@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/styles.css"; 
 import ParticipantForm from "./ParticipantForm";
+import StartTestButton from "./StartTestButton";
 
 export default function AdminPage () {
 
@@ -43,15 +44,15 @@ export default function AdminPage () {
       var crashButton;
 
       if(crashComplete) {
-        crashButton = <button className='btn btn-primary' disabled>Complete</button>;
+        crashButton = <StartTestButton id={row.USER_ID} test_id="CRASH" disabled/>;
       }else{
-        crashButton = <button className='btn btn-primary'>Incomplete</button>;
+        crashButton = <StartTestButton id={row.USER_ID} test_id="CRASH"/>;
       }
 
       if(detourComplete) {
-        detourButton = <button className='btn btn-primary' disabled>Complete</button>;
+        detourButton = <StartTestButton id={row.USER_ID} test_id="DETOUR" disabled/>;
       }else{
-        detourButton = <button className='btn btn-primary'>Incomplete</button>;
+        detourButton = <StartTestButton id={row.USER_ID} test_id="DETOUR"/>;
       }
 
 			return (

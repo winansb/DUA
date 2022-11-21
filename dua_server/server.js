@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 // app.use(require("./routes/getData"));
 // app.use(require("./routes/insert"));
-app.use(require("./routes/pollTest"));
+app.use(require("./routes/test"));
 app.use(require("./routes/user"));
 
 const dbo = require('./db/connect');
