@@ -5,7 +5,6 @@ import WaitingPage from "./components/trialLandingPage";
 import TestSetupPage from "./components/trialSetup";
 import PlaceHolderPage from "./components/placeHolderPage";
 import AdminPage from "./components/adminPage";
-import testVideo from "./components/testVideo";
 import VideoPageOne from "./components/displayVideo";
 
 // Delete later, just for testing
@@ -21,8 +20,7 @@ const App = () =>
 				<Route path="/testingSetup" element={<TestSetupPage />} />
 				<Route path="/placeHolder" element={<PlaceHolderPage />} />
 				<Route path="/adminSetup" element={<AdminPage/>} />
-				<Route path="/videoDisplayOne" element={<VideoPageOne/>} />
-				<Route path="/testVideoDisplay" element={<testVideo/>} />
+				<Route path="/videoDisplay" element={<VideoPageOne/>} />
 
 				<Route path="/storage" element={<StorageTestPage/> }/>
 
