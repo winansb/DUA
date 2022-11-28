@@ -1,23 +1,27 @@
-/*********************************************
+/*****************************************************
 *
-*	SHOULD DECIDE/CHECK WITH LAB ABOUT THEIR
-*	SERVER CAPABILITIES BEFORE CHOOSING A
-*	DATABASE TYPE/STACK
-*	(default installed here is mongodb)
+*	SQLITE DATABASE
+*	Handles connection to server and routes to 
+*	files in ./routes under server-side of project
 *
-**********************************************/
+*	Imported routes handle specific sections of
+*	database
+*	Sending/receving/updating data are managed within
+*	the same file, specific to the table being manipulated
+*
+******************************************************/
 const express = require("express"); // express hook (web framework)
 var app = express();
 const cors = require("cors"); // cross-origin resource sharing
-require("dotenv").config("./config.env"); // load environment vars from config file, not in code
-const port = process.env.PORT || 8000;
+// require("dotenv").config("./config.env"); // load environment vars from config file, not in code
+const port = /* process.env.PORT || */ 8000;
 
 // init app with dependencies
 app.use(cors());
 app.use(express.json());
 // app.use(require("./routes/getData"));
 // app.use(require("./routes/insert"));
-app.use(require("./routes/pollTest"));
+app.use(require("./routes/test"));
 app.use(require("./routes/user"));
 
 const dbo = require('./db/connect');
@@ -33,27 +37,4 @@ app.listen(port, () => {
 	});
 	console.log(`Server running on port: ${port}`);
 });
-
-/* 
-
-function createTables(newdb) {
-	newdb.exec(`CREATE TABLE TEST (
-		id int primary key not null,
-		button_clicks int not null
-	);
-	INSERT INTO TEST (id, button_clicks) VALUES 
-		(1, 20),
-		(2, 50),
-		(3, 100)
-	;`, () => {
-		runQueries(newdb);
-	});
-}
-
-function runQueries(db) {
-	db.each(`SELECT id, button_clicks FROM TEST`, (err, row) => {
-		if(err) return;
-		console.log(row.id + ": " + row.button_clicks);
-	});
-} */
 
