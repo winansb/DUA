@@ -6,7 +6,7 @@ import video2 from "../Videos/testVid1.mp4"
 import video3 from "../Videos/testVid2.mp4"
 import video4 from "../Videos/testVid3.mp4"
 
-import VideoComponent from "./VideoComponent.js"
+import VideoComponent from "./hooks/VideoComponent.js"
 
 export default function VideoPageOne () {
 

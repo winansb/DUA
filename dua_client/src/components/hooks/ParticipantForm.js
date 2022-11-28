@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 
 // https://reactjs.org/docs/forms.html#controlled-components
@@ -18,25 +19,18 @@ class ParticipantForm extends React.Component {
 
 	async handleSubmit(event) {
 		event.preventDefault();
-		// alert('Submitted ID: ' + this.state.value);
-		const d = {
-			user_id: this.state.value
-		};
 
-		await fetch("http://localhost:8000/user/", {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(d),
+		// When posting, axios doesn't need same structure as HTTP
+		// 		Attributes would be the same as names of each in SQL server
+		// 		Values can be assigned directly (no json conversions!)
+		axios.post("http://localhost:8000/user/", {
+			user_id: this.state.value
 		})
 		.catch(err => {
-			window.alert(err);
-			return;
+			console.log(err);
 		});
 
 		window.location.reload();
-		/* setForm({ user_id: ""}) */
 	}
 
 	render() {
