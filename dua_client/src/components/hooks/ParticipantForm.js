@@ -1,5 +1,6 @@
-import axios from 'axios';
 import React from 'react';
+
+const axiosHandler = require('../hooks/AxiosHandler');
 
 // https://reactjs.org/docs/forms.html#controlled-components
 
@@ -17,25 +18,34 @@ class ParticipantForm extends React.Component {
 		this.setState({value: event.target.value});
 	}
 
-	async handleSubmit(event) {
+	handleSubmit(event) {
 		event.preventDefault();
-
 		// When posting, axios doesn't need same structure as HTTP
 		// 		Attributes would be the same as names of each in SQL server
 		// 		Values can be assigned directly (no json conversions!)
-		axios.post("http://localhost:8000/user/", {
-			user_id: this.state.value
+		const promise = axiosHandler.createUser(this.state.value);
+
+		// console.log(promise);
+
+		if(!promise) {
+			document.getElementById("errMsg").textContent = "Please enter a valid Participant ID";
+			return;
+		}
+
+		promise.then(res => {
+			if(res) {
+				window.location.reload();
+			}
 		})
 		.catch(err => {
-			console.log(err);
+			console.err(`createUser(): Promise not fulfilled\n ${err}`);
 		});
-
-		window.location.reload();
 	}
 
 	render() {
 		return (
 			<form className="submission-form" onSubmit={this.handleSubmit}>
+				<label style={{color: '#ff0000'}} id="errMsg"></label><br />
           		<input type="text" value={this.state.value} onChange={this.handleChange} placeholder="Enter Participant ID"/>
           		<input type="submit" value="Submit" />
         	</form>

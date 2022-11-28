@@ -1,7 +1,9 @@
-import axios from 'axios';
 import React from 'react';
 
 // https://reactjs.org/docs/forms.html#controlled-components
+
+const axiosHandler = require("../hooks/AxiosHandler.js");
+
 class StartTestButton extends React.Component {
 
 	constructor(props) {
@@ -12,30 +14,19 @@ class StartTestButton extends React.Component {
 	}
 
 	startTest() {
-
 		// cleanup server-end active test IDs
-		axios.patch(`http://localhost:8000/test/`, {
-			USER_ID: this.props.id
-		})
-		.catch(err => {
-			console.log(err);
-		})
-		.then(res => {
-			console.log(res);
-			console.log("INFO: CLEANUP - Secondary USER_IDs with TEST_ID_ACTIVE != NULL removed");
-		});
-		
-		window.open('./videoDisplay', '_blank');
-		window.open('./agent', '_blank');
-		/* axios.post(`http://localhost:8000/test/`, {
-			USER_ID: this.props.id,
-			TEST_ID: this.props.test_id
-		})
-		.catch(err => {
-			console.log(err);
-		}); */
+		// moved to handler
+		const promise = axiosHandler.cleanupTests(this.props.id);
 
-		// window.location.reload();
+		promise.then(res => {
+			if(res){
+				window.open('./videoDisplay', '_blank');
+				window.open('./agent', '_blank');
+			}
+		})
+		.catch(err => {
+			console.err(`startTest(): Promise not fulfilled\n ${err}`);
+		});
 	}
 
 	render() {

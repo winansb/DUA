@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/styles.css";
 import ParticipantForm from "./hooks/ParticipantForm";
 import SendTestButton from "./hooks/SendTestButton";
+
+const axiosHandler = require("../components/hooks/AxiosHandler.js");
 
 export default function AdminPage() {
     const [_users, setUsers] = useState([]);
 
     useEffect(() => {
 		// axios now!
-		/**
-		 * Should consider making utility functions and separating, all call requests are the 
-		 * same given an address, can pass in additional variables if needed
-		 */
-		axios.get(`http://localhost:8000/user/`).then(res => {
-			// console.log(res.data.rows);
-			const users = res.data.rows;
-			setUsers(users);
-		})
-		.catch(err => {
-			console.log(err);
-		});
+        // axiosHnadler makes this very nice to use
+        const promise = axiosHandler.fetchUsers();
+            
+        promise.then(res => {
+            setUsers(res);
+        });
 
         return;
     }, []);
 
 	//TODO minimize (move into StartTestButton component)
+    //TODO has a bug where this isnt updating for some reason
     function loadUsers() {
         return _users.map((row) => {
             var detourComplete = false;

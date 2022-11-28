@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/styles.css"; 
-import axios from "axios";
 
 import StartTestButton from './hooks/StartTestButton';
 
-//TODO
+//TODO -- DONE
 /** ERROR - Server requests are happening multiple times,
  *    Likely because the page is being rendered multiple times
  *      once when page is clicked from parent page, no server data loaded
@@ -17,31 +16,29 @@ import StartTestButton from './hooks/StartTestButton';
  *    https://reactjs.org/docs/conditional-rendering.html
  */ 
 
+const axiosHandler = require('../components/hooks/AxiosHandler');
+
 export default function WaitingPage() {
 
 	const [_tests, setTests] = useState([]);
 
 	useEffect(() => {
-		axios.get(`http://localhost:8000/test`).then(res => {
-			const tests = res.data.rows;
-			setTests(tests);
+		const promise = axiosHandler.fetchTests();
 
-			if(tests.length == 1) {
-				window.open('./videoDisplay', '_blank')
-				window.open('./agent', '_blank')
+		promise.then(res => {
+			setTests(res);
+
+			if(res.length == 1) {
+				window.open('./videoDisplay', '_blank');
+				window.open('./agent', '_blank');
 			}
-			console.log(tests);
-		})
-		.catch(err => {
-			console.log(err);
 		});
-
-		return;
 	}, []);
 
 	function getMultiTestRender() {
 		return (_tests.map(row => {
 			// console.log(row);
+			//TODO edge-case where a USER_ID has multiple tests active (stored as array in server)
 			return ( 
 				<div className="col" key={row.UID}>
 					<StartTestButton id={row.USER_ID} test_id={row.TEST_ID_ACTIVE} />
@@ -49,18 +46,6 @@ export default function WaitingPage() {
 			);
 		}));
 	}
-
-	/* fetchPosts() {
-		const res = await fetch(`http://localhost:8000/test`);
-
-		if(!res.ok) {
-			window.alert(`ERROR: ${res.statusText}`);
-			return;
-		}
-
-		let data = await res.json();
-		return data;
-	} */
 
 	if(!_tests || _tests.length == 0) {
 		return (
