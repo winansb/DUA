@@ -66,3 +66,8 @@ node server.js
 As the project continues to be developed, more features will be unavailable if both are not
 ran at the same time, please do so when testing! Eventually a singular script will be written 
 to run both simultaneously.
+
+
+## Dependencies 
+Sass:
+  C:\> npm install sass

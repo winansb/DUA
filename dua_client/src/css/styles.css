@@ -71,11 +71,19 @@
 }
 
 .hidden{
-    animation: fadeOut 2s linear forwards;
+  animation: fadeOut 2s linear forwards;
 }
 
 .shown{
   animation: fadeIn 2s linear forwards;
+}
+
+.screen-holder{
+  transform: scale(0.8) translate(0%,-7%);
+  overflow: hidden;
+  text-align: center;
+  top: 100%;
+  position: relative;
 }
 
 @keyframes fadeIn {

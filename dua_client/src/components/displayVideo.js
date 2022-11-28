@@ -8,6 +8,7 @@ import video4 from "../Videos/testVid3.mp4"
 
 import VideoComponent from "./VideoComponent.js"
 
+
 export default function VideoPageOne () {
 
 	//db request for everything goes here 
