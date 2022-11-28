@@ -12,14 +12,6 @@ class SendTestButton extends React.Component {
 	}
 
 	sendTest() {
-		
-		/* axios.post(`http://localhost:8000/test/`, {
-			USER_ID: this.props.id,
-			TEST_ID: this.props.test_id
-		})
-		.catch(err => {
-			console.log(err);
-		}); */
 		const promise = axiosHandler.activateTest(this.props.id, this.props.test_id);
 
 		if(!promise) {

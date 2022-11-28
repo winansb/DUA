@@ -25,8 +25,6 @@ class ParticipantForm extends React.Component {
 		// 		Values can be assigned directly (no json conversions!)
 		const promise = axiosHandler.createUser(this.state.value);
 
-		// console.log(promise);
-
 		if(!promise) {
 			document.getElementById("errMsg").textContent = "Please enter a valid Participant ID";
 			return;

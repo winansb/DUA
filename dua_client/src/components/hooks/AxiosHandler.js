@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+/**
+ * Library to handle different functions from server-side database
+ * Likely will become more robust as time goes on
+ */
+
 export function fetchUsers() {
 	return axios.get(`http://localhost:8000/user/`)
         .then(res => {
