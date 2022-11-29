@@ -86,9 +86,9 @@ export default function VideoPageOne () {
 	return(
 		<div className="container fullScreen videoPlayers">
 			<VideoComponent Key="myVid1" Source={video1}/>
-			{/* <VideoComponent Key="myVid2" Source={video2}/>
+			<VideoComponent Key="myVid2" Source={video2}/>
 			<VideoComponent Key="myVid3" Source={video3}/>
-			<VideoComponent Key="myVid4" Source={video4}/> */}
+			<VideoComponent Key="myVid4" Source={video4}/>
 		</div>
 	);
 }
