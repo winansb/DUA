@@ -13,8 +13,8 @@
   width: 150px;
   height: 40px;
   position: relative;
-  left: 46%
 }
+
 .quick-align{
   position: relative;
   left: 35%
@@ -26,7 +26,6 @@
 .dua-setup {
   display: grid;
   grid-auto-rows: 30%
-
 }
 
 .submission-form {

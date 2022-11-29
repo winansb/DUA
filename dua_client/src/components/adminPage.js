@@ -101,7 +101,7 @@ export default function AdminPage() {
                 </tbody>
             </table>
             <a href="/testingSetup">
-                <button className="btn btn-primary dua-btn">Return</button>{" "}
+                <button className="btn btn-primary dua-btn position-absolute bottom-0 end-0 m-5">Return</button>{" "}
             </a>
         </div>
     );
