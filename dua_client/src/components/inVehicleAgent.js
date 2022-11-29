@@ -3,11 +3,14 @@ import cn from 'classnames';
 import "../css/styles.css";
 
 import styles from '../css/Trial_1.module.scss';
-import Screen1 from './Screen1.js'
-import Screen2 from './Screen2.js'
-import Screen3 from './Screen3.js'
-import Screen4 from './Screen4.js'
-import Screen5 from './Screen5.js'
+
+import Screen1 from "./Screen1.js";
+import Screen2 from "./Screen2.js";
+import Screen3 from "./Screen3.js";
+import Screen4 from "./Screen4.js";
+import Screen5 from "./Screen5.js";
+
+
 
 export default function Trial1() {
   useEffect(() => {
@@ -21,7 +24,7 @@ export default function Trial1() {
   },[])
   return (
     <div className = "my-auto screen-holder">
-        <Screen5/>
+        <Screen1/>
     </div>
   );
 }

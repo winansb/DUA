@@ -1,10 +1,10 @@
 import React, { Component, useEffect, useCallback} from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/styles.css";
-import video1 from "../Videos/driving_sim_place_holder.mp4"
-import video2 from "../Videos/testVid1.mp4"
-import video3 from "../Videos/testVid2.mp4"
-import video4 from "../Videos/testVid3.mp4"
+import video1 from "../Videos/testVid3_Trim.mp4"
+import video2 from "../Videos/testVid3_Trim (2).mp4"
+import video3 from "../Videos/testVid3_Trim (3).mp4"
+import video4 from "../Videos/testVid3_Trim (4).mp4"
 
 import VideoComponent from "./hooks/VideoComponent.js"
 

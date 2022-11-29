@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { Component, useEffect, useCallback} from 'react'
 import cn from 'classnames';
 import "../css/styles.css";
 
+import handleVid from './displayVideo.js'
+
+import video1 from "../Videos/testVid3_Trim.mp4"
+import video2 from "../Videos/testVid3_Trim (2).mp4"
+import video3 from "../Videos/testVid3_Trim (3).mp4"
+import video4 from "../Videos/testVid3_Trim (4).mp4"
+
 import styles from '../css/Screen1.module.scss';
 
+const axiosHandler = require("../components/hooks/AxiosHandler.js");
+
 export default function Screen1(props) {
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //                 handleVid("myVid1")
+  //                 }, 5000);
+  //   return () => clearTimeout(timer); 
+  //   };
+
   return (
     <div className={cn(styles.root, 'screen1')}>
       <h1 className={styles.big_title1}>Monday, Jan 16, 10:30 AM</h1>
