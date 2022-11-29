@@ -2,9 +2,9 @@ import React, { Component, useEffect, useCallback} from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/styles.css";
 import video1 from "../Videos/testVid3_Trim.mp4"
-import video2 from "../Videos/testVid3_Trim (2).mp4"
-import video3 from "../Videos/testVid3_Trim (3).mp4"
-import video4 from "../Videos/testVid3_Trim (4).mp4"
+import video2 from "../Videos/testVid3_Trim_2.mp4"
+import video3 from "../Videos/testVid3_Trim_3.mp4"
+import video4 from "../Videos/testVid3_Trim_4.mp4"
 
 import VideoComponent from "./hooks/VideoComponent.js"
 
@@ -86,9 +86,9 @@ export default function VideoPageOne () {
 	return(
 		<div className="container fullScreen videoPlayers">
 			<VideoComponent Key="myVid1" Source={video1}/>
-			<VideoComponent Key="myVid2" Source={video2}/>
+			{/* <VideoComponent Key="myVid2" Source={video2}/>
 			<VideoComponent Key="myVid3" Source={video3}/>
-			<VideoComponent Key="myVid4" Source={video4}/>
+			<VideoComponent Key="myVid4" Source={video4}/> */}
 		</div>
 	);
 }

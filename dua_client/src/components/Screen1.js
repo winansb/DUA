@@ -5,13 +5,13 @@ import "../css/styles.css";
 import handleVid from './displayVideo.js'
 
 import video1 from "../Videos/testVid3_Trim.mp4"
-import video2 from "../Videos/testVid3_Trim (2).mp4"
-import video3 from "../Videos/testVid3_Trim (3).mp4"
-import video4 from "../Videos/testVid3_Trim (4).mp4"
+import video2 from "../Videos/testVid3_Trim_2.mp4"
+import video3 from "../Videos/testVid3_Trim_3.mp4"
+import video4 from "../Videos/testVid3_Trim_4.mp4"
 
 import styles from '../css/Screen1.module.scss';
 
-const axiosHandler = require("../components/hooks/AxiosHandler.js");
+import DataButton from './hooks/DataButton';
 
 export default function Screen1(props) {
 

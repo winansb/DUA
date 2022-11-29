@@ -23,6 +23,7 @@ app.use(express.json());
 // app.use(require("./routes/insert"));
 app.use(require("./routes/test"));
 app.use(require("./routes/user"));
+app.use(require("./routes/test_data"));
 
 const dbo = require('./db/connect');
 

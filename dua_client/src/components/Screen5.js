@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import "../css/styles.css";
 
 import styles from '../css/Screen5.module.scss';
+import DataButton from './hooks/DataButton';
+const axiosHandler = require('../components/hooks/AxiosHandler');
 
 export default function Screen5(props) {
+
+  const [_user, setUser] = useState([]);
+
+    useEffect(() => {
+		// axios now!
+        // axiosHnadler makes this very nice to use
+        const promise = axiosHandler.fetchTests();
+            
+        promise.then(res => {
+          // console.log(res[0]);
+          setUser(res[0]);
+        });
+
+        
+
+        return;
+    }, []);
+
   return (
     <div className={cn(styles.root, 'screen5')}>
       <div className={styles.row}>
@@ -26,13 +46,17 @@ export default function Screen5(props) {
 
                     <div className={styles.row1}>
                       <div className={styles.box1}>
-                        <h1 className={styles.hero_title}>Yes</h1>
+                        <h1 className={styles.hero_title}>
+                          <DataButton data="Yes;" text="Yes" user_id={_user.USER_ID} test_id={_user.TEST_ID_ACTIVE} />
+                          </h1>
                       </div>
 
                       <div className={styles.row1__spacer} />
 
                       <div className={styles.box2}>
-                        <h1 className={styles.hero_title1}>No</h1>
+                        <h1 className={styles.hero_title1}>
+                          <DataButton data="No;" text="No" user_id={_user.USER_ID} test_id={_user.TEST_ID_ACTIVE} />
+                        </h1>
                       </div>
                     </div>
                   </div>

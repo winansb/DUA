@@ -71,6 +71,22 @@ export function activateTest(id, test_id) {
 	})
 	.catch(err => {
 		console.log(err);
-		 return false;
+		return false;
+	});
+}
+
+export function sendTestData(data, user_id, test_id) {
+	return axios.post(`http://localhost:8000/test_data/`, {
+		USER_ID: user_id,
+		TEST_ID: test_id,
+		TEST_DATA: data
+	})
+	.then(res => {
+		console.log(`INFO: TEST DATA SENT FOR:\n\tTEST:${test_id}\n\tUSER:${user_id}\n\tDATA:${data}`);
+		return res;
+	})
+	.catch(err => {
+		console.log(err);
+		return false;
 	});
 }
