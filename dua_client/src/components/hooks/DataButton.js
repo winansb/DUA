@@ -18,6 +18,9 @@ class DataButton extends React.Component {
 			console.error(`TEST DATA:\n\tTEST:${this.props.test_id}\n\tUSER:${this.props.user_id}\n\tDATA:${this.props.data}`);
 			return;
 		}
+
+		//TODO remove once button is more abstracted
+		window.location.href = "/";
 	}
 
 	render() {
