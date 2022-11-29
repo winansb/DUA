@@ -30,7 +30,7 @@ export default function Screen1(props) {
                 <div className={styles.col1__item}>
                   <img
                     className={styles.image}
-                    src={require('assets/08b3996eddb6c36fdaa059ba1fc1c170.png')}
+                    src={require("../assets/08b3996eddb6c36fdaa059ba1fc1c170.png")}
                     alt="alt text"
                   />
                 </div>
@@ -39,7 +39,7 @@ export default function Screen1(props) {
 
             <div
               className={styles.image4}
-              style={{ '--src': `url(${require('assets/d49ab9c641275a20c4d14b1f6ceb3dc7.png')})` }}
+              style={{ '--src': `url(${require("../assets/d49ab9c641275a20c4d14b1f6ceb3dc7.png")})` }}
             />
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Screen1(props) {
                 <div className={styles.content_box3}>
                   <img
                     className={styles.icon}
-                    src={require('assets/12a1471311a7e43d1bfbf57dc8fd1411.png')}
+                    src={require("../assets/12a1471311a7e43d1bfbf57dc8fd1411.png")}
                     alt="alt text"
                   />
                 </div>
@@ -69,7 +69,7 @@ export default function Screen1(props) {
                 <div className={styles.content_box2}>
                   <img
                     className={styles.image1}
-                    src={require('assets/f4d60d68371ca42c21aa921fff8977b0.png')}
+                    src={require("../assets/f4d60d68371ca42c21aa921fff8977b0.png")}
                     alt="alt text"
                   />
                 </div>
@@ -81,7 +81,7 @@ export default function Screen1(props) {
                 <div className={styles.content_box1}>
                   <img
                     className={styles.image2}
-                    src={require('assets/fb6be168fd17fa501787444db8acbdf0.png')}
+                    src={require("../assets/fb6be168fd17fa501787444db8acbdf0.png")}
                     alt="alt text"
                   />
                 </div>
@@ -93,7 +93,7 @@ export default function Screen1(props) {
                 <div className={styles.content_box}>
                   <img
                     className={styles.image3}
-                    src={require('assets/0578a54ea8c9f67302705ecc395c12e5.png')}
+                    src={require("../assets/0578a54ea8c9f67302705ecc395c12e5.png")}
                     alt="alt text"
                   />
                 </div>
