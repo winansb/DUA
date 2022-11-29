@@ -23,7 +23,7 @@ const App = () =>
 				<Route path="/placeHolder" element={<PlaceHolderPage />} />
 				<Route path="/adminSetup" element={<AdminPage/>} />
 				<Route path="/videoDisplay" element={<VideoPageOne/>} />
-				<Route path="/inVehicleAgent" element={<Trial_1/>}/>
+				<Route path="/agent" element={<Trial_1/>}/>
 
 				<Route path="/storage" element={<StorageTestPage/> }/>
 

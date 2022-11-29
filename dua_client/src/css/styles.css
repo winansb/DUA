@@ -71,11 +71,11 @@
 }
 
 .hidden{
-  animation: fadeOut 2s linear forwards;
+  animation: fadeOut 1s linear forwards;
 }
 
 .shown{
-  animation: fadeIn 2s linear forwards;
+  animation: fadeIn 1s linear forwards;
 }
 
 .screen-holder{

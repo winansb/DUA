@@ -23,8 +23,8 @@ export default function Trial1() {
     }
   },[])
   return (
-    <div className = "my-auto screen-holder">
-        <Screen1/>
+    <div className = "screen-holder">
+        <Screen5/>
     </div>
   );
 }
