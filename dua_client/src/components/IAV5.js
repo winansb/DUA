@@ -12,7 +12,7 @@ import Screen5 from "./Screen5.js";
 
 
 
-export default function Trial1() {
+export default function Trial5() {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.body.style.backgroundColor = "grey";
@@ -24,9 +24,7 @@ export default function Trial1() {
   },[])
   return (
     <div className = "screen-holder">
-      <a href="/IAV2" className = "screenLink">
-        <Screen1/>
-      </a>
+        <Screen5/>
     </div>
   );
 }
