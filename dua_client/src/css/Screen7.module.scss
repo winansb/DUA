@@ -77,14 +77,18 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     font-size: 20px;
   }
 }
-.col1 {
+.box {
   @include flex-column;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.149);
+  outline: 2px solid rgb(204, 204, 204);
+  outline-offset: -2px;
   position: relative;
-  margin: 79px 0px 0px;
+  margin: 152px 0px 0px;
 }
 .big_title1 {
   @include v-center-content;
   @include font-face($font_type_4, $color_type_4, 0.42px);
+  height: 54px;
   @include md {
     font-size: 28px;
     text-align: left;
@@ -95,38 +99,38 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   @include xs {
     font-size: 20px;
   }
-  position: relative;
+  position: absolute;
+  top: -50px;
+  left: 0px;
+  right: 0px;
 }
-.box {
+.content_box2 {
   @include flex-column;
+  background-color: $color_type_2;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.149);
-  outline: 2px solid rgb(204, 204, 204);
-  outline-offset: -2px;
-  height: 799px;
   position: relative;
-  margin: 11px 0px 0px;
+  flex-grow: 1;
+  margin: 74px 38px 70px;
+  @include lg {
+    margin: 74px 32px 70px;
+  }
+  @include md {
+    margin: 74px 24px 70px;
+  }
+  @include sm {
+    margin: 74px 20px 70px;
+  }
+  @include xxs {
+    margin: 74px 16px 70px;
+  }
 }
-.group {
-  @include flex-column;
-  width: 1226px;
-  height: 655px;
-  position: absolute;
-  top: 74px;
-  right: 38px;
-}
-.col2 {
-  @include flex-column;
-  width: 957px;
-  height: 344px;
-  position: absolute;
-  top: 168px;
-  left: 113px;
-}
-.wrapper {
+.col1 {
   @include flex-column;
   position: relative;
+  flex-grow: 1;
+  margin: 187px 0px 133px;
 }
-.hero_title {
+.hero_title2 {
   @include v-center-content;
   justify-content: center;
   font: $font_type_0;
@@ -150,28 +154,79 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     font-size: 24px;
   }
   position: relative;
-  flex-grow: 1;
-  margin: 25px 0px;
+  min-height: 109px;
 }
-.col2__item {
-  @include flex-column;
-  position: relative;
-}
-.box3 {
-  @include flex-column;
-  background-color: $color_type_3;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.247);
-  border-radius: $border_radius_type_0;
-  outline: 1px solid rgb(0, 0, 0);
-  outline-offset: -1px;
+.row1 {
+  display: flex;
   width: 100%;
   height: 100%;
 }
-.hero_title2 {
+.box1 {
+  @include flex-column;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.247);
+  position: relative;
+  flex: 0 1 355px;
+}
+.content_box1 {
+  @include flex-column;
+  background-color: $color_type_3;
+  border-radius: $border_radius_type_0;
+  outline: 1px solid rgb(0, 0, 0);
+  outline-offset: -1px;
+  position: relative;
+  flex-grow: 1;
+}
+.hero_title {
   @include v-center-content;
   justify-content: center;
   font: $font_type_2;
   color: $color_type_2;
+  text-align: center;
+  letter-spacing: 0.48px;
+  width: 100%;
+  height: 100%;
+  @include lg {
+    font-size: 36px;
+    text-align: center;
+  }
+  @include md {
+    font-size: 32px;
+  }
+  @include sm {
+    font-size: 28px;
+  }
+  @include xs {
+    font-size: 24px;
+  }
+  @include tn {
+    font-size: 20px;
+  }
+}
+.row1__spacer {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 191px;
+}
+.box2 {
+  @include flex-column;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.247);
+  position: relative;
+  flex: 0 1 355px;
+}
+.content_box {
+  @include flex-column;
+  background-color: $color_type_2;
+  border-radius: $border_radius_type_0;
+  outline: 1px solid rgb(0, 0, 0);
+  outline-offset: -1px;
+  position: relative;
+  flex-grow: 1;
+}
+.hero_title1 {
+  @include v-center-content;
+  justify-content: center;
+  font: $font_type_2;
+  color: $color_type_0;
   text-align: center;
   letter-spacing: 0.48px;
   width: 100%;
@@ -209,17 +264,17 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     flex: 0 0 100%;
   }
 }
-.col3 {
+.col2 {
   @include flex-column;
   position: relative;
   flex-grow: 1;
   margin: 47px 0px 0px;
 }
-.col3__item {
+.col2__item {
   @include flex-column;
   position: relative;
 }
-.box2 {
+.box4 {
   @include flex-column;
   background-color: $color_type_1;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.247);
@@ -230,7 +285,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   flex-grow: 1;
   margin: 0px 0px 0px 2px;
 }
-.hero_title1 {
+.hero_title3 {
   @include v-center-content;
   justify-content: center;
   font: $font_type_1;
@@ -256,39 +311,68 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     font-size: 24px;
   }
 }
-.box1 {
+.box3 {
   @include flex-column;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.149);
   outline: 2px solid rgb(204, 204, 204);
   outline-offset: -2px;
   height: 799px;
   position: relative;
-  margin: 24px 2px 0px 0px;
+  margin: 60px 2px 0px 0px;
 }
-.col4 {
+.col3 {
   @include flex-column;
-  width: 460px;
   height: 586px;
   position: absolute;
   top: 101px;
+  left: 29px;
   right: 29px;
 }
-.col4__item {
-  @include flex-column;
-  position: relative;
-}
-.content_box2 {
+.content_box3 {
   @include flex-column;
   background-color: $color_type_2;
   border-radius: $border_radius_type_0;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
-  flex-grow: 1;
   margin: 0px 8px 0px 0px;
   @include lg {
     margin: 0px 4px 0px 0px;
   }
+}
+.row2 {
+  display: flex;
+  position: relative;
+  flex-grow: 1;
+  margin: 13px 22px 14px;
+  @include lg {
+    margin: 13px 16px 14px;
+  }
+  @include sm {
+    margin: 13px 12px 14px;
+  }
+  @include xxs {
+    margin: 13px 8px 14px;
+  }
+}
+.row2__item {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 78px;
+}
+.icon {
+  width: 78px;
+  height: auto;
+  vertical-align: top;
+  object-fit: contain;
+  object-position: center top;
+  position: relative;
+  min-width: 78px;
+}
+.row2__spacer {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 10px;
 }
 .big_title11 {
   @include h-center-content;
@@ -296,8 +380,6 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   color: $color_type_0;
   text-align: center;
   letter-spacing: 0px;
-  width: 100%;
-  height: 100%;
   @include md {
     font-size: 28px;
     text-align: center;
@@ -308,59 +390,10 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   @include xs {
     font-size: 20px;
   }
-}
-.icon {
-  width: 78px;
-  height: auto;
-  vertical-align: top;
-  object-fit: contain;
-  object-position: center top;
-  position: absolute;
-  top: 13px;
-  left: 22px;
-}
-.content_box {
-  @include flex-column;
-  background-color: $color_type_2;
-  border-radius: $border_radius_type_0;
-  outline: 1px solid rgb(0, 0, 0);
-  outline-offset: -1px;
   position: relative;
-  flex-grow: 1;
-  margin: 52px 6px 0px 2px;
-}
-.image {
-  width: 81px;
-  height: auto;
-  vertical-align: top;
-  object-fit: contain;
-  object-position: center top;
-  position: absolute;
-  top: 15px;
-  left: 15px;
-}
-.content_box1 {
-  @include flex-column;
-  background-color: $color_type_2;
-  border-radius: $border_radius_type_0;
-  outline: 1px solid rgb(0, 0, 0);
-  outline-offset: -1px;
-  position: relative;
-  flex-grow: 1;
-  margin: 50px 0px 0px 8px;
-  @include lg {
-    margin: 50px 0px 0px 4px;
-  }
-}
-.image1 {
-  width: 90px;
-  height: auto;
-  vertical-align: top;
-  object-fit: contain;
-  object-position: center top;
-  position: absolute;
-  top: 24px;
-  left: 9px;
+  flex: 0 0 auto;
+  min-width: 310px;
+  margin: 11px 0px 13px;
 }
 .content_box21 {
   @include flex-column;
@@ -369,11 +402,152 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
+  margin: 52px 6px 0px 2px;
+}
+.row3 {
+  display: flex;
+  position: relative;
   flex-grow: 1;
+  margin: 15px 15px 23px;
+  @include md {
+    margin: 15px 8px 23px;
+  }
+  @include tn {
+    margin: 15px 4px 23px;
+  }
+}
+.row3__item {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 81px;
+}
+.image {
+  width: 81px;
+  height: auto;
+  vertical-align: top;
+  object-fit: contain;
+  object-position: center top;
+  position: relative;
+  min-width: 81px;
+}
+.row3__spacer {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 4px;
+}
+.big_title12 {
+  @include h-center-content;
+  font: $font_type_3;
+  color: $color_type_0;
+  text-align: center;
+  letter-spacing: 0px;
+  @include md {
+    font-size: 28px;
+    text-align: center;
+  }
+  @include sm {
+    font-size: 24px;
+  }
+  @include xs {
+    font-size: 20px;
+  }
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 253px;
+  margin: 25px 0px 4px;
+}
+.content_box11 {
+  @include flex-column;
+  background-color: $color_type_2;
+  border-radius: $border_radius_type_0;
+  outline: 1px solid rgb(0, 0, 0);
+  outline-offset: -1px;
+  position: relative;
   margin: 50px 0px 0px 8px;
   @include lg {
     margin: 50px 0px 0px 4px;
   }
+}
+.row4 {
+  display: flex;
+  position: relative;
+  flex-grow: 1;
+  margin: 24px 9px 13px;
+  @include md {
+    margin: 24px 4px 13px;
+  }
+}
+.row4__item {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 90px;
+}
+.image1 {
+  width: 90px;
+  height: auto;
+  vertical-align: top;
+  object-fit: contain;
+  object-position: center top;
+  position: relative;
+  min-width: 90px;
+}
+.row4__spacer {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 40px;
+}
+.big_title13 {
+  @include h-center-content;
+  font: $font_type_3;
+  color: $color_type_0;
+  text-align: center;
+  letter-spacing: 0px;
+  @include md {
+    font-size: 28px;
+    text-align: center;
+  }
+  @include sm {
+    font-size: 24px;
+  }
+  @include xs {
+    font-size: 20px;
+  }
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 250px;
+  margin: 5px 0px 18px;
+}
+.content_box4 {
+  @include flex-column;
+  background-color: $color_type_2;
+  border-radius: $border_radius_type_0;
+  outline: 1px solid rgb(0, 0, 0);
+  outline-offset: -1px;
+  position: relative;
+  margin: 50px 0px 0px 8px;
+  @include lg {
+    margin: 50px 0px 0px 4px;
+  }
+}
+.row5 {
+  display: flex;
+  position: relative;
+  flex-grow: 1;
+  margin: 16px 21px 15px;
+  @include lg {
+    margin: 16px 16px 15px;
+  }
+  @include sm {
+    margin: 16px 12px 15px;
+  }
+  @include xxs {
+    margin: 16px 8px 15px;
+  }
+}
+.row5__item {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 81px;
 }
 .image2 {
   width: 81px;
@@ -381,7 +555,33 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   vertical-align: top;
   object-fit: contain;
   object-position: center top;
-  position: absolute;
-  top: 16px;
-  left: 21px;
+  position: relative;
+  min-width: 81px;
+}
+.row5__spacer {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 31px;
+}
+.big_title14 {
+  @include h-center-content;
+  font: $font_type_3;
+  color: $color_type_0;
+  text-align: center;
+  letter-spacing: 0px;
+  @include md {
+    font-size: 28px;
+    text-align: center;
+  }
+  @include sm {
+    font-size: 24px;
+  }
+  @include xs {
+    font-size: 20px;
+  }
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 169px;
+  min-height: 43px;
+  margin: 17px 0px;
 }

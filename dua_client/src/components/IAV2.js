@@ -1,32 +1,34 @@
-import React, { useEffect, useCallback} from 'react'
+import React, { useEffect, useCallback, useRef} from 'react'
 import cn from 'classnames';
 import "../css/styles.css";
 
 import styles from '../css/Trial_1.module.scss';
 
-import Screen1 from "./Screen1.js";
 import Screen2 from "./Screen2.js";
-import Screen3 from "./Screen3.js";
-import Screen4 from "./Screen4.js";
-import Screen5 from "./Screen5.js";
 
 
-
-export default function Trial2() {
+export default function Trial1() {
+    // Call setTimout after component mounts
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-    document.body.style.backgroundColor = "grey";
+    const timer = setTimeout(() => console.log('Initial timeout!'), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
-    return() => {
-      document.body.style.overflow = "visible"; 
-      document.body.style.backgroundColor ="white";
-    }
-  },[])
+  // Call setTimeout on user interaction
+  const timerRef = useRef(null);
+  const sendMessage = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    timerRef.current = setTimeout(() => alert('Hey 🎉'), 10000);
+  }
+
+  useEffect(() => {
+    // Clear the interval when the component unmounts
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
   return (
-    <div className = "screen-holder">
       <a href="/IAV3" className = "screenLink">
         <Screen2/>
       </a>
-    </div>
   );
 }

@@ -1,15 +1,17 @@
 import React from 'react';
 import cn from 'classnames';
 
-import styles from '../css/Screen2.module.scss';
+import styles from '../css/Screen9.module.scss';
 
-export default function Screen2(props) {
+export default function Screen9(props) {
   return (
-    <div className={cn(styles.root, 'screen2')}>
+    <div className={cn(styles.root, 'screen9')}>
       <div className={styles.row}>
         <div className={styles.row__item}>
           <div className={styles.col}>
-            <h1 className={styles.big_title}>Monday, Jan 16, 10:31 AM</h1>
+            <px-grid x="0fr 929fr 373fr" y="0px minmax(71px,71fr) 0px">
+              <h1 className={styles.big_title}>Monday, Jan 16, 10:33 AM</h1>
+            </px-grid>
 
             <div className={styles.box}>
               <h1 className={styles.big_title1}>
@@ -18,22 +20,38 @@ export default function Screen2(props) {
                 10:35 AM
               </h1>
 
-              <div className={styles.content_box}>
-                <div className={styles.col1}>
-                  <div className={styles.wrapper}>
-                    <h1 className={styles.hero_title}>
-                      We have detected an issue with the
-                      <br />
-                      <br />
-                      vehicle that is preventing us from driving.
-                    </h1>
-                  </div>
+              <div className={styles.group}>
+                <div className={styles.rect} />
 
-                  <div className={styles.box3}>
-                    <div className={styles.content_box1}>
-                      <h1 className={styles.hero_title2}>Ok</h1>
+                <div className={styles.col1}>
+                  <h1 className={styles.hero_title2}>
+                    No more immediate action is required
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    If you need further help, tap on the help button
+                    <br />
+                    <br />
+                    <br />
+                    in the upper right corner of the screen
+                  </h1>
+                  <px-grid
+                    x="436fr 355fr 435fr"
+                    y="130.5px minmax(0px, 100fr) 0px"
+                    xxs-x="436fr 473fr 435fr"
+                    xxs-y="130.5px minmax(0px, 100fr) 0px"
+                    tn-x="436fr 631fr 435fr"
+                    tn-y="130.5px minmax(0px, 100fr) 0px">
+                    <div className={styles.box3}>
+                      <div className={styles.content_box}>
+                        <px-grid track-style="flex-grow: 1;" x="102fr 151fr 102fr" y="13px minmax(73px,73fr) 14px">
+                          <h1 className={styles.hero_title1}>Ok</h1>
+                        </px-grid>
+                      </div>
                     </div>
-                  </div>
+                  </px-grid>
                 </div>
               </div>
             </div>
@@ -42,8 +60,17 @@ export default function Screen2(props) {
         <div className={styles.row__spacer} />
         <div className={styles.row__item1}>
           <div className={styles.col2}>
-            <div className={styles.box2}>
-              <h1 className={styles.hero_title1}>Help</h1>
+            <div className={styles.col2__item}>
+              <div className={styles.box2}>
+                <px-grid
+                  track-style="flex-grow: 1;"
+                  x="109fr 300fr 109fr"
+                  y="40px minmax(36px,36fr) 40px"
+                  tn-x="109fr 400fr 109fr"
+                  tn-y="40px minmax(36px,36fr) 40px">
+                  <h1 className={styles.hero_title}>Help</h1>
+                </px-grid>
+              </div>
             </div>
 
             <div className={styles.box1}>
@@ -76,7 +103,7 @@ export default function Screen2(props) {
                   </div>
                 </div>
 
-                <div className={styles.content_box11}>
+                <div className={styles.content_box1}>
                   <div className={styles.row3}>
                     <div className={styles.row3__item}>
                       <img
@@ -90,7 +117,7 @@ export default function Screen2(props) {
                   </div>
                 </div>
 
-                <div className={styles.content_box4}>
+                <div className={styles.content_box1}>
                   <div className={styles.row4}>
                     <div className={styles.row4__item}>
                       <img
@@ -111,3 +138,4 @@ export default function Screen2(props) {
     </div>
   );
 }
+ 

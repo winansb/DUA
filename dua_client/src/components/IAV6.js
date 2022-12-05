@@ -4,7 +4,7 @@ import "../css/styles.css";
 
 import styles from '../css/Trial_1.module.scss';
 
-import Screen3 from "./Screen3.js";
+import Screen6 from "./Screen6.js";
 
 
 export default function Trial1() {
@@ -27,8 +27,8 @@ export default function Trial1() {
   }, []);
 
   return (
-      <a href="/IAV4" className = "screenLink">
-        <Screen3/>
+      <a href="/IAV7" className = "screenLink">
+        <Screen6/>
       </a>
   );
 }

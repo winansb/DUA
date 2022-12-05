@@ -24,6 +24,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   display: flex;
   @include xl {
     flex-wrap: wrap;
+    justify-content: flex-start;
     align-content: flex-start;
     column-gap: 0px;
     row-gap: 16px;
@@ -63,7 +64,8 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
 .big_title {
   @include v-center-content;
   @include font-face($font_type_4, $color_type_4, 0.42px);
-  width: 39.78%;
+  width: 100%;
+  height: 100%;
   @include md {
     font-size: 28px;
     text-align: left;
@@ -74,8 +76,6 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   @include xs {
     font-size: 20px;
   }
-  position: relative;
-  margin: 0px 60.22% 0px 0%;
 }
 .col1 {
   @include flex-column;
@@ -159,24 +159,13 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
 }
 .row1 {
   display: flex;
-  width: 74.06%;
+  width: 100%;
+  height: 100%;
+}
+.row1__item {
+  @include flex-column;
   position: relative;
-  margin: 126px auto 0px;
-  @include md {
-    width: 79.2%;
-  }
-  @include sm {
-    width: 83.55%;
-  }
-  @include xs {
-    width: 87.13%;
-  }
-  @include xxs {
-    width: 90.03%;
-  }
-  @include tn {
-    width: 92.33%;
-  }
+  flex: 0 1 355px;
 }
 .box1 {
   @include flex-column;
@@ -186,7 +175,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
-  flex: 0 1 355px;
+  flex-grow: 1;
 }
 .hero_title {
   @include v-center-content;
@@ -195,7 +184,8 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   color: $color_type_2;
   text-align: center;
   letter-spacing: 0.48px;
-  width: 42.54%;
+  width: 100%;
+  height: 100%;
   @include lg {
     font-size: 36px;
     text-align: center;
@@ -212,10 +202,6 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   @include tn {
     font-size: 20px;
   }
-  position: relative;
-  flex-grow: 1;
-  min-height: 73px;
-  margin: 13px auto 14px;
 }
 .row1__spacer {
   @include flex-column;
@@ -230,7 +216,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
-  flex: 0 1 355px;
+  flex-grow: 1;
 }
 .hero_title1 {
   @include v-center-content;
@@ -239,7 +225,8 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   color: $color_type_0;
   text-align: center;
   letter-spacing: 0.48px;
-  width: 57.75%;
+  width: 100%;
+  height: 100%;
   @include lg {
     font-size: 36px;
     text-align: center;
@@ -256,10 +243,6 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   @include tn {
     font-size: 20px;
   }
-  position: relative;
-  flex-grow: 1;
-  min-height: 32px;
-  margin: 34px auto;
 }
 .row__spacer {
   @include flex-column;
@@ -277,6 +260,10 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     flex: 0 0 100%;
   }
 }
+.col__item {
+  @include flex-column;
+  position: relative;
+}
 .box4 {
   @include flex-column;
   background-color: $color_type_1;
@@ -285,6 +272,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
+  flex-grow: 1;
   margin: 0px 0px 0px 2px;
 }
 .hero_title3 {
@@ -294,7 +282,8 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   color: $color_type_2;
   text-align: center;
   letter-spacing: 0.6px;
-  width: 57.92%;
+  width: 100%;
+  height: 100%;
   @include lg {
     font-size: 44px;
     text-align: center;
@@ -310,12 +299,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   }
   @include tn {
     font-size: 24px;
-    width: 64.72%;
   }
-  position: relative;
-  flex-grow: 1;
-  min-height: 36px;
-  margin: 40px auto;
 }
 .box3 {
   @include flex-column;
@@ -334,6 +318,10 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   top: 101px;
   right: 29px;
 }
+.col3__item {
+  @include flex-column;
+  position: relative;
+}
 .content_box1 {
   @include flex-column;
   background-color: $color_type_2;
@@ -341,6 +329,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
+  flex-grow: 1;
   margin: 0px 8px 0px 0px;
   @include lg {
     margin: 0px 4px 0px 0px;
@@ -352,7 +341,8 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   color: $color_type_0;
   text-align: center;
   letter-spacing: 0px;
-  width: 66.37%;
+  width: 100%;
+  height: 100%;
   @include md {
     font-size: 28px;
     text-align: center;
@@ -363,9 +353,6 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   @include xs {
     font-size: 20px;
   }
-  position: relative;
-  flex-grow: 1;
-  margin: 25.5px 4.87% 25.5px 28.76%;
 }
 .icon {
   width: 78px;
@@ -384,28 +371,8 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
-  margin: 52px 6px 0px 2px;
-}
-.big_title12 {
-  @include h-center-content;
-  font: $font_type_3;
-  color: $color_type_0;
-  text-align: center;
-  letter-spacing: 0px;
-  width: 55.97%;
-  @include md {
-    font-size: 28px;
-    text-align: center;
-  }
-  @include sm {
-    font-size: 24px;
-  }
-  @include xs {
-    font-size: 20px;
-  }
-  position: relative;
   flex-grow: 1;
-  margin: 40px auto 27px;
+  margin: 52px 6px 0px 2px;
 }
 .image {
   width: 81px;
@@ -424,34 +391,10 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
+  flex-grow: 1;
   margin: 50px 0px 0px 8px;
   @include lg {
     margin: 50px 0px 0px 4px;
-  }
-}
-.big_title13 {
-  @include h-center-content;
-  font: $font_type_3;
-  color: $color_type_0;
-  text-align: center;
-  letter-spacing: 0px;
-  width: 73.01%;
-  @include md {
-    font-size: 28px;
-    text-align: center;
-  }
-  @include sm {
-    font-size: 24px;
-  }
-  @include xs {
-    font-size: 20px;
-  }
-  position: relative;
-  flex-grow: 1;
-  min-height: 49px;
-  margin: 42px auto 18px;
-  @include tn {
-    width: 78.29%;
   }
 }
 .image1 {
@@ -471,32 +414,11 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
+  flex-grow: 1;
   margin: 50px 0px 0px 8px;
   @include lg {
     margin: 50px 0px 0px 4px;
   }
-}
-.big_title14 {
-  @include h-center-content;
-  font: $font_type_3;
-  color: $color_type_0;
-  text-align: center;
-  letter-spacing: 0px;
-  width: 37.39%;
-  @include md {
-    font-size: 28px;
-    text-align: center;
-  }
-  @include sm {
-    font-size: 24px;
-  }
-  @include xs {
-    font-size: 20px;
-  }
-  position: relative;
-  flex-grow: 1;
-  min-height: 43px;
-  margin: 33px 33.19% 32px 29.42%;
 }
 .image2 {
   width: 81px;

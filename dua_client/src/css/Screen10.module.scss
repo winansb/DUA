@@ -3,16 +3,13 @@
 $color_type_0: rgb(0, 0, 0);
 $color_type_1: rgb(176, 0, 32);
 $color_type_2: rgb(255, 255, 255);
-$color_type_3: rgb(3, 54, 255);
-$color_type_4: rgb(60, 64, 67);
+$color_type_3: rgb(60, 64, 67);
 
 $border_radius_type_0: 20px 20px 20px 20px;
 
-$font_type_0: 700 50px/0.52 "Roboto", Helvetica, Arial, serif;
-$font_type_1: 500 50px/0.52 "Roboto", Helvetica, Arial, serif;
-$font_type_2: 500 40px/0.65 "Roboto", Helvetica, Arial, serif;
-$font_type_3: 500 35px/1.2 "Roboto", Helvetica, Arial, serif;
-$font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
+$font_type_0: 500 50px/0.52 "Roboto", Helvetica, Arial, serif;
+$font_type_1: 500 35px/1.2 "Roboto", Helvetica, Arial, serif;
+$font_type_2: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
 
 .root {
   @include flex-column;
@@ -61,10 +58,11 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   position: relative;
   flex-grow: 1;
 }
-.big_title {
+.big_title1 {
   @include v-center-content;
-  @include font-face($font_type_4, $color_type_4, 0.42px);
-  width: 71.35%;
+  @include font-face($font_type_2, $color_type_3, 0.42px);
+  width: 100%;
+  height: 100%;
   @include md {
     font-size: 28px;
     text-align: left;
@@ -75,9 +73,6 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   @include xs {
     font-size: 20px;
   }
-  position: relative;
-  min-height: 71px;
-  margin: 0px 28.65% 0px 0%;
 }
 .box {
   @include flex-column;
@@ -87,9 +82,9 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   position: relative;
   margin: 152px 0px 0px;
 }
-.big_title1 {
+.big_title11 {
   @include v-center-content;
-  @include font-face($font_type_4, $color_type_4, 0.42px);
+  @include font-face($font_type_2, $color_type_3, 0.42px);
   height: 54px;
   @include md {
     font-size: 28px;
@@ -106,109 +101,131 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   left: 0px;
   right: 0px;
 }
+.col1 {
+  @include flex-column;
+  position: relative;
+  flex-grow: 1;
+  margin: 42px 15px 46px 19px;
+  @include md {
+    margin: 42px 8px 46px 12px;
+  }
+  @include xs {
+    margin: 42px 8px 46px;
+  }
+  @include tn {
+    margin: 42px 4px 46px 8px;
+  }
+}
+.row1 {
+  display: flex;
+  @include xl {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    column-gap: 0px;
+    row-gap: 16px;
+  }
+  position: relative;
+}
+.row1__item {
+  @include flex-column;
+  position: relative;
+  flex: 1 1 450px;
+  @include xl {
+    flex: 0 0 100%;
+  }
+}
 .content_box {
   @include flex-column;
   background-color: $color_type_2;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.149);
-  height: 655px;
+  border-radius: $border_radius_type_0;
+  outline: 2px solid rgb(0, 0, 0);
+  outline-offset: -2px;
   position: relative;
-  margin: 74px 38px 70px;
-  @include lg {
-    margin: 74px 32px 70px;
-  }
-  @include md {
-    margin: 74px 24px 70px;
-  }
-  @include sm {
-    margin: 74px 20px 70px;
-  }
-  @include xxs {
-    margin: 74px 16px 70px;
-  }
+  flex-grow: 1;
+  margin: 0px 0px 29px;
 }
-.col1 {
-  @include flex-column;
-  height: 344px;
-  position: absolute;
-  top: 168px;
-  left: 113px;
-  right: 156px;
-}
-.wrapper {
-  @include flex-column;
-  position: relative;
-}
-.hero_title {
-  @include v-center-content;
-  justify-content: center;
-  font: $font_type_0;
+.big_title {
+  @include h-center-content;
+  font: $font_type_1;
   color: $color_type_0;
   text-align: center;
-  letter-spacing: 0.6px;
-  @include lg {
-    font-size: 44px;
+  letter-spacing: 0px;
+  width: 100%;
+  height: 100%;
+  @include md {
+    font-size: 28px;
     text-align: center;
   }
-  @include md {
-    font-size: 36px;
-  }
   @include sm {
-    font-size: 32px;
-  }
-  @include xs {
-    font-size: 28px;
-  }
-  @include tn {
     font-size: 24px;
   }
-  position: relative;
-  flex-grow: 1;
-  margin: 25px 0px;
-}
-.box3 {
-  @include flex-column;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.247);
-  width: 37.1%;
-  position: relative;
-  margin: 116px 29.26% 0px 33.65%;
-}
-.content_box1 {
-  @include flex-column;
-  background-color: $color_type_3;
-  border-radius: $border_radius_type_0;
-  outline: 1px solid rgb(0, 0, 0);
-  outline-offset: -1px;
-  position: relative;
-  flex-grow: 1;
-}
-.hero_title2 {
-  @include v-center-content;
-  justify-content: center;
-  font: $font_type_2;
-  color: $color_type_2;
-  text-align: center;
-  letter-spacing: 0.48px;
-  width: 42.54%;
-  @include lg {
-    font-size: 36px;
-    text-align: center;
-  }
-  @include md {
-    font-size: 32px;
-  }
-  @include sm {
-    font-size: 28px;
-  }
   @include xs {
-    font-size: 24px;
-  }
-  @include tn {
     font-size: 20px;
   }
+}
+.row1__spacer {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 54px;
+  @include xl {
+    display: none;
+  }
+}
+.row1__item1 {
+  @include flex-column;
+  position: relative;
+  flex: 1 1 764px;
+  @include xl {
+    flex: 0 0 100%;
+  }
+}
+.group {
+  @include flex-column;
   position: relative;
   flex-grow: 1;
-  min-height: 73px;
-  margin: 13px auto 14px;
+  margin: 39px 0px 0px;
+}
+.image {
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+  object-fit: contain;
+  object-position: center top;
+  position: relative;
+}
+.big_title2 {
+  @include h-center-content;
+  font: $font_type_1;
+  color: $color_type_0;
+  text-align: center;
+  letter-spacing: 0px;
+  height: 42px;
+  @include md {
+    font-size: 28px;
+    text-align: center;
+  }
+  @include sm {
+    font-size: 24px;
+  }
+  @include xs {
+    font-size: 20px;
+  }
+  position: absolute;
+  top: -39px;
+  left: 101px;
+  right: 70px;
+}
+.col1__item {
+  @include flex-column;
+  position: relative;
+}
+.image4 {
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+  object-fit: contain;
+  object-position: center top;
 }
 .row__spacer {
   @include flex-column;
@@ -232,6 +249,10 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   flex-grow: 1;
   margin: 47px 0px 0px;
 }
+.col2__item {
+  @include flex-column;
+  position: relative;
+}
 .box2 {
   @include flex-column;
   background-color: $color_type_1;
@@ -240,16 +261,18 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   outline: 1px solid rgb(0, 0, 0);
   outline-offset: -1px;
   position: relative;
+  flex-grow: 1;
   margin: 0px 0px 0px 2px;
 }
-.hero_title1 {
+.hero_title {
   @include v-center-content;
   justify-content: center;
-  font: $font_type_1;
+  font: $font_type_0;
   color: $color_type_2;
   text-align: center;
   letter-spacing: 0.6px;
-  width: 57.92%;
+  width: 100%;
+  height: 100%;
   @include lg {
     font-size: 44px;
     text-align: center;
@@ -265,12 +288,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   }
   @include tn {
     font-size: 24px;
-    width: 64.72%;
   }
-  position: relative;
-  flex-grow: 1;
-  min-height: 36px;
-  margin: 40px auto;
 }
 .box1 {
   @include flex-column;
@@ -285,9 +303,9 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   @include flex-column;
   height: 586px;
   position: absolute;
-  top: 74px;
-  left: 33px;
-  right: 25px;
+  top: 101px;
+  left: 29px;
+  right: 29px;
 }
 .content_box3 {
   @include flex-column;
@@ -301,7 +319,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     margin: 0px 4px 0px 0px;
   }
 }
-.row1 {
+.row2 {
   display: flex;
   position: relative;
   flex-grow: 1;
@@ -316,7 +334,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     margin: 13px 8px 14px;
   }
 }
-.row1__item {
+.row2__item {
   @include flex-column;
   position: relative;
   flex: 0 1 78px;
@@ -330,14 +348,14 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   position: relative;
   min-width: 78px;
 }
-.row1__spacer {
+.row2__spacer {
   @include flex-column;
   position: relative;
-  flex: 0 1 40.9px;
+  flex: 0 1 10px;
 }
-.big_title11 {
+.big_title3 {
   @include h-center-content;
-  font: $font_type_3;
+  font: $font_type_1;
   color: $color_type_0;
   text-align: center;
   letter-spacing: 0px;
@@ -353,8 +371,8 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   }
   position: relative;
   flex: 0 0 auto;
-  min-width: 278px;
-  margin: 11px 0px 13px;
+  min-width: 311px;
+  margin: 12.5px 0px 11.5px;
 }
 .content_box2 {
   @include flex-column;
@@ -365,7 +383,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   position: relative;
   margin: 52px 6px 0px 2px;
 }
-.row2 {
+.row3 {
   display: flex;
   position: relative;
   flex-grow: 1;
@@ -377,12 +395,12 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     margin: 15px 4px 23px;
   }
 }
-.row2__item {
+.row3__item {
   @include flex-column;
   position: relative;
   flex: 0 1 81px;
 }
-.image {
+.image1 {
   width: 81px;
   height: auto;
   vertical-align: top;
@@ -391,14 +409,14 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   position: relative;
   min-width: 81px;
 }
-.row2__spacer {
+.row3__spacer {
   @include flex-column;
   position: relative;
   flex: 0 1 4px;
 }
-.big_title12 {
+.big_title4 {
   @include h-center-content;
-  font: $font_type_3;
+  font: $font_type_1;
   color: $color_type_0;
   text-align: center;
   letter-spacing: 0px;
@@ -417,68 +435,7 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   min-width: 253px;
   margin: 25px 0px 4px;
 }
-.content_box11 {
-  @include flex-column;
-  background-color: $color_type_2;
-  border-radius: $border_radius_type_0;
-  outline: 1px solid rgb(0, 0, 0);
-  outline-offset: -1px;
-  position: relative;
-  margin: 50px 0px 0px 8px;
-  @include lg {
-    margin: 50px 0px 0px 4px;
-  }
-}
-.row3 {
-  display: flex;
-  position: relative;
-  flex-grow: 1;
-  margin: 24px 9px 13px;
-  @include md {
-    margin: 24px 4px 13px;
-  }
-}
-.row3__item {
-  @include flex-column;
-  position: relative;
-  flex: 0 1 90px;
-}
-.image1 {
-  width: 90px;
-  height: auto;
-  vertical-align: top;
-  object-fit: contain;
-  object-position: center top;
-  position: relative;
-  min-width: 90px;
-}
-.row3__spacer {
-  @include flex-column;
-  position: relative;
-  flex: 0 1 25px;
-}
-.big_title13 {
-  @include h-center-content;
-  font: $font_type_3;
-  color: $color_type_0;
-  text-align: center;
-  letter-spacing: 0px;
-  @include md {
-    font-size: 28px;
-    text-align: center;
-  }
-  @include sm {
-    font-size: 24px;
-  }
-  @include xs {
-    font-size: 20px;
-  }
-  position: relative;
-  flex: 0 0 auto;
-  min-width: 279px;
-  margin: 11.5px 0px;
-}
-.content_box4 {
+.content_box1 {
   @include flex-column;
   background-color: $color_type_2;
   border-radius: $border_radius_type_0;
@@ -494,6 +451,55 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   display: flex;
   position: relative;
   flex-grow: 1;
+  margin: 24px 9px 13px;
+  @include md {
+    margin: 24px 4px 13px;
+  }
+}
+.row4__item {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 90px;
+}
+.image2 {
+  width: 90px;
+  height: auto;
+  vertical-align: top;
+  object-fit: contain;
+  object-position: center top;
+  position: relative;
+  min-width: 90px;
+}
+.row4__spacer {
+  @include flex-column;
+  position: relative;
+  flex: 0 1 22px;
+}
+.big_title5 {
+  @include h-center-content;
+  font: $font_type_1;
+  color: $color_type_0;
+  text-align: center;
+  letter-spacing: 0px;
+  @include md {
+    font-size: 28px;
+    text-align: center;
+  }
+  @include sm {
+    font-size: 24px;
+  }
+  @include xs {
+    font-size: 20px;
+  }
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 270px;
+  margin: 6px 0px 17px;
+}
+.row5 {
+  display: flex;
+  position: relative;
+  flex-grow: 1;
   margin: 16px 21px 15px;
   @include lg {
     margin: 16px 16px 15px;
@@ -505,12 +511,12 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
     margin: 16px 8px 15px;
   }
 }
-.row4__item {
+.row5__item {
   @include flex-column;
   position: relative;
   flex: 0 1 81px;
 }
-.image2 {
+.image3 {
   width: 81px;
   height: auto;
   vertical-align: top;
@@ -519,14 +525,14 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   position: relative;
   min-width: 81px;
 }
-.row4__spacer {
+.row5__spacer {
   @include flex-column;
   position: relative;
   flex: 0 1 31px;
 }
-.big_title14 {
+.big_title6 {
   @include h-center-content;
-  font: $font_type_3;
+  font: $font_type_1;
   color: $color_type_0;
   text-align: center;
   letter-spacing: 0px;
@@ -543,5 +549,6 @@ $font_type_4: 400 35px/0.74 "Roboto", Helvetica, Arial, serif;
   position: relative;
   flex: 0 0 auto;
   min-width: 169px;
+  min-height: 43px;
   margin: 17px 0px;
 }

@@ -4,13 +4,15 @@ import "../css/styles.css";
 
 import styles from '../css/Trial_1.module.scss';
 
-import Screen3 from "./Screen3.js";
+import handleVid from "./displayVideo";
+
+import Screen0 from "./Screen0.js";
 
 
-export default function Trial1() {
+export default function Trial0() {
     // Call setTimout after component mounts
   useEffect(() => {
-    const timer = setTimeout(() => console.log('Initial timeout!'), 1000);
+    const timer = setTimeout(() => handleVid("myVid1"), 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -18,7 +20,7 @@ export default function Trial1() {
   const timerRef = useRef(null);
   const sendMessage = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    timerRef.current = setTimeout(() => alert('Hey 🎉'), 10000);
+    timerRef.current = setTimeout(() => alert('Hey 🎉'), 1000);
   }
 
   useEffect(() => {
@@ -27,8 +29,8 @@ export default function Trial1() {
   }, []);
 
   return (
-      <a href="/IAV4" className = "screenLink">
-        <Screen3/>
+      <a href="/IAV1" className = "screenLink" onClick={this.setActiveTab}>12341234
+        <Screen0/>
       </a>
   );
 }

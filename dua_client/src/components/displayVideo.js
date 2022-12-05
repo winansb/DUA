@@ -57,6 +57,18 @@ export default function VideoPageOne () {
 
 	useEffect(() => {
 		document.addEventListener('keydown', handleKeyPress); 
+		document.getElementById('myVid1').addEventListener('ended', (event) =>{
+			handleVid('myVid2')
+		});
+		document.getElementById('myVid2').addEventListener('ended', (event) =>{
+			handleVid('myVid3')
+		});
+		document.getElementById('myVid3').addEventListener('ended', (event) =>{
+			handleVid('myVid4')
+		});
+		document.getElementById('myVid4').addEventListener('ended', (event) =>{
+			handleVid('myVid1')
+		});
 
 		return () => {
 			document.removeEventListener('keydown', handleKeyPress);
@@ -85,10 +97,10 @@ export default function VideoPageOne () {
 
 	return(
 		<div className="container fullScreen videoPlayers">
-			<VideoComponent Key="myVid1" Source={video1}/>
+			<VideoComponent  Key="myVid1" Source={video1}/>
 			<VideoComponent Key="myVid2" Source={video2}/>
-			<VideoComponent Key="myVid3" Source={video3}/>
-			<VideoComponent Key="myVid4" Source={video4}/>
+			<VideoComponent  Key="myVid3" Source={video3}/>
+			<VideoComponent  Key="myVid4" Source={video4}/>
 		</div>
 	);
 }
