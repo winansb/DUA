@@ -68,6 +68,15 @@ ran at the same time, please do so when testing! Eventually a singular script wi
 to run both simultaneously.
 
 
-## Dependencies 
-Sass:
-  C:\> npm install sass
+## Dependencies from scratch
+Download node.js  (npm) using the online installer
+Clone repo 
+Force fix any updated dependency issues if any
+
+install these dependencies  
+  Express:
+    npm install express
+  Sass:
+    npm install sass
+
+Project will be ready for compilation and testing
