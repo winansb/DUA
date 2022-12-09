@@ -18,6 +18,8 @@ import Trial8 from "./components/IAV8";
 import Trial9 from "./components/IAV9";
 import Trial10 from "./components/IAV10";
 
+import BD0 from "./components/BD0";
+
 // Delete later, just for testing
 import StorageTestPage from "./components/storageTest";
 
@@ -45,6 +47,8 @@ const App = () =>
 				<Route path="/IAV8" element={<Trial8/>}/>
 				<Route path="/IAV9" element={<Trial9/>}/>
 				<Route path="/IAV10" element={<Trial10/>}/>
+
+				<Route path="/BD0" element={<BD0/>}/>
 
 				<Route path="/storage" element={<StorageTestPage/> }/>
 
