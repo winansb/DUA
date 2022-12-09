@@ -16,18 +16,18 @@ export default function TestSetupPage () {
 
 		<div className="container p-2">
 			<a href="/waiting">
-				<button className="btn btn-primary project-btn" >Participant Page</button>{' '}
+				<button className="btn btn-primary dua-btn" >Participant Page</button>{' '}
 			</a>
 		</div>
 
 		<div className="container p-2">
 			<a href="/adminSetup">
-				<button  className="btn btn-primary project-btn" >Admin Page</button>{' '}
+				<button  className="btn btn-primary dua-btn" >Admin Page</button>{' '}
 			</a>
 		</div>
 
 			<a href="/">
-				<button className="btn btn-primary project-btn position-absolute bottom-0 end-0 m-5" >Return</button>{' '}
+				<button className="btn btn-primary dua-btn position-absolute bottom-0 end-0 m-5" >Return</button>{' '}
 			</a>
 			
 	</div>

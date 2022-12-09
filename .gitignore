@@ -1,3 +1,6 @@
+# database files (creates on initial load of server)
+*/test.db
+
 # dependencies
 */node_modules
 */.pnp
@@ -19,4 +22,7 @@
 */npm-debug.log*
 */yarn-debug.log*
 */yarn-error.log*
-*.mp4
+dua_client/src/Videos/testVid3.mp4
+dua_server/db/test.db
+dua_server/db/test.db
+*.db
