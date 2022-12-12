@@ -53,6 +53,15 @@ module.exports = {
 			('JohnD', 'DETOUR'),
 			('JaneD', 'CRASH'),
 			('1234', 'CRASH;DETOUR');`);
+
+		db.exec(`CREATE TABLE VIDEO_DISPLAY (
+			UID integer primary key autoincrement,
+			CURRENT_VIDEO text not null
+			);`);
+
+		db.exec(`INSERT INTO VIDEO_DISPLAY (CURRENT_VIDEO) VALUES
+			('myVid1')
+			);`);
 		/*db.exec(`CREATE TABLE TEST (
 			id int primary key not null,
 			button_clicks int not null

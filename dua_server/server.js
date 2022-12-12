@@ -24,6 +24,7 @@ app.use(express.json());
 app.use(require("./routes/test"));
 app.use(require("./routes/user"));
 app.use(require("./routes/test_data"));
+app.use(require("./routes/video"));
 
 const dbo = require('./db/connect');
 

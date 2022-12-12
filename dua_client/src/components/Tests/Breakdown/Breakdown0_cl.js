@@ -10,7 +10,7 @@ export default function Breakdown0_cl(props) {
           <h1 className={css(styles.big_title1)}>Monday, Jan 16, 10:30 AM</h1>
           <h1 className={css(styles.big_title11)}>
             {' '}
-            Trip to Walgreens           2                                          You will arrive at 10:35
+            Trip to Walgreens                                                     You will arrive at 10:35
             AM
           </h1>
         </div>
@@ -30,7 +30,7 @@ export default function Breakdown0_cl(props) {
                     <div className={css(styles.group1)}>
                       <img
                         className={css(styles.image)}
-                        src={require('../assets/08b3996eddb6c36fdaa059ba1fc1c170.png')}
+                        src={require('../../../assets/08b3996eddb6c36fdaa059ba1fc1c170.png')}
                         alt="alt text"
                       />
                       <h1 className={css(styles.big_title2)}>5 minutes until arrival</h1>
@@ -41,7 +41,7 @@ export default function Breakdown0_cl(props) {
                 <div className={css(styles.flexCol1__item)}>
                   <img
                     className={css(styles.image4)}
-                    src={require('../assets/d49ab9c641275a20c4d14b1f6ceb3dc7.png')}
+                    src={require('../../../assets/d49ab9c641275a20c4d14b1f6ceb3dc7.png')}
                     alt="alt text"
                   />
                 </div>
@@ -62,7 +62,7 @@ export default function Breakdown0_cl(props) {
                       <div className={css(styles.flexRow2__item)}>
                         <img
                           className={css(styles.icon)}
-                          src={require('../assets/12a1471311a7e43d1bfbf57dc8fd1411.png')}
+                          src={require('../../../assets/12a1471311a7e43d1bfbf57dc8fd1411.png')}
                           alt="alt text"
                         />
                       </div>
@@ -76,7 +76,7 @@ export default function Breakdown0_cl(props) {
                       <div className={css(styles.flexRow3__item)}>
                         <img
                           className={css(styles.image1)}
-                          src={require('../assets/f4d60d68371ca42c21aa921fff8977b0.png')}
+                          src={require('../../../assets/f4d60d68371ca42c21aa921fff8977b0.png')}
                           alt="alt text"
                         />
                       </div>
@@ -90,7 +90,7 @@ export default function Breakdown0_cl(props) {
                       <div className={css(styles.flexRow4__item)}>
                         <img
                           className={css(styles.image2)}
-                          src={require('../assets/fb6be168fd17fa501787444db8acbdf0.png')}
+                          src={require('../../../assets/fb6be168fd17fa501787444db8acbdf0.png')}
                           alt="alt text"
                         />
                       </div>
@@ -104,7 +104,7 @@ export default function Breakdown0_cl(props) {
                       <div className={css(styles.flexRow5__item)}>
                         <img
                           className={css(styles.image3)}
-                          src={require('../assets/0578a54ea8c9f67302705ecc395c12e5.png')}
+                          src={require('../../../assets/0578a54ea8c9f67302705ecc395c12e5.png')}
                           alt="alt text"
                         />
                       </div>
@@ -122,7 +122,6 @@ export default function Breakdown0_cl(props) {
   );
 }
 
-Breakdown0_cl.inStorybook = true;
 
 const styles = StyleSheet.create({
   root: {

@@ -52,19 +52,20 @@
 /*   max-width:  100%;
   min-width: 100%;
   min-height: 100%;  */
-  width:  100%;
+/*   width:  100%;
   height:  100%; 
   top:  0%;
   left:  0%;
-  position: fixed;
+  position: fixed; */
 /*    transform:  translate(50%,50%);  */
 }
 
 .player{
   margin: 0; 
   padding: 0;
-  display: block; 
-  flex-grow: 1; 
+/*   display: block; 
+  flex-grow: 1;  */
+  position: fixed;
   border: none;
 
 }
@@ -77,6 +78,46 @@
   animation: fadeIn 0.5s linear forwards;
 }
 
+.on{
+  
+}
+
+.off{
+  display: none;
+}
+
+/*---------------------------------------------------------------------------
+  From: https://learn.microsoft.com/en-us/dual-screen/web/css-viewport-segments
+  ---------------------------------------------------------------------------*/
+.TestingDisplay{
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.screen0{
+   /* grow: no, shrink: no, basis: fold-left */
+   flex: 0 0 env(viewport-segment-right 0 0);
+
+   /* equals to margin-right when writing mode is left-to-right (english)  */
+   /* equals to margin-left when writing mode is right-to-left (arabic, hebrew)  */
+   /* this will prevent content from being rendered behind the device mask */
+   transform: scale(0.8);
+   margin-inline-end: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0)) ; /* hinge width */
+   overflow: visible;
+}
+
+.screen1{
+   /* fill the rest of the space */
+   flex: 1;
+
+   margin: 0;
+   overflow: hidden;
+}
+
+/*----------------------------------------------------------------------------
+  End 
+------------------------------------------------------------------------------*/
 .screen-holder{
   transform: scale(0.8) translate(0%,-7%);
   overflow: hidden;
@@ -97,3 +138,4 @@
 .screenLink {
   text-decoration: none;
 }
+
