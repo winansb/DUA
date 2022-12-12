@@ -156,10 +156,10 @@ Hardware Info:
 
 
 ##In-Lab Work: 
-  -installed project onto laptop under Mahtab's account so it can be used
+  -Installed project onto laptop under Mahtab's account so it can be used
   and easily updated by downloading the repo from our github. This way updates
-  can be posted from a distance and easily implimented without help from here 
-  on out. This requried general truble shooting with the UF firewall and getting
+  can be posted from a distance and easily implemented without help from here 
+  on out. This requried general trouble shooting with the UF firewall and getting
   permission from UF IT to allow our project to download dependencies from here
   on out. Now we can update the dependencies to the project without causing 
   unintended compilation errors on the lab computer.
