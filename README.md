@@ -75,7 +75,7 @@ doesn't fill the blank space and the Video ports to the left side. This should
 be fixed when additional screens are attatched to toggle on as the prior toggles
 off. 
 
-Proof/Prior art for dual screen:
+### Proof/Prior art for dual screen:
 https://www.youtube.com/watch?v=DXrZWsqXPVc&ab_channel=Microsoft365Developer
 additionally,
 https://learn.microsoft.com/en-us/dual-screen/web/css-viewport-segments
@@ -153,5 +153,15 @@ Hardware Info:
 
   Video Dispaly:
     FooWin usb-c enabled monitor 
+
+
+##In-Lab Work: 
+  -installed project onto laptop under Mahtab's account so it can be used
+  and easily updated by downloading the repo from our github. This way updates
+  can be posted from a distance and easily implimented without help from here 
+  on out. This requried general truble shooting with the UF firewall and getting
+  permission from UF IT to allow our project to download dependencies from here
+  on out. Now we can update the dependencies to the project without causing 
+  unintended compilation errors on the lab computer.
 
 
