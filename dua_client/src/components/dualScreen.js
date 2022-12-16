@@ -51,6 +51,7 @@ export default function DualScreen () {
     if(event.keyCode == 52){//4
         handleVid('myVid4');
     }
+    
 
   })
 

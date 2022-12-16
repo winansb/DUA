@@ -55,13 +55,74 @@ module.exports = {
 			('1234', 'CRASH;DETOUR');`);
 
 		db.exec(`CREATE TABLE VIDEO_DISPLAY (
-			UID integer primary key autoincrement,
-			CURRENT_VIDEO text not null
+
+										UID integer primary key autoincrement,
+										CURRENT_VIDEO text not null
 			);`);
 
-		db.exec(`INSERT INTO VIDEO_DISPLAY (CURRENT_VIDEO) VALUES
-			('myVid1')
+		db.exec(`INSERT INTO VIDEO_DISPLAY (CURRENT_VIDEO) 
+
+												VALUES	 ('myVid1')
 			);`);
+
+		db.exec(`CREATE TABLE TEST_BREAKDOWN_VIDEOS ( 
+
+												UID integer primary key autoincrement,
+												VIDEO_TO_PLAY text not null,
+												TIME_OF_NEXT_CHECK float not null,
+
+
+			);`);
+
+		db.exec(`
+			INSERT INTO TEST_BREAKDOWN_VIDEOS (VIDEO_TO_PLAY, TIME_OF_NEXT_CHECK) 
+
+												VALUES	('myVid1', 41),
+																('myVid2', 47.5),
+																('myVid3', 24),
+																('myVid4', 37)
+			);`);
+
+		db.exec(`CREATE TABLE TEST_BREAKDOWN_SCREENS ( 
+																								
+												TIME_OF_SCREEN float not null, 
+												SCREEN_CLICKABLE boolean not null, 
+												
+			);`);
+
+
+		db.exec(`
+			INSERT INTO TEST_BREAKDOWN_SCREENS (TIME_OF_SCREEN, SCREEN_CLICKABLE) 
+
+												VALUES	(85, FALSE),
+																(13, TRUE),
+																(0, TRUE),
+																(15, TRUE),
+																(15, TRUE),
+																(15, TRUE),
+																(0, TRUE),
+																(15, TRUE),
+																(0, FALSE),
+																(10, TRUE),
+																(0,FALSE)
+
+			);`);
+
+			db.exec(`CREATE TABLE TEST_PAUSE ( 
+
+											UID integer primary key autoincrement,
+											TIME_OF_NEXT_PAUSE float,
+											PAUSE_NOW boolean
+			);`);
+
+		db.exec(`
+			INSERT INTO TEST_PAUSE (TIME_OF_NEXT_PAUSE, PAUSE_NOW) 
+
+												VALUES	(97, FALSE),
+																(0, FALSE)
+			);`);
+
+
 		/*db.exec(`CREATE TABLE TEST (
 			id int primary key not null,
 			button_clicks int not null

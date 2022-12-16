@@ -96,12 +96,13 @@ export function sendTestData(data, user_id, test_id) {
 
 //This was my original approach for passing videoKey data between pages 
 
-export function sendVideoChange(videoKey) {
+export function sendVideoChange(videoKey, UID) {
 	return axios.post('http://localhost:8000/video/', {
-		VIDEO_KEY: videoKey
+		VIDEO_TO_PLAY: videoKey,
+		UID: UID
 	})
 	.then(res => {
-		console.log('INFO: Video change attempted for\n\t VIDEO_KEY:${videoKey}\n\t');
+		console.log('INFO: Video change attempted for\n\t VIDEO_TO_PLAY:${videoKey}\n\t');
 		return res; 
 	})
 	.catch(err => {
@@ -110,8 +111,33 @@ export function sendVideoChange(videoKey) {
 	});
 }
 
-export function fetchVideoChange() {
-	return axios.get(`http://localhost:8000/video`).then(res => {
+export function fetchVideoChange(UID) {
+	return axios.get(`http://localhost:8000/video`, {UID: UID}).then(res => {
+		console.log(res.data)
+		return res.data;
+	})
+	.catch(err => {
+		console.log(err);
+		return false;
+	});
+}
+
+export function sendPause(pause) {
+	return axios.post('http://localhost:8000/pause/', {
+		PAUSE_NOW: pause
+	})
+	.then(res => {
+		console.log('INFO: Pause change attempted for\n\t PAUSE_NOW:${pause}\n\t');
+		return res; 
+	})
+	.catch(err => {
+		console.log(err);
+		return false; 
+	});
+}
+
+export function getPause() {
+	return axios.get(`http://localhost:8000/pause`).then(res => {
 		console.log(res.data)
 		return res.data;
 	})
