@@ -57,7 +57,7 @@
   top:  0%;
   left:  0%;
   position: fixed; 
-  transform: scale(110%);
+  transform: scale(100%);
 /*   transform:  translate(50%,50%);   */
 }
 
@@ -73,10 +73,12 @@
 
 .hidden{
   animation: fadeOut 0.5s linear forwards;
+  pointer-events: none
 }
 
 .shown{
   animation: fadeIn 0.5s linear forwards;
+  pointer-events: all;
 }
 
 .on{
