@@ -1,4 +1,6 @@
 import React from "react";
+import PopOut from './hooks/PopOutIframe';
+
 
 // bootstrap css import
 import "bootstrap/dist/css/bootstrap.css";
@@ -17,7 +19,7 @@ export default function WelcomePage() {
 			</div>
 
 			<div className="container p-2">
-				<a href="/exportData">
+				<a href="/placeHolder">
 					<button className="btn btn-primary dua-btn" >Export Data</button>{' '}
 				</a>
 			</div>
@@ -27,13 +29,6 @@ export default function WelcomePage() {
 					<button className="btn btn-primary dua-btn" >Edit Test</button>{' '}
 				</a>
 			</div>
-
-			<div className="container p-2">
-				<a href="/uploadData">
-					<button className="btn btn-primary dua-btn" >Upload</button>{' '}
-				</a>
-			</div>
-
 		</div>
 	);
 }

@@ -31,37 +31,43 @@ module.exports = {
 	},
 
 	createTables: function(db) {
-		db.exec(`CREATE TABLE USER_INFO (
+		/***************CREATE TABLES***************/
+		db.exec(`CREATE TABLE PARTICIPANTS (
 			UID integer primary key autoincrement,
-			USER_ID text not null,
-			TEST_ID_ACTIVE text,
-			TEST_ID_COMPLETE text
+			PARTICIPANT_NAME text not null,
+			DETOUR_COMPLETE boolean not null,
+			BREAKDOWN_COMPLETE boolean not null
 		);`);
-		db.exec(`CREATE TABLE TEST_INFO (
-			UID integer primary key autoincrement,
-			TEST_ID text not null,
-			TEST_INFO text not null
+		db.exec(`CREATE TABLE ONGOING_TEST (
+			UID integer primary key autoincrement, 
+			ONGOING boolean not null, 
+			PAUSE_NOW boolean not null, 
+			VIDEO_PLAYING string  not null, 
+			NEXT_VIDEO_PLAYING string, 
+			DESTINATION string not null, 
+			PRE_ONE boolean not null,
+			PRE_TWO boolean not null,
+			PRE_THREE boolean not null
 		);`);
-		db.exec(`CREATE TABLE TEST_RESULTS (
-			UID integer primary key autoincrement,
-			USER_ID text not null,
-			TEST_ID text not null,
-			TEST_DATA text not null
+		
+		db.exec(`CREATE TABLE TEST_DATA_MASTER_LIST (
+			UID integer primary key autoincrement, 
+			PARTICIPANT_UID integer not null,
+			PARTICIPANT_NAME text not null,
+			TEST_SCENARIO text not null, 
+			USER_PREFERENCES integer not null,
+			DATE_TAKEN datetime not null,
+			TEST_RUN_TIME_MS double not null
 		);`);
 
-		db.exec(`INSERT INTO USER_INFO (USER_ID, TEST_ID_COMPLETE) VALUES 
-			('JohnD', 'DETOUR'),
-			('JaneD', 'CRASH'),
-			('1234', 'CRASH;DETOUR');`);
-		/*db.exec(`CREATE TABLE TEST (
-			id int primary key not null,
-			button_clicks int not null
-		);
-		INSERT INTO TEST (id, button_clicks) VALUES 
-			(1, 20),
-			(2, 50),
-			(3, 100)
-		;`);*/
+
+
+
+
+		/***************ASSIGN DEFAULTS***************/
+		db.exec(`INSERT INTO ONGOING_TEST (ONGOING, PAUSE_NOW, VIDEO_PLAYING, NEXT_VIDEO_PLAYING, DESTINATION, PRE_ONE, PRE_TWO, PRE_THREE ) VALUES
+				(0, 0, 'DETOUR_START' , 'DETOUR_WALGREENS', "WALGREENS", 0, 1, 0 )
+			;`);
 		
 	},
 	

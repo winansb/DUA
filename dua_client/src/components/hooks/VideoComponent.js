@@ -9,7 +9,7 @@ export default class VideoComponent extends React.Component {
 			const { Key = "video1"} =this.props; 
 			return (
 					<div className={Key}>
-						<div  className = "player hidden ">
+						<div  className = " player hidden ">
 								<video  id = {Key} controls className="fullScreen" ref="video">
 										<source src={Source} type="video/mp4" />
 								</video>

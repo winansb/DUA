@@ -20,7 +20,7 @@ class StartTestButton extends React.Component {
 
 		promise.then(res => {
 			if(res){
-				window.open('./videoDisplay', '_blank');
+				window.open('./TestVideoDisplay', '_blank');
 				window.open('./agent', '_blank');
 			}
 		})

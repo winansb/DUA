@@ -14,24 +14,15 @@ testRouter.route('/test/')
 			res.status(200).json({rows});
 		});
 	})
-	.post(function(req, res, next) {
-		dbo.getDb().run(`UPDATE USER_INFO SET TEST_ID_ACTIVE = ? WHERE USER_ID = ?`, [req.body.TEST_ID, req.body.USER_ID], (err, row) => {
-			if(err) {
-				res.status(400).json({"error":err.message});
-				console.log("oops");
-				return;
-			}
-			res.status(200).json({row});
-		});
-	})
 	.patch(function(req, res, next) {
-		dbo.getDb().run(`UPDATE USER_INFO SET TEST_ID_ACTIVE = NULL WHERE NOT USER_ID = ?`, [req.body.USER_ID], (err, row) => {
+		dbo.getDb().run(`UPDATE ONGOING_TEST SET ONGOING = ?, PAUSE_NOW = ?, VIDEO_PLAYING = ?, NEXT_VIDEO_PLAYING = ?, DESTINATION=?, PRE_ONE = ?, PRE_TWO = ?, PRE_THREE = ? WHERE UID = 1`, [req.body.ongoing, req.body.pauseNow, req.body.videoPlaying, req.body.nextVideoPlaying, req.body.destination, req.body.pre1, req.body.pre2, req.body.pre3], (err, row) => {
 			if(err){
 				res.status(400).json({"error": err.message});
 				return;
 			}
 			res.status(200).json({row});
 		});
-	});
+	})
+	;
 
 module.exports = testRouter;

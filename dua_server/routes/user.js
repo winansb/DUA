@@ -13,7 +13,7 @@ userRoutes.route('/user/')
 				res.status(400).json({"error":"user already exists"});
 			}
 		}); */
-		dbo.getDb().run(`INSERT INTO USER_INFO (USER_ID, TEST_ID_ACTIVE, TEST_ID_COMPLETE) VALUES(?, NULL, NULL)`, [reqBody.user_id], function (err, result) {
+		dbo.getDb().run(`INSERT INTO PARTICIPANTS (PARTICIPANT_NAME, DETOUR_COMPLETE, BREAKDOWN_COMPLETE ) VALUES(?, FALSE, FALSE)`, [reqBody.user_id], function (err, result) {
 			if(err) {
 				res.status(400).json({"error":err.message});
 				return;
@@ -23,12 +23,12 @@ userRoutes.route('/user/')
 		});
 	})
 	.get(function(req, res) {
-		dbo.getDb().all(`SELECT * FROM USER_INFO`, [], (err, rows) => {
+		dbo.getDb().all(`SELECT * FROM PARTICIPANTS`, [], (err, row) => {
 			if(err) {
 				res.status(400).json({"error":err.message});
 				return;
 			}
-			res.status(200).json({rows});
+			res.status(200).json({row});
 		});
 	})
 

@@ -1,7 +1,3 @@
-//This page is what the participants in the study will interact with during 
-//a trial
-
-
 import React from "react";
 
 import "bootstrap/dist/css/bootstrap.css";
