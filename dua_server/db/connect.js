@@ -32,71 +32,41 @@ module.exports = {
 
 	createTables: function(db) {
 		/***************CREATE TABLES***************/
-		db.exec(`CREATE TABLE USER_INFO (
+		db.exec(`CREATE TABLE PARTICIPANTS (
 			UID integer primary key autoincrement,
-			USER_ID text not null,
-			TEST_ID_ACTIVE text,
-			TEST_ID_COMPLETE text
+			PARTICIPANT_NAME text not null,
+			DETOUR_COMPLETE boolean not null,
+			BREAKDOWN_COMPLETE boolean not null
 		);`);
-		db.exec(`CREATE TABLE TEST_INFO (
-			UID integer primary key autoincrement,
-			TEST_ID text not null,
-			TEST_INFO text not null
+		db.exec(`CREATE TABLE ONGOING_TEST (
+			UID integer primary key autoincrement, 
+			ONGOING boolean not null, 
+			PAUSE_NOW boolean not null, 
+			VIDEO_PLAYING string  not null, 
+			NEXT_VIDEO_PLAYING string, 
+			DESTINATION string not null, 
+			PRE_ONE boolean not null,
+			PRE_TWO boolean not null,
+			PRE_THREE boolean not null
 		);`);
-		db.exec(`CREATE TABLE TEST_RESULTS (
-			UID integer primary key autoincrement,
-			USER_ID text not null,
-			TEST_ID text not null,
-			TEST_DATA text not null
+		
+		db.exec(`CREATE TABLE TEST_DATA_MASTER_LIST (
+			UID integer primary key autoincrement, 
+			PARTICIPANT_UID integer not null,
+			PARTICIPANT_NAME text not null,
+			TEST_SCENARIO text not null, 
+			USER_PREFERENCES integer not null,
+			DATE_TAKEN datetime not null,
+			TEST_RUN_TIME_MS double not null
 		);`);
-		db.exec(`CREATE TABLE VIDEO_DISPLAY (
-			UID integer primary key autoincrement,
-			CURRENT_VIDEO text not null
-		);`);
-		db.exec(`CREATE TABLE TEST_BREAKDOWN_VIDEOS (
-			UID integer primary key autoincrement,
-			VIDEO_TO_PLAY text not null,
-			TIME_OF_NEXT_CHECK float not null
-		);`);
-		db.exec(`CREATE TABLE TEST_BREAKDOWN_SCREENS (
-			TIME_OF_SCREEN float not null, 
-			SCREEN_CLICKABLE boolean not null
-		);`);
-		db.exec(`CREATE TABLE TEST_PAUSE (
-			UID integer primary key autoincrement,
-			TIME_OF_NEXT_PAUSE float,
-			PAUSE_NOW boolean
-		);`);
+
+
+
+
 
 		/***************ASSIGN DEFAULTS***************/
-		db.exec(`INSERT INTO USER_INFO (USER_ID, TEST_ID_COMPLETE) VALUES ('EXAMPLE', 'DETOUR');`);
-
-		db.exec(`INSERT INTO VIDEO_DISPLAY (CURRENT_VIDEO) VALUES ('myVid1');`);
-
-		db.exec(`INSERT INTO TEST_BREAKDOWN_VIDEOS (VIDEO_TO_PLAY, TIME_OF_NEXT_CHECK) VALUES
-				('myVid1', 41),
-				('myVid2', 47.5),
-				('myVid3', 24),
-				('myVid4', 37)
-			;`);
-
-		db.exec(`INSERT INTO TEST_BREAKDOWN_SCREENS (TIME_OF_SCREEN, SCREEN_CLICKABLE) VALUES
-				(85, FALSE),
-				(13, TRUE),
-				(0, TRUE),
-				(15, TRUE),
-				(15, TRUE),
-				(15, TRUE),
-				(0, TRUE),
-				(15, TRUE),
-				(0, FALSE),
-				(10, TRUE),
-				(0, FALSE)
-			;`);
-
-		db.exec(`INSERT INTO TEST_PAUSE (TIME_OF_NEXT_PAUSE, PAUSE_NOW) VALUES
-				(97, FALSE),
-				(0, FALSE)
+		db.exec(`INSERT INTO ONGOING_TEST (ONGOING, PAUSE_NOW, VIDEO_PLAYING, NEXT_VIDEO_PLAYING, DESTINATION, PRE_ONE, PRE_TWO, PRE_THREE ) VALUES
+				(0, 0, 'DETOUR_START' , 'DETOUR_WALGREENS', "WALGREENS", 0, 1, 0 )
 			;`);
 		
 	},

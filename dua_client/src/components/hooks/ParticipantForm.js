@@ -44,7 +44,7 @@ class ParticipantForm extends React.Component {
 		return (
 			<form className="submission-form" onSubmit={this.handleSubmit}>
 				<label style={{color: '#ff0000'}} id="errMsg"></label><br />
-          		<input type="text" value={this.state.value} onChange={this.handleChange} placeholder="Enter Participant ID"/>
+          		<input type="text" value={this.state.value} onChange={this.handleChange} placeholder="Enter New Participant"/>
           		<input type="submit" value="Submit" />
         	</form>
 		);

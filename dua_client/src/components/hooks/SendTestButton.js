@@ -15,7 +15,7 @@ class SendTestButton extends React.Component {
 		const promise = axiosHandler.activateTest(this.props.id, this.props.test_id);
 
 		if(!promise) {
-			console.err(`There was an issue activating test ${this.propss.test_id} for user ${this.props.id}`);
+			console.err(`There was an issue activating test ${this.props.test_id} for user ${this.props.id}`);
 			return;
 		}
 

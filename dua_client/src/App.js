@@ -6,7 +6,7 @@ import TestSetupPage from "./components/trialSetup";
 import PlaceHolderPage from "./components/placeHolderPage";
 import AdminPage from "./components/adminPage";
 import TestVideoDisplay from "./components/TestDisplay";
-import TestInteractables from "./components/TestInteractables";
+import TestInteractables from "./components/Agent";
 import DualScreen from "./components/dualScreen"
 
 
@@ -20,17 +20,17 @@ const App = () =>
 			<Routes>
 				<Route exact path="/" element={<WelcomePage />} />
 				<Route path="/waiting" element={<WaitingPage />} />
-				<Route path="/testingSetup" element={<TestSetupPage />} />
 				<Route path="/placeHolder" element={<PlaceHolderPage />} />
-				<Route path="/adminSetup" element={<AdminPage/>} />
+				<Route path="/testingSetup" element={<AdminPage/>} />
 
 
 				<Route path="/TestVideoDisplay" element={<TestVideoDisplay/>} />
 				<Route path="/agent" element={<TestInteractables/>}/>
 
+				<Route path="/dualscreen" element={<DualScreen />}/>
+
 				<Route path="/storage" element={<StorageTestPage/> }/>
 
-				<Route path="/dualScreen" element={<DualScreen/>} />
 
 			</Routes>
 		</div>

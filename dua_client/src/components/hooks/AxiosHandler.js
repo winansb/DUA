@@ -9,7 +9,7 @@ export function fetchUsers() {
 	return axios.get(`http://localhost:8000/user/`)
         .then(res => {
 			// console.log(res.data);
-			return res.data.rows;
+			return res.data.row;
         })
         .catch(err => {
             console.log(err);
@@ -17,12 +17,38 @@ export function fetchUsers() {
         });
 }
 
-export function cleanupTests(id) {
+export function startTest(participantName, videoPlaying, nextVideoPlaying, destination, pre1, pre2, pre3) {
 	return axios.patch(`http://localhost:8000/test/`, {
-			USER_ID: id
+			ongoing: 1, 
+			pauseNow: 1, 
+			videoPlaying: videoPlaying, 
+			nextVideoPlaying: nextVideoPlaying,
+			destination: destination,
+			pre1: pre1,
+			pre2: pre2,
+			pre3: pre3,
+			UID: 1
 		})
 		.then(res => {
-			console.log("INFO: CLEANUP - Secondary USER_IDs with TEST_ID_ACTIVE != NULL removed");
+			console.log(`INFO: startTest - test started for ${participantName}`);
+			return res;
+		})
+		.catch(err => {
+			console.log(err);
+			return false;
+		});
+}
+
+export function endTest(participantName, videoPlaying, nextVideoPlaying ) {
+	return axios.patch(`http://localhost:8000/test/`, {
+			ongoing: 0, 
+			pauseNow: 0, 
+			videoPlaying: videoPlaying, 
+			nextVideoPlaying: nextVideoPlaying,
+			UID: 1
+		})
+		.then(res => {
+			console.log(`INFO: endTest - test ended for ${participantName}`);
 			return res;
 		})
 		.catch(err => {
@@ -33,7 +59,7 @@ export function cleanupTests(id) {
 
 export function fetchTests() {
 	return axios.get(`http://localhost:8000/test`).then(res => {
-		return res.data.rows;
+		return res.data.row;
 	})
 	.catch(err => {
 		console.log(err);
@@ -60,20 +86,6 @@ export function createUser(id) {
 	});
 }
 
-export function activateTest(id, test_id) {
-	return axios.post(`http://localhost:8000/test/`, {
-		USER_ID: id,
-		TEST_ID: test_id
-	})
-	.then(res => {
-		console.log(`INFO: ACTIVATE TEST ${test_id} for user ${id}`);
-		return res;
-	})
-	.catch(err => {
-		console.log(err);
-		return false;
-	});
-}
 
 export function sendTestData(data, user_id, test_id) {
 	return axios.post(`http://localhost:8000/test_data/`, {
@@ -96,13 +108,12 @@ export function sendTestData(data, user_id, test_id) {
 
 //This was my original approach for passing videoKey data between pages 
 
-export function sendVideoChange(videoKey, UID) {
+export function sendVideoChange(videoKey) {
 	return axios.post('http://localhost:8000/video/', {
-		VIDEO_TO_PLAY: videoKey,
-		UID: UID
+		NEXT_VIDEO_PLAYING: videoKey
 	})
 	.then(res => {
-		console.log('INFO: Video change attempted for\n\t VIDEO_TO_PLAY:${videoKey}\n\t');
+		console.log(`INFO: Video change attempted for\n\t NEXT_VIDEO_PLAYING:${videoKey}\n\t`);
 		return res; 
 	})
 	.catch(err => {
@@ -112,9 +123,8 @@ export function sendVideoChange(videoKey, UID) {
 }
 
 export function fetchVideoChange(UID) {
-	return axios.get(`http://localhost:8000/video`, {UID: UID}).then(res => {
-		console.log(res.data)
-		return res.data;
+	return axios.get(`http://localhost:8000/video`).then(res => {
+		return res.data.row[0];
 	})
 	.catch(err => {
 		console.log(err);
@@ -127,7 +137,7 @@ export function sendPause(pause) {
 		PAUSE_NOW: pause
 	})
 	.then(res => {
-		console.log('INFO: Pause change attempted for\n\t PAUSE_NOW:${pause}\n\t');
+		console.log(`INFO: Pause change attempted for\n\t PAUSE_NOW:${pause}\n\t`);
 		return res; 
 	})
 	.catch(err => {
@@ -138,8 +148,7 @@ export function sendPause(pause) {
 
 export function getPause() {
 	return axios.get(`http://localhost:8000/pause`).then(res => {
-		console.log(res.data)
-		return res.data;
+		return res.data.row[0];
 	})
 	.catch(err => {
 		console.log(err);

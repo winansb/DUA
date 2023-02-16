@@ -1,8 +1,10 @@
 import React, { Component, useState, useEffect, useCallback} from 'react'
 import "../css/styles.css";
 
-import TestInteractables from "./TestInteractables"
+import TestInteractables from "./Agent"
 import TestDisplay from "./TestDisplay"
+
+import Detour_start from "../Videos/Detour_Construction.mp4"
 
 export default function DualScreen () {
 
@@ -45,13 +47,6 @@ export default function DualScreen () {
     if(event.keyCode == 50){//2
         handleVid('myVid2');
     }
-    if(event.keyCode == 51){//3
-        handleVid('myVid3');
-    }
-    if(event.keyCode == 52){//4
-        handleVid('myVid4');
-    }
-    
 
   })
 

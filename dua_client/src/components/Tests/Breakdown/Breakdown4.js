@@ -17,9 +17,11 @@ export default function Breakdown4(props) {
                 <div className={css(styles.flexCol1)}>
                   <div className={css(styles.flexRow1)}>
                     <div className={css(styles.flexRow1__item)}>
+                    <a onClick = "addBlurEffect">
                       <div className={css(styles.wrapper1)}>
                         <h1 className={css(styles.hero_title2)}>Resume the Trip</h1>
                       </div>
+                    </a>
                     </div>
                     <div className={css(styles.flexRow1__spacer)} />
                     <div className={css(styles.flexRow1__item1)}>
