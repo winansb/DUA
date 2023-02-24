@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
 
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
+
+
 export default function Detour0(props) {
+
+  const { getTimeLeft } = require(`../../hooks/TimeDisplay`); 
+
+  const [currentTime, setCurrentTime] = useState(getCurrentTime()); 
+  const [timeTillArrival, setTimeTillArrival] = useState(getTimeLeft());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(getCurrentTime());
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className={cn(css(styles.root), 'detour0')}>
-      <h1 id="date1" className={css(styles.big_title1)}>{props.date}</h1>
+      <h1 id="date1" className={css(styles.big_title1)}>{currentTime}</h1>
 
       <div className={css(styles.group)}>
         <div className={css(styles.flexRow)}>
@@ -299,10 +317,10 @@ const styles = StyleSheet.create({
   },
   big_title: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'left',
     font: '500 35px/1.17 "Roboto", Helvetica, Arial, serif',
     color: 'rgb(0,0,0)',
-    textAlign: 'center',
+    textAlign: 'left',
     letterSpacing: '0px',
     width: '81.33%',
     '@media (max-width: 991px)': {

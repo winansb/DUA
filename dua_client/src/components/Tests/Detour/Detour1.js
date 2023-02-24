@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
 
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
+
 export default function Detour1(props) {
+
+  const [currentTime, setCurrentTime] = useState(getCurrentTime()); 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(getCurrentTime());
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className={cn(css(styles.root), 'detour1')}>
       <div className={css(styles.group)}>
-        <h1 id="date2" className={css(styles.big_title)}>{props.date}</h1>
+        <h1 id="date2" className={css(styles.big_title)}>{currentTime}</h1>
 
         <div className={css(styles.group1)}>
           <div className={css(styles.flexRow)}>

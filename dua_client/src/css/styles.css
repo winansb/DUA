@@ -72,12 +72,12 @@
 }
 
 .hidden{
-  animation: fadeOut 0.5s linear forwards;
+  animation: fadeOut 0.3s ease-in forwards;
   pointer-events: none
 }
 
 .shown{
-  animation: fadeIn 0.5s linear forwards;
+  animation: fadeIn 0.3s ease-in forwards;
   pointer-events: all;
 }
 

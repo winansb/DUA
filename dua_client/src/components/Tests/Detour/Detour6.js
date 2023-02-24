@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
+
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
 
 export default function Detour6(props) {
   return (
@@ -214,6 +216,7 @@ const styles = StyleSheet.create({
     font: '700 50px/0.52 "Roboto", Helvetica, Arial, serif',
     color: 'rgb(0,0,0)',
     textAlign: 'center',
+    marginTop: '75px',
     letterSpacing: '0.6px',
     width: '100%',
     height: '100%',

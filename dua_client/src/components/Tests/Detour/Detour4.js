@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
+
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
 
 export default function Detour4(props) {
   return (
@@ -10,7 +12,7 @@ export default function Detour4(props) {
         <div className={css(styles.flexCol)}>
           <div className={css(styles.flexCol__item)}>
             <div className={css(styles.content_box)}>
-              <px-grid track-style="flex-grow: 1;" x="29fr 1179px 42fr" y="76px 114px 67px">
+              <px-grid  x="29fr 1179px 42fr" y="76px 114px 67px">
                 <h1 className={css(styles.hero_title1)}>We are on the new route</h1>
               </px-grid>
             </div>
@@ -214,6 +216,7 @@ const styles = StyleSheet.create({
     letterSpacing: '0.6px',
     width: '100%',
     height: '100%',
+    marginTop: '75px', 
     '@media (max-width: 1199px)': {
       fontSize: '44px',
       textAlign: 'center'

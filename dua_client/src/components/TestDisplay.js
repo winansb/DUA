@@ -27,7 +27,7 @@ export default function TestVideoDisplay () {
 	  //every second we aren't paused count towards our time
 	  setInterval(function() {
 		updateTrialDuration();
-		console.log(trialDuration);
+		//console.log(trialDuration);
 	  }, 1000); 
 	
 	  function updateTrialDuration(){
@@ -35,7 +35,7 @@ export default function TestVideoDisplay () {
 		  trialDuration = trialDuration+1; 
 		  if(trialDuration == 205){
 			//time to check what destination video we should use
-			nextVideo = getVideoChange(); 
+			getVideoChange(); 
 		  }
 		}
 	  }
@@ -66,7 +66,7 @@ export default function TestVideoDisplay () {
 
 		promise.then(res => {
 			console.log(res.NEXT_VIDEO_PLAYING);
-			//handleVid(res.NEXT_VIDEO_PLAYING); 
+			handleVid(res.NEXT_VIDEO_PLAYING); 
 			return res.NEXT_VIDEO_PLAYING;
 		});
 
@@ -83,13 +83,11 @@ export default function TestVideoDisplay () {
 
 		//if spacebar pause
 		if( event.keyCode == 32 ){
-		if(video.paused){
-			document.getElementsByClassName('shown').item(0).firstChild.play();
-		}else{
-			document.getElementsByClassName('shown').item(0).firstChild.pause();
+			getVideoChange(); 
 		}
+		if (event.keyCode == 38 ){// up arrow key
+			getVideoChange(); 
 		}
-
 	})
 
 	useEffect(() => {
@@ -100,14 +98,6 @@ export default function TestVideoDisplay () {
 		startVid.classList.toggle('hidden');
 		//make the background black to increase immersion
 		document.body.style.backgroundColor = 'black';
-
-		document.getElementById('DETOUR_START').addEventListener('timeupdate', function() {
-		if (this.currentTime >= 205) {
-			handleVid(nextVideo);
-		}
-		});
-
-
 		
 
 		return () => {

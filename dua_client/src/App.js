@@ -6,8 +6,8 @@ import TestSetupPage from "./components/trialSetup";
 import PlaceHolderPage from "./components/placeHolderPage";
 import AdminPage from "./components/adminPage";
 import TestVideoDisplay from "./components/TestDisplay";
-import TestInteractables from "./components/Agent";
-import DualScreen from "./components/dualScreen"
+import Agent from "./components/Agent";
+import Dev from "./components/Development"
 
 
 // Delete later, just for testing
@@ -25,9 +25,9 @@ const App = () =>
 
 
 				<Route path="/TestVideoDisplay" element={<TestVideoDisplay/>} />
-				<Route path="/agent" element={<TestInteractables/>}/>
+				<Route path="/agent" element={<Agent/>}/>
 
-				<Route path="/dualscreen" element={<DualScreen />}/>
+				<Route path="/dev" element={<Dev />}/>
 
 				<Route path="/storage" element={<StorageTestPage/> }/>
 

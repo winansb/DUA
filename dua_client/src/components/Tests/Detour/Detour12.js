@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
 
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
+
 export default function Detour12(props) {
+
+  const [currentTime, setCurrentTime] = useState(getCurrentTime()); 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(getCurrentTime());
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className={cn(css(styles.root), 'detour12')}>
       <div className={css(styles.flexRow)}>
         <div className={css(styles.flexCol)}>
           <div className={css(styles.flexCol1)}>
-            <h1 id="date6" className={css(styles.big_title)}>{props.date}</h1>
+            <h1 id="date6" className={css(styles.big_title)}>{currentTime}</h1>
 
             <div className={css(styles.flexRow1)}>
               <h1 id="destination6" className={css(styles.big_title1)}>{props.destination}</h1>
@@ -296,6 +309,8 @@ const styles = StyleSheet.create({
   },
   flexCol2: {
     display: 'flex',
+    marginTop: '100px',
+    justifyContent: 'center', 
     flexDirection: 'column',
     width: '100%',
     height: '100%'

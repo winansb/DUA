@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
+
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
 
 export default function Detour7(props) {
   return (
@@ -426,6 +428,7 @@ const styles = StyleSheet.create({
     filter: 'drop-shadow(0px 4px 4px rgba(0,0,0,0.247))',
     position: 'relative',
     flex: '0 1 355px',
+    marginLeft: '100px',
     minHeight: 0
   },
   hero_title2: {

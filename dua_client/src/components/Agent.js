@@ -20,7 +20,6 @@ import Detour13 from './Tests/Detour/Detour13.js';
 import Timer from './hooks/Timer';
 
 
-
 const axiosHandler = require("./hooks/AxiosHandler.js");
 
 
@@ -74,6 +73,7 @@ const  TestInteractables = () => {
 
   const EmergencyContact = 'Static'; 
 
+  
 
   // function updateTrialTimeInfo(startTime, trialLengthMs) {
     
@@ -136,8 +136,8 @@ const  TestInteractables = () => {
   //every second we aren't paused count towards our time
   setInterval(function() {
     updateTrialDuration();
-    console.log(trialDuration);
-    console.log(curScreen);
+    //console.log(trialDuration);
+    //console.log(curScreen);
   }, 1000); 
 
   function updateTrialDuration(){
@@ -299,12 +299,18 @@ const  TestInteractables = () => {
 
       sendVideoChange('DETOUR_W_HOUSE'); 
     }
-
   })
 
 
   //runs on mount
   useEffect(() => {
+
+    const socket = new WebSocket('ws://localhost:8080');
+
+    socket.addEventListener('message', (event) => {
+      const data = event.data; 
+      console.log(`Received data from server webSocket: ${data}`);
+    }); 
 
     //add event listeners to videos
     document.addEventListener('keydown', handleKeyPress); 
@@ -315,6 +321,7 @@ const  TestInteractables = () => {
     //runs on dismount
     return () => {
       //remove event listeners
+      socket.close(); 
       document.removeEventListener('keydown', handleKeyPress);
       document.body.style.backgroundColor = '';
     };
@@ -324,10 +331,10 @@ const  TestInteractables = () => {
   return (
     <div className = "TestingDisplay">
       <div className = "Interact">
-        <div className = "timer" >
+        <div className = "timer off" >
            	<Timer onTimeElapsed={handleTimer} />
         </div>
-        <div id="D0" className = "off">
+        <div id="D0" className = "on">
             <Detour0 date={date} destination={destination} ArrivalTime={arrival} TripTimeRemaining={tripTimeRemaining} />
         </div>
         <div id="D1" className = "off">

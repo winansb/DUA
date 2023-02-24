@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
+
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
 
 export default function Detour5(props) {
   return (
@@ -11,7 +13,7 @@ export default function Detour5(props) {
           <div className={css(styles.content_box)}>
             <div className={css(styles.flexCol1)}>
               <h1 className={css(styles.hero_title1)}>Your next destination is Waffle House </h1>
-              <h1 id="ArrivalTime5" className={css(styles.hero_title11)}>{props.ArrivalTime}</h1>
+              <h1 className={css(styles.hero_title11)}>{props.ArrivalTime}</h1>
             </div>
           </div>
 
@@ -26,7 +28,7 @@ export default function Detour5(props) {
                   />
                 </div>
                 <h1 className={css(styles.hero_title12)}>Would you like to skip to your next destination?</h1>
-                <px-grid x="129fr 873px 106fr" y="0px 100px 0px">
+                <px-grid x="50fr 900px 100fr" y="0px 100px 0px">
                   <div className={css(styles.flexRow1)}>
                     <div className={css(styles.box3)} onClick={props.Detour5_Yes}>
                       <h1 className={css(styles.hero_title2)}>Yes</h1>
@@ -128,8 +130,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'rgb(255,255,255)',
     position: 'relative',
-    overflow: 'hidden',
-    minHeight: 0
+    overflow: 'hidden'
   },
   flexRow: {
     display: 'flex',
@@ -137,8 +138,6 @@ const styles = StyleSheet.create({
     height: 1010,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '18px 23px 52px 32px'
     },
@@ -148,7 +147,6 @@ const styles = StyleSheet.create({
     '@media (max-width: 767px)': {
       margin: '18px 12px 52px 20px'
     },
-    '@media (max-width: 575px)': {},
     '@media (max-width: 479px)': {
       margin: '18px 12px 52px 16px'
     },
@@ -163,8 +161,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    flex: '0 1 1302px',
-    minHeight: 0
+    flex: '0 1 1302px'
   },
   content_box: {
     display: 'flex',
@@ -177,20 +174,15 @@ const styles = StyleSheet.create({
     height: 257,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '0px 20px'
     },
     '@media (max-width: 991px)': {
       margin: '0px 16px'
     },
-    '@media (max-width: 767px)': {},
     '@media (max-width: 575px)': {
       margin: '0px 12px'
     },
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
     minWidth: 1250,
     margin: '0px 26px'
@@ -201,7 +193,6 @@ const styles = StyleSheet.create({
     width: '85.36%',
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '75px 5.68% 63px 8.96%'
   },
   hero_title1: {
@@ -211,6 +202,7 @@ const styles = StyleSheet.create({
     font: '700 50px/0.52 "Roboto", Helvetica, Arial, serif',
     color: 'rgb(0,0,0)',
     textAlign: 'center',
+    marginTop: '-20px',
     letterSpacing: '0.6px',
     width: 1067,
     height: 76,
@@ -269,7 +261,6 @@ const styles = StyleSheet.create({
     outline: '2px solid rgb(204,204,204)',
     filter: 'drop-shadow(0px 0px 10px rgba(0,0,0,0.149))',
     position: 'relative',
-    minHeight: 0,
     margin: '28px 0px 0px'
   },
   content_box1: {
@@ -281,8 +272,6 @@ const styles = StyleSheet.create({
     boxShadow: 'inset 0px 15px 0px 0px rgb(176,0,32)',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '27px 32px 30px'
     },
@@ -292,11 +281,9 @@ const styles = StyleSheet.create({
     '@media (max-width: 767px)': {
       margin: '27px 20px 30px'
     },
-    '@media (max-width: 575px)': {},
     '@media (max-width: 479px)': {
       margin: '27px 16px 30px'
     },
-    '@media (max-width: 383px)': {},
     position: 'relative',
     minWidth: 1226,
     margin: '27px 38px 30px'
@@ -307,8 +294,6 @@ const styles = StyleSheet.create({
     width: '90.38%',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       width: '92.6%'
     },
@@ -329,7 +314,6 @@ const styles = StyleSheet.create({
     },
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '68px auto 32px'
   },
   flexCol2__item: {
@@ -339,7 +323,7 @@ const styles = StyleSheet.create({
   },
   image3: {
     width: '49.64%',
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '1.6',
     verticalAlign: 'top',
     objectFit: 'cover',
@@ -348,18 +332,6 @@ const styles = StyleSheet.create({
       aspectRatio: '1.6'
     },
     '@media (max-width: 2999px)': {
-      aspectRatio: '1.6'
-    },
-    '@media (max-width: 1919px)': {
-      aspectRatio: '1.6'
-    },
-    '@media (max-width: 1399px)': {
-      aspectRatio: '1.6'
-    },
-    '@media (max-width: 1199px)': {
-      aspectRatio: '1.6'
-    },
-    '@media (max-width: 991px)': {
       aspectRatio: '1.6'
     },
     '@media (max-width: 767px)': {
@@ -375,7 +347,6 @@ const styles = StyleSheet.create({
       width: '75.69%'
     },
     position: 'relative',
-    minHeight: 0,
     margin: '0px auto'
   },
   hero_title12: {
@@ -385,8 +356,9 @@ const styles = StyleSheet.create({
     font: '700 50px/0.52 "Roboto", Helvetica, Arial, serif',
     color: 'rgb(0,0,0)',
     textAlign: 'center',
+    whiteSpace: 'nowrap',
     letterSpacing: '0.6px',
-    width: 1108,
+    width: '100%',
     height: 114,
     '@media (max-width: 1199px)': {
       fontSize: '44px',
@@ -405,7 +377,6 @@ const styles = StyleSheet.create({
       fontSize: '24px'
     },
     position: 'relative',
-    minWidth: 1108,
     margin: '11px 0px 0px'
   },
   flexRow1: {
@@ -426,6 +397,7 @@ const styles = StyleSheet.create({
     filter: 'drop-shadow(0px 4px 4px rgba(0,0,0,0.247))',
     position: 'relative',
     flex: '0 1 355px',
+    marginLeft: '100px',
     minWidth: 355
   },
   hero_title2: {
@@ -527,10 +499,9 @@ const styles = StyleSheet.create({
     outline: '1px solid rgb(0,0,0)',
     outlineOffset: -1,
     width: 518,
-    height: 'min-content',
+    height: 'auto',
     filter: 'drop-shadow(0px 4px 4px rgba(0,0,0,0.247))',
     position: 'relative',
-    minHeight: 0,
     minWidth: 518,
     margin: '0px 0px 0px 2px'
   },
@@ -562,9 +533,6 @@ const styles = StyleSheet.create({
     },
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
-    '@media (max-width: 479px)': {},
     position: 'relative',
     flexGrow: 1,
     minHeight: 36,
@@ -599,41 +567,27 @@ const styles = StyleSheet.create({
     outlineOffset: -1,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '0px 4px 0px 0px'
     },
-    '@media (max-width: 991px)': {},
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
-    minHeight: 0,
     margin: '0px 8px 0px 0px'
   },
   flexRow2: {
     display: 'flex',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '13px 16px 14px'
     },
-    '@media (max-width: 991px)': {},
     '@media (max-width: 767px)': {
       margin: '13px 12px 14px'
     },
-    '@media (max-width: 575px)': {},
     '@media (max-width: 479px)': {
       margin: '13px 8px 14px'
     },
-    '@media (max-width: 383px)': {},
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '13px 22px 14px'
   },
   flexRow2__item: {
@@ -644,13 +598,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 78,
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '0.96',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     minWidth: 78
   },
   flexRow2__spacer: {
@@ -687,28 +640,20 @@ const styles = StyleSheet.create({
     outline: '1px solid rgb(0,0,0)',
     outlineOffset: -1,
     position: 'relative',
-    minHeight: 0,
     margin: '52px 6px 0px 2px'
   },
   flexRow3: {
     display: 'flex',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
-    '@media (max-width: 1199px)': {},
     '@media (max-width: 991px)': {
       margin: '15px 8px 23px'
     },
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
     '@media (max-width: 383px)': {
       margin: '15px 4px 23px'
     },
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '15px 15px 23px'
   },
   flexRow3__item: {
@@ -719,13 +664,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 81,
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '1.14',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     minWidth: 81
   },
   flexRow3__spacer: {
@@ -751,7 +695,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: '0 0 auto',
     minWidth: 253,
-    minHeight: 0,
     margin: '25px 0px 5px'
   },
   content_box11: {
@@ -763,37 +706,21 @@ const styles = StyleSheet.create({
     outlineOffset: -1,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '50px 0px 0px 4px'
     },
-    '@media (max-width: 991px)': {},
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
-    minHeight: 0,
     margin: '50px 0px 0px 8px'
   },
   flexRow4: {
     display: 'flex',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
-    '@media (max-width: 1199px)': {},
     '@media (max-width: 991px)': {
       margin: '24px 4px 13px'
     },
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '24px 9px 13px'
   },
   flexRow4__item: {
@@ -804,13 +731,12 @@ const styles = StyleSheet.create({
   },
   image1: {
     width: 90,
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '1.25',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     minWidth: 90
   },
   flexRow4__spacer: {
@@ -848,41 +774,27 @@ const styles = StyleSheet.create({
     outlineOffset: -1,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '50px 0px 0px 4px'
     },
-    '@media (max-width: 991px)': {},
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
-    minHeight: 0,
     margin: '50px 0px 0px 8px'
   },
   flexRow5: {
     display: 'flex',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '16px 16px 15px'
     },
-    '@media (max-width: 991px)': {},
     '@media (max-width: 767px)': {
       margin: '16px 12px 15px'
     },
-    '@media (max-width: 575px)': {},
     '@media (max-width: 479px)': {
       margin: '16px 8px 15px'
     },
-    '@media (max-width: 383px)': {},
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '16px 21px 15px'
   },
   flexRow5__item: {
@@ -893,13 +805,12 @@ const styles = StyleSheet.create({
   },
   image2: {
     width: 81,
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '1.05',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     minWidth: 81
   },
   flexRow5__spacer: {

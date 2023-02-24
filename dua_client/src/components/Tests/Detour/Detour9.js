@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
+
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
 
 export default function Detour9(props) {
   return (
@@ -31,7 +33,7 @@ export default function Detour9(props) {
                       alt="alt text"
                       className={css(styles.image3)}
                     />
-                    <h1 id="TripTimeRemaining5" className={css(styles.big_title)}>{props.TripTimeRemaining}</h1>
+                    <h1 className={css(styles.big_title)}>{props.TripTimeRemaining}</h1>
                   </div>
                 </div>
 
@@ -131,15 +133,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'rgb(255,255,255)',
     position: 'relative',
-    overflow: 'hidden',
-    minHeight: 0
+    overflow: 'hidden'
   },
   flexRow: {
     display: 'flex',
+    width: 1858,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '18px 23px 52px 32px'
     },
@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
     '@media (max-width: 767px)': {
       margin: '18px 12px 52px 20px'
     },
-    '@media (max-width: 575px)': {},
     '@media (max-width: 479px)': {
       margin: '18px 12px 52px 16px'
     },
@@ -158,15 +157,14 @@ const styles = StyleSheet.create({
     },
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
+    minWidth: 1858,
     margin: '18px 23px 52px 39px'
   },
   flexCol: {
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    flex: '0 1 1302px',
-    minHeight: 0
+    flex: '0 1 1302px'
   },
   content_box: {
     display: 'flex',
@@ -179,20 +177,15 @@ const styles = StyleSheet.create({
     height: 257,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '0px 20px'
     },
     '@media (max-width: 991px)': {
       margin: '0px 16px'
     },
-    '@media (max-width: 767px)': {},
     '@media (max-width: 575px)': {
       margin: '0px 12px'
     },
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
     minWidth: 1250,
     margin: '0px 26px'
@@ -204,8 +197,6 @@ const styles = StyleSheet.create({
     height: 142,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '57px 28px 58px'
     },
@@ -221,7 +212,6 @@ const styles = StyleSheet.create({
     '@media (max-width: 479px)': {
       margin: '57px 16px 58px'
     },
-    '@media (max-width: 383px)': {},
     position: 'relative',
     minWidth: 1179,
     margin: '57px 35px 58px 36px'
@@ -303,8 +293,6 @@ const styles = StyleSheet.create({
     boxShadow: 'inset 0px 15px 0px 0px rgb(176,0,32)',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '40px 32px 30px'
     },
@@ -314,11 +302,9 @@ const styles = StyleSheet.create({
     '@media (max-width: 767px)': {
       margin: '40px 20px 30px'
     },
-    '@media (max-width: 575px)': {},
     '@media (max-width: 479px)': {
       margin: '40px 16px 30px'
     },
-    '@media (max-width: 383px)': {},
     position: 'relative',
     minWidth: 1226,
     margin: '40px 38px 30px'
@@ -330,8 +316,6 @@ const styles = StyleSheet.create({
     height: 569,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '52px 0px 34px 28px'
     },
@@ -344,7 +328,6 @@ const styles = StyleSheet.create({
     '@media (max-width: 575px)': {
       margin: '52px 0px 34px 16px'
     },
-    '@media (max-width: 479px)': {},
     '@media (max-width: 383px)': {
       margin: '52px 0px 34px 12px'
     },
@@ -354,8 +337,7 @@ const styles = StyleSheet.create({
   },
   flexRow1: {
     display: 'flex',
-    position: 'relative',
-    minHeight: 0
+    position: 'relative'
   },
   box3: {
     display: 'flex',
@@ -368,7 +350,6 @@ const styles = StyleSheet.create({
     filter: 'drop-shadow(0px 4px 4px rgba(0,0,0,0.247))',
     position: 'relative',
     flex: '0 1 355px',
-    minHeight: 0,
     margin: '0px 0px 19px'
   },
   hero_title1: {
@@ -409,18 +390,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     position: 'relative',
     flex: '0 1 764px',
-    minHeight: 0,
     margin: '29px 0px 0px'
   },
   image3: {
     width: '100%',
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '8.49',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
-    position: 'relative',
-    minHeight: 0
+    position: 'relative'
   },
   big_title: {
     display: 'flex',
@@ -452,13 +431,12 @@ const styles = StyleSheet.create({
   },
   image4: {
     width: '58.68%',
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '1.6',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     margin: '13px 22.05% 0px 19.28%'
   },
   flexRow__spacer: {
@@ -516,9 +494,6 @@ const styles = StyleSheet.create({
     },
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
-    '@media (max-width: 479px)': {},
     position: 'relative',
     flexGrow: 1,
     minHeight: 36,
@@ -553,41 +528,27 @@ const styles = StyleSheet.create({
     outlineOffset: -1,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '0px 4px 0px 0px'
     },
-    '@media (max-width: 991px)': {},
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
-    minHeight: 0,
     margin: '0px 8px 0px 0px'
   },
   flexRow2: {
     display: 'flex',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '13px 16px 14px'
     },
-    '@media (max-width: 991px)': {},
     '@media (max-width: 767px)': {
       margin: '13px 12px 14px'
     },
-    '@media (max-width: 575px)': {},
     '@media (max-width: 479px)': {
       margin: '13px 8px 14px'
     },
-    '@media (max-width: 383px)': {},
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '13px 22px 14px'
   },
   flexRow2__item: {
@@ -598,13 +559,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 78,
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '0.96',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     minWidth: 78
   },
   flexRow2__spacer: {
@@ -641,28 +601,20 @@ const styles = StyleSheet.create({
     outline: '1px solid rgb(0,0,0)',
     outlineOffset: -1,
     position: 'relative',
-    minHeight: 0,
     margin: '52px 6px 0px 2px'
   },
   flexRow3: {
     display: 'flex',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
-    '@media (max-width: 1199px)': {},
     '@media (max-width: 991px)': {
       margin: '15px 8px 23px'
     },
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
     '@media (max-width: 383px)': {
       margin: '15px 4px 23px'
     },
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '15px 15px 23px'
   },
   flexRow3__item: {
@@ -673,13 +625,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 81,
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '1.14',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     minWidth: 81
   },
   flexRow3__spacer: {
@@ -705,7 +656,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: '0 0 auto',
     minWidth: 253,
-    minHeight: 0,
     margin: '25px 0px 5px'
   },
   content_box21: {
@@ -717,37 +667,21 @@ const styles = StyleSheet.create({
     outlineOffset: -1,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '50px 0px 0px 4px'
     },
-    '@media (max-width: 991px)': {},
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
-    minHeight: 0,
     margin: '50px 0px 0px 8px'
   },
   flexRow4: {
     display: 'flex',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
-    '@media (max-width: 1199px)': {},
     '@media (max-width: 991px)': {
       margin: '24px 4px 13px'
     },
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '24px 9px 13px'
   },
   flexRow4__item: {
@@ -758,13 +692,12 @@ const styles = StyleSheet.create({
   },
   image1: {
     width: 90,
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '1.25',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     minWidth: 90
   },
   flexRow4__spacer: {
@@ -802,41 +735,27 @@ const styles = StyleSheet.create({
     outlineOffset: -1,
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '50px 0px 0px 4px'
     },
-    '@media (max-width: 991px)': {},
-    '@media (max-width: 767px)': {},
-    '@media (max-width: 575px)': {},
-    '@media (max-width: 479px)': {},
-    '@media (max-width: 383px)': {},
     position: 'relative',
-    minHeight: 0,
     margin: '50px 0px 0px 8px'
   },
   flexRow5: {
     display: 'flex',
     '@media (min-width: 3000px) and (max-width: 99999px)': {},
     '@media (max-width: 2999px)': {},
-    '@media (max-width: 1919px)': {},
-    '@media (max-width: 1399px)': {},
     '@media (max-width: 1199px)': {
       margin: '16px 16px 15px'
     },
-    '@media (max-width: 991px)': {},
     '@media (max-width: 767px)': {
       margin: '16px 12px 15px'
     },
-    '@media (max-width: 575px)': {},
     '@media (max-width: 479px)': {
       margin: '16px 8px 15px'
     },
-    '@media (max-width: 383px)': {},
     position: 'relative',
     flexGrow: 1,
-    minHeight: 0,
     margin: '16px 21px 15px'
   },
   flexRow5__item: {
@@ -847,13 +766,12 @@ const styles = StyleSheet.create({
   },
   image2: {
     width: 81,
-    height: 'min-content',
+    height: 'auto',
     aspectRatio: '1.05',
     verticalAlign: 'top',
     objectFit: 'cover',
     objectPosition: 'center center',
     position: 'relative',
-    minHeight: 0,
     minWidth: 81
   },
   flexRow5__spacer: {

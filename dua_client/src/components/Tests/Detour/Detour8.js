@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
+
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
 
 export default function Detour8(props) {
   return (
@@ -212,6 +214,7 @@ const styles = StyleSheet.create({
     color: 'rgb(0,0,0)',
     textAlign: 'center',
     letterSpacing: '0.6px',
+    marginTop: '75px',
     width: '100%',
     height: '100%',
     '@media (max-width: 1199px)': {

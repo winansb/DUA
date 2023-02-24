@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import cn from 'classnames';
 
+import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
+
 export default function Detour11(props) {
+
+  const [currentTime, setCurrentTime] = useState(getCurrentTime()); 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(getCurrentTime());
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className={cn(css(styles.root), 'detour11')}>
       <div className={css(styles.flexRow)}>
         <div className={css(styles.flexCol)}>
           <div className={css(styles.flexCol1)}>
-            <h1 id="date5" className={css(styles.big_title)}>{props.date}</h1>
+            <h1 id="date5" className={css(styles.big_title)}>{currentTime}</h1>
 
             <div className={css(styles.flexRow1)}>
               <h1 id="destination5" className={css(styles.big_title1)}>{props.destination}</h1>
@@ -24,7 +37,7 @@ export default function Detour11(props) {
                 style={{ '--src': `url(${require('./assets/9cb80d7e18d713eeb7142bce40cd1ab6.png')})` }}
                 className={css(styles.content_box)}>
                 <div className={css(styles.content_box1)}>
-                  <h1 id ="EmergencyContact" className={css(styles.big_title21)}>{props.EmergencyContact}</h1>
+                  <h1 id ="EmergencyContact" className={css(styles.big_title21)}>Emergency Contact</h1>
                 </div>
 
                 <img
@@ -228,6 +241,8 @@ const styles = StyleSheet.create({
     font: '400 35px/0.74 "Roboto", Helvetica, Arial, serif',
     color: 'rgb(60,64,67)',
     letterSpacing: '0.42px',
+    marginLeft: '8px', 
+    marginTop: '-6px',
     '@media (max-width: 991px)': {
       fontSize: '28px',
       textAlign: 'left'
@@ -249,6 +264,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     font: '400 35px/0.74 "Roboto", Helvetica, Arial, serif',
+    marginLeft: '10px',
+    marginTop: '-5px',
     color: 'rgb(60,64,67)',
     letterSpacing: '0.42px',
     '@media (max-width: 991px)': {
@@ -316,6 +333,7 @@ const styles = StyleSheet.create({
   big_title21: {
     display: 'flex',
     alignItems: 'center',
+    whiteSpace: 'nowrap', 
     font: '400 35px/0.74 "Roboto", Helvetica, Arial, serif',
     color: 'rgb(255,255,255)',
     letterSpacing: '0.31999999999999995px',
