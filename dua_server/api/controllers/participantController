@@ -1,0 +1,106 @@
+const Participant = require('../models/Participant');
+
+const participantController = {
+
+    // Method to create a new participant entry
+    createParticipant: async (req, res) => {
+        try {
+            const { PARTICIPANT_NAME } = req.body;
+
+            const participant = await Participant.create({
+            PARTICIPANT_NAME,
+            DETOUR_COMPLETE: false,
+            BREAKDOWN_COMPLETE: false,
+            TEST_IN_PROGRESS: false,
+            });
+
+            res.status(201).json(participant);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error in participantController - createParticipant' });
+        }
+    },
+
+    // Method to update DETOUR_COMPLETE
+    updateDetourComplete: async (req, res) => {
+        const { uid } = req.params;
+
+        try {
+        const [updatedRowsCount, updatedRows] = await Participant.update(
+            { DETOUR_COMPLETE: true },
+            { where: { UID: uid }, returning: true }
+        );
+
+        if (updatedRowsCount === 0) {
+            return res.status(404).send({ error: 'ParticipantController - updateDetourComplete: Participant not found' });
+        }
+
+        return res.send(updatedRows[0].toJSON());
+        } catch (error) {
+        console.error(error);
+        return res.status(500).send({ error: 'Error in participantController - updateDetourComplete' });
+        }
+    },
+
+    // Method to update BREAKDOWN_COMPLETE
+    updateBreakdownComplete: async (req, res) => {
+        const { uid } = req.params;
+
+        try {
+        const [updatedRowsCount, updatedRows] = await Participant.update(
+            { BREAKDOWN_COMPLETE: true },
+            { where: { UID: uid }, returning: true }
+        );
+
+        if (updatedRowsCount === 0) {
+            return res.status(404).send({ error: 'ParticipantController - updateBreakdownComplete: Participant not found' });
+        }
+
+        return res.send(updatedRows[0].toJSON());
+        } catch (error) {
+        console.error(error);
+        return res.status(500).send({ error: 'Error in participantController - updateBreakdownComplete' });
+        }
+    },
+
+    // Method to update TEST_IN_PROGRESS
+    updateTestInProgress: async (req, res) => {
+        const { uid } = req.params;
+
+        try {
+        const [updatedRowsCount, updatedRows] = await Participant.update(
+            { TEST_IN_PROGRESS: true },
+            { where: { UID: uid }, returning: true }
+        );
+
+        if (updatedRowsCount === 0) {
+            return res.status(404).send({ error: 'ParticipantController - updateTestInProgress: Participant not found' });
+        }
+
+        return res.send(updatedRows[0].toJSON());
+        } catch (error) {
+        console.error(error);
+        return res.status(500).send({ error: 'Error in participantController - updateTestInProgress' });
+        }
+    },
+
+    // Method to retrieve a participant entry by UID
+    getParticipant: async (req, res) => {
+        const { uid } = req.params;
+
+        try {
+        const participant = await Participant.findByPk(uid);
+
+        if (!participant) {
+            return res.status(404).send({ error: 'ParticipantController - getParticipantById: Participant not found' });
+        }
+
+        return res.send(participant.toJSON());
+        } catch (error) {
+        console.error(error);
+        return res.status(500).send({ error: 'Error in participantController - getParticipantById' });
+        }
+    },
+};
+
+module.exports = participantController; 

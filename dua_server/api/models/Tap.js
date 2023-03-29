@@ -1,5 +1,5 @@
 const { DataTypes} = require('sequelize');
-const db = require('../config/database');
+const db = require('../../config/database');
 
 const Tap = db.define('Tap', {
     UID: {
@@ -38,6 +38,10 @@ const Tap = db.define('Tap', {
     PRESS_DURATION_MS: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    ACTION_INITIATED: {
+      type: DataTypes.STRING,
+      allowNull: false,
     }
   });
   

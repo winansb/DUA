@@ -14,13 +14,14 @@ const Screen = db.define('Screen', {
     },
     SCREEN_DURATION_SECONDS: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: null, 
     },
     LOCAL_TIME_AT_START: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    TRIAL_RUNTIME_SECONDS: {
+    TRIAL_RUNTIME_AT_START_SECONDS: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
@@ -34,7 +35,8 @@ const Screen = db.define('Screen', {
     },
     EXIT_METHOD: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: null, 
     },
     VIDEO_PLAYING: {
       type: DataTypes.STRING,
@@ -46,7 +48,8 @@ const Screen = db.define('Screen', {
     },
     VIDEO_TIME_AT_END: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: null, 
     },
   }, {
     timestamps: false,

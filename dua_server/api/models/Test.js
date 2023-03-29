@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
-const db = require('../config/database');
+const db = require('../../config/database');
 
 const Test = db.define('Test', {
-    UID: {
+      UID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -17,11 +17,13 @@ const Test = db.define('Test', {
       },
       BREAKDOWN_TEST_ID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: null,
       },
       DETOUR_TEST_ID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: null,
       },
       USE_PLAYBOOK: {
         type: DataTypes.STRING,

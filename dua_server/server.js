@@ -19,33 +19,42 @@ const cors = require("cors"); // cross-origin resource sharing
 const db = require('./config/database'); 
 const { initializeDatabase } = require('./db/initializer'); 
 
-var app = express();
+const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
-const dbo = require('./db/connect');
+const  wss = new WebSocket.server({ server });
 
+const PORT = process.env.POR || 8000; 
 
-
-
-
-
-
-//test db
-db.authenticate()
-.then(() => console.log('NEW Database connected...'))
-.catch(err => console.log('Error: ' + err))
-
-const serv_port = /* process.env.PORT || */ 8000;
-
-
-
-
+// MiddleWare
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const apiRouter = require("./api/api");
+app.use("/api", apiRouter);
+
+// Error handling middleware
+app.use(function (err, req, res, next) {
+	console.error(err.stack);
+	res.status(500).send('Error discovered in server.js middleware');
+});
+
+// Start the server
+server.listen(PORT, () => {
+	console.log(`Server running on port: ${PORT}`);
+	
+	initializeDatabase().then(() => {
+	  console.log(`Database synced, server running on port ${PORT}`);
+	}).catch((err) => {
+	  console.error("Error initializing database", err);
+	});
+  });
+
+
 /*--------------------------------------------------------------------------------------------
 
-//Serial Port Stuff uncomment for button box
+		Serial Port Stuff uncomment for button box
+
 ---------------------------------------------------------------------------------------------*/
 
 // const { SerialPort } = require('serialport') // SerialPort for reading serial results from usb port 
@@ -65,52 +74,28 @@ app.use(express.json());
 // });
 
 /*--------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------
 
+			WebSocket Stuff uncomment for button box
 
-// app.use(require("./routes/getData"));
-// app.use(require("./routes/insert"));
-app.use(require("./routes/test"));
-app.use(require("./routes/user"));
-app.use(require("./routes/test_data"));
-app.use(require("./routes/video"));
-
-  // handle HTTP GET requests to the root URL
-app.get('/', (req, res) => {
-	res.send('Hello, world!');
-});
-
+---------------------------------------------------------------------------------------------*/
+//const wss = new WebSocket.Server({ server });
 // handle WebSocket connections
-wss.on('connection', (ws) => {
-	console.log('WebSocket connected');
+// wss.on('connection', (ws) => {
+// 	console.log('WebSocket connected');
   
-	// send a message to the client
-	ws.send('Welcome to the WebSocket server');
+// 	// send a message to the client
+// 	ws.send('Welcome to the WebSocket server');
   
-	// handle messages received from the client
-	ws.on('message', (message) => {
-	  console.log(`Received message: ${message}`);
+// 	// handle messages received from the client
+// 	ws.on('message', (message) => {
+// 	  console.log(`Received message: ${message}`);
   
-	  // echo the message back to the client
-	  ws.send(`You said: ${message}`);
-	});
-});
-
-app.listen(serv_port, () => {
-	console.log(`Server running on port: ${serv_port}`);
-  
-	initializeDatabase().then(() => {
-	  console.log(`Database synced, server running on port ${serv_port}`);
-	}).catch((err) => {
-	  console.error("Error initializing database", err);
-	});
-  });
-  
-// start the server
-server.listen(8080, () => {
-	console.log('Server started on port 8080');
-});
-
-
+// 	  // echo the message back to the client
+// 	  ws.send(`You said: ${message}`);
+// 	});
+// });
+/*--------------------------------------------------------------------------------------------*/
 
 
 
