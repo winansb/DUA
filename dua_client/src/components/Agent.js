@@ -251,6 +251,9 @@ const  TestInteractables = () => {
 
   function Detour10_Yes(){
     changeScreen('D11'); 
+    paused = !paused; 
+    sendPause(paused); 
+    
   }
 
   function Detour10_No(){
@@ -334,7 +337,7 @@ const  TestInteractables = () => {
         <div className = "timer off" >
            	<Timer onTimeElapsed={handleTimer} />
         </div>
-        <div id="D0" className = "on">
+        <div id="D0" className = "off">
             <Detour0 date={date} destination={destination} ArrivalTime={arrival} TripTimeRemaining={tripTimeRemaining} />
         </div>
         <div id="D1" className = "off">
