@@ -4,32 +4,39 @@
 #include "hardware/pwm.h"
 #include "pico/binary_info.h"
 #include "pico/stdio_usb.h"
+#include "hardware/adc.h"
 
 
 //defines
-#define GREEN_LED 5
-#define RED_LED 6
+#define GREEN_LED 7
+#define RED_LED 8
 #define BLUE_LED 9
 
 #define LED_PIN 13
 #define BTN_PIN 10
 
+#define POT_PIN 26 
+
 #define DEBOUNCE_DELAY_US 10000 // 10ms debounce delay
 
 
+// Helper function to decompile hex color code into RGB components
+void hex_to_rgb(uint32_t hex_code, uint8_t *red, uint8_t *green, uint8_t *blue) {
+    //convert the uint8_t hex code into an equivalent uint16_t for the pwm 
+    *red = ( (hex_code >> 16) & 0xFF );
+    *green = ( (hex_code >> 8) & 0xFF);
+    *blue = ( hex_code & 0xFF);
+
+}
+
 // Helper function to set the RGB color using PWM
-void set_rgb_color(uint8_t red, uint8_t green, uint8_t blue) {
+void set_button_hex_color(uint32_t hex_code) {
+    uint8_t red, green, blue;
+    hex_to_rgb(hex_code, &red, &green, &blue); 
     pwm_set_gpio_level(RED_LED, red);
     pwm_set_gpio_level(GREEN_LED, green);
     pwm_set_gpio_level(BLUE_LED, blue);
 
-}
-
-// Helper function to decompile hex color code into RGB components
-void hex_to_rgb(uint32_t hex_code, uint8_t *red, uint8_t *green, uint8_t *blue) {
-    *red = (hex_code >> 16) & 0xFF;
-    *green = (hex_code >> 8) & 0xFF;
-    *blue = hex_code & 0xFF;
 }
 
 
@@ -50,25 +57,35 @@ bool is_button_pressed() {
     return false;
 }
 
+void button_box_adc_init(){
+    adc_init(); 
+
+    adc_gpio_init(POT_PIN); 
+
+    // The following line of code was found on hello_adc.c
+    adc_select_input(0); 
+
+}
+
 void button_box_gpio_init(){
 
     // Set up the GPIO pins for the LEDs
-    gpio_init(GREEN_LED);
+    //gpio_init(GREEN_LED);
     gpio_set_function(GREEN_LED, GPIO_FUNC_PWM);
     gpio_set_dir(GREEN_LED, GPIO_OUT);
     
-    gpio_init(RED_LED);
+    //gpio_init(RED_LED);
     gpio_set_function(RED_LED, GPIO_FUNC_PWM);
     gpio_set_dir(RED_LED, GPIO_OUT);
     
-    gpio_init(BLUE_LED);
+    //gpio_init(BLUE_LED);
     gpio_set_function(BLUE_LED, GPIO_FUNC_PWM);
     gpio_set_dir(BLUE_LED, GPIO_OUT);
 
-    gpio_init(LED_PIN);
+    //gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
 
-    gpio_init(BTN_PIN);
+    //gpio_init(BTN_PIN);
     gpio_set_dir(BTN_PIN, GPIO_IN);
     gpio_pull_up(BTN_PIN); 
 
@@ -79,15 +96,19 @@ void button_box_gpio_init(){
 
 void button_box_pwm_init(){
     // Set up PWM for RGB LEDs
-    gpio_set_function(RED_LED, GPIO_FUNC_PWM);
-    gpio_set_function(GREEN_LED, GPIO_FUNC_PWM);
-    gpio_set_function(BLUE_LED, GPIO_FUNC_PWM);
+    // gpio_set_function(RED_LED, GPIO_FUNC_PWM);
+    // gpio_set_function(GREEN_LED, GPIO_FUNC_PWM);
+    // gpio_set_function(BLUE_LED, GPIO_FUNC_PWM);
 
     uint r_slice = pwm_gpio_to_slice_num(RED_LED);
     uint g_slice = pwm_gpio_to_slice_num(GREEN_LED);
     uint b_slice = pwm_gpio_to_slice_num(BLUE_LED);
 
     pwm_config config = pwm_get_default_config();
+
+    pwm_set_wrap(r_slice, 0xFF);
+    pwm_set_wrap(g_slice, 0xFF);
+    pwm_set_wrap(b_slice, 0xFF);
 
     pwm_config_set_clkdiv(&config, 4.f);
 
@@ -115,6 +136,8 @@ void Button_Box_Systems_init(){
     button_box_gpio_init();
 
     button_box_pwm_init();
+
+    button_box_adc_init();
 
 }
 

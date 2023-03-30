@@ -30,7 +30,7 @@ if (TARGET tinyusb_device)
     pico_add_extra_outputs(USB_Button_Box)
 
     # Add pico_stdlib library which aggregates commonly used features
-    target_link_libraries(USB_Button_Box pico_stdlib hardware_pwm ) #tinyusb_device tinyusb_board tinyusb_host tinyusb_hid
+    target_link_libraries(USB_Button_Box pico_stdlib hardware_pwm hardware_adc ) #tinyusb_device tinyusb_board tinyusb_host tinyusb_hid
 
 elseif(PICO_ON_DEVICE)
     message(WARNING "not building USB_Button_Box because TinyUSB submodule is not initialized in the SDK")
