@@ -14,83 +14,91 @@
 #define LED_PIN 13
 #define BTN_PIN 10
 
+#define DEBOUNCE_DELAY_US 10000 // 10ms debounce delay
 
-//variables
-volatile bool button_pressed = false;
-volatile bool prev_button  = false;
 
-void set_led_color(uint16_t hex_color) {
-    uint8_t r = (hex_color >> 8) & 0xFF; // Extract red component
-    uint8_t g = hex_color & 0xFF; // Extract green component
-    uint8_t b = (hex_color >> 16) & 0xFF; // Extract blue component
+// Helper function to set the RGB color using PWM
+void set_rgb_color(uint8_t red, uint8_t green, uint8_t blue) {
+    pwm_set_gpio_level(RED_LED, red);
+    pwm_set_gpio_level(GREEN_LED, green);
+    pwm_set_gpio_level(BLUE_LED, blue);
 
-    pwm_set_chan_level(pwm_gpio_to_slice_num(GREEN_LED), PWM_CHAN_A, g);
-    pwm_set_chan_level(pwm_gpio_to_slice_num(RED_LED), PWM_CHAN_A, r);
-    pwm_set_chan_level(pwm_gpio_to_slice_num(BLUE_LED), PWM_CHAN_A, b);
+}
+
+// Helper function to decompile hex color code into RGB components
+void hex_to_rgb(uint32_t hex_code, uint8_t *red, uint8_t *green, uint8_t *blue) {
+    *red = (hex_code >> 16) & 0xFF;
+    *green = (hex_code >> 8) & 0xFF;
+    *blue = hex_code & 0xFF;
 }
 
 
-// code that runs when button is pressed 
-void set_button_pressed() {
+// debouncing technique and make sure the button only gets pressed once
+bool is_button_pressed() {
+    static bool last_button_state = true;
+    static uint32_t last_press_time = 0;
+    bool current_button_state = gpio_get(BTN_PIN) == 0;
+    uint32_t current_time = to_us_since_boot(get_absolute_time());
 
-    button_pressed = true;
-}
-
-// code that runs when button is released
-void unset_button_pressed() {
-
-    button_pressed = false;
-    prev_button = false; 
-}
-
-
-void button_irq_handler(uint gpio, uint32_t events) {
-    if (gpio == BTN_PIN) {
-        if (events & GPIO_IRQ_EDGE_FALL) {
-            set_button_pressed();
-        }
-        if (events & GPIO_IRQ_EDGE_RISE) {
-            unset_button_pressed();
-        }
+    if (current_button_state && !last_button_state && current_time - last_press_time > DEBOUNCE_DELAY_US) {
+        last_press_time = current_time;
+        last_button_state = current_button_state;
+        return true;
     }
+    
+    last_button_state = current_button_state;
+    return false;
 }
 
 void button_box_gpio_init(){
 
+    // Set up the GPIO pins for the LEDs
+    gpio_init(GREEN_LED);
+    gpio_set_function(GREEN_LED, GPIO_FUNC_PWM);
+    gpio_set_dir(GREEN_LED, GPIO_OUT);
+    
+    gpio_init(RED_LED);
+    gpio_set_function(RED_LED, GPIO_FUNC_PWM);
+    gpio_set_dir(RED_LED, GPIO_OUT);
+    
+    gpio_init(BLUE_LED);
+    gpio_set_function(BLUE_LED, GPIO_FUNC_PWM);
+    gpio_set_dir(BLUE_LED, GPIO_OUT);
+
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
+
     gpio_init(BTN_PIN);
     gpio_set_dir(BTN_PIN, GPIO_IN);
+    gpio_pull_up(BTN_PIN); 
+
     // Enable GPIO interrupt for BTN_PIN
-    gpio_set_irq_enabled_with_callback(BTN_PIN, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true, &button_irq_handler);
+    // gpio_set_irq_enabled_with_callback(BTN_PIN, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true, &button_irq_handler);
 
 }
 
 void button_box_pwm_init(){
-
-    pwm_config config = pwm_get_default_config();
-
-    // Tell led gpio pins they are used by the pwm module 
+    // Set up PWM for RGB LEDs
     gpio_set_function(RED_LED, GPIO_FUNC_PWM);
     gpio_set_function(GREEN_LED, GPIO_FUNC_PWM);
     gpio_set_function(BLUE_LED, GPIO_FUNC_PWM);
 
-    // Find out which PWM slice is connected to the led pins
-    uint red_slice = pwm_gpio_to_slice_num(RED_LED);
-    uint green_slice = pwm_gpio_to_slice_num(GREEN_LED);
-    uint blue_slice = pwm_gpio_to_slice_num(BLUE_LED);
+    uint r_slice = pwm_gpio_to_slice_num(RED_LED);
+    uint g_slice = pwm_gpio_to_slice_num(GREEN_LED);
+    uint b_slice = pwm_gpio_to_slice_num(BLUE_LED);
 
-    pwm_init(red_slice, &config, true);
-    pwm_init(green_slice, &config, true);
-    pwm_init(blue_slice, &config, true);
+    pwm_config config = pwm_get_default_config();
 
-    pwm_set_wrap(pwm_gpio_to_slice_num(GREEN_LED), 255);
-    pwm_set_wrap(pwm_gpio_to_slice_num(RED_LED), 255);
-    pwm_set_wrap(pwm_gpio_to_slice_num(BLUE_LED), 255);
+    pwm_config_set_clkdiv(&config, 4.f);
 
-    pwm_set_enabled(pwm_gpio_to_slice_num(GREEN_LED), true);
-    pwm_set_enabled(pwm_gpio_to_slice_num(RED_LED), true);
-    pwm_set_enabled(pwm_gpio_to_slice_num(BLUE_LED), true);
+    // pwm_set_wrap(r_slice, 3);
+    // pwm_set_wrap(g_slice, 3);
+    // pwm_set_wrap(b_slice, 3);
+    //pwm_set_chan_lvel(r_slice, PWM_CHAN_A, 1);
+
+    pwm_init(r_slice, &config, true);
+    pwm_init(g_slice, &config, true);
+    pwm_init(b_slice, &config, true);
 
 }
 
