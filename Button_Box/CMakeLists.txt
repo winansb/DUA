@@ -1,3 +1,6 @@
+set(FAMILY rp2040)
+set(BOARD pico_sdk)
+set(TINYUSB_FAMILY_PROJECT_NAME_PREFIX "tinyusb_dev")
 cmake_minimum_required(VERSION 3.13)
 
 # initialize the SDK based on PICO_SDK_PATH
@@ -15,23 +18,33 @@ pico_sdk_init()
 
 # Project added below
 
-if (TARGET tinyusb_device)
-    add_executable( USB_Button_Box
-            src/main.c
-            )
+# Add your source files here
+add_executable( USB_Button_Box
+    src/main.c
+    src/main.h
+)
 
-    # enable the usb system
-    pico_enable_stdio_usb( USB_Button_Box 1)
+# enable the usb system
+pico_enable_stdio_usb( USB_Button_Box 1)
 
-    # disable the UART system
-    pico_enable_stdio_uart( USB_Button_Box 0)
 
-    # create UF2 file as the output. Drag and drop the resultant USB_Button_Box.uf2 file onto the mounted board
-    pico_add_extra_outputs(USB_Button_Box)
+# uncomment the following to work on tinyUSB implementation
 
-    # Add pico_stdlib library which aggregates commonly used features
-    target_link_libraries(USB_Button_Box pico_stdlib hardware_pwm hardware_adc ) #tinyusb_device tinyusb_board tinyusb_host tinyusb_hid
+# target_sources( USB_Button_Box PRIVATE
+#     src/usb_descriptors.c
+# )
 
-elseif(PICO_ON_DEVICE)
-    message(WARNING "not building USB_Button_Box because TinyUSB submodule is not initialized in the SDK")
-endif()
+# Add pico_stdlib library which aggregates commonly used features
+target_link_libraries(USB_Button_Box 
+    pico_stdlib 
+    hardware_pwm 
+    hardware_adc
+      ) 
+
+# create UF2 file as the output. Drag and drop the resultant USB_Button_Box.uf2 file onto the mounted board
+pico_add_extra_outputs(USB_Button_Box)
+
+
+
+      #Add the below pieces to the above statement to compile tinyUSB work
+      #tinyusb_device tinyusb_board tinyusb_host tinyusb_hid
