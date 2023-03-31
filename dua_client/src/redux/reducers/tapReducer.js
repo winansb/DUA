@@ -5,7 +5,7 @@ import {
     GET_TAP_REQUEST, 
     GET_TAP_SUCCESS,
     GET_TAP_FAILURE 
-} from "../../actions/tapAction";
+} from "../actions/tapActions";
 
 const initialState = {
   tap: null,

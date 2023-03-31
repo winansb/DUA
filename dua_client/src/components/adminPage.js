@@ -10,6 +10,10 @@ import StartTrialButton from "./hooks/StartTrialButton";
 
 import Modal from "./hooks/Modal.js";
 
+import { connect } from 'react-redux';
+import { getAllParticipants } from '../redux/actions/participantActions';
+
+
 const axiosHandler = require("../components/hooks/AxiosHandler.js");
 
 export default function AdminPage() {

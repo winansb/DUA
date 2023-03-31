@@ -7,6 +7,7 @@ export const API_ROUTES = {
     UPDATE_BREAKDOWN_COMPLETE: (uid) => `${BASE_URL}/participants/${uid}/breakdownComplete`,
     UPDATE_TEST_IN_PROGRESS: (uid) => `${BASE_URL}/participants/${uid}/testInProgress`,
     GET_PARTICIPANT: (uid) => `${BASE_URL}/participants/${uid}`,
+    GET_ALL_PARTICIPANTS: `${BASE_URL}/participants`,
   
     // Screen routes
     CREATE_SCREEN: `${BASE_URL}/screens`,

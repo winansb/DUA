@@ -30,8 +30,6 @@ const App = () =>
 				<Route path="/dev" element={<Dev />}/>
 
 				<Route path="/storage" element={<StorageTestPage/> }/>
-
-
 			</Routes>
 		</div>
 	);

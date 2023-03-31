@@ -3,10 +3,10 @@ import {useLocation} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/styles.css";
 
-import DETOUR_START from "../Videos/Detour_Construction.mp4"
-import DETOUR_HOME from "../Videos/Detour_Home.mp4"
-import DETOUR_W_HOUSE from "../Videos/Detour_Waffle_House.mp4"
-import DETOUR_WALGREENS from "../Videos/Detour_Walgreen.mp4"
+import DETOUR_START from "../assets/Detour_Construction.mp4"
+import DETOUR_HOME from "../assets/Detour_Home.mp4"
+import DETOUR_W_HOUSE from "../assets/Detour_Waffle_House.mp4"
+import DETOUR_WALGREENS from "../assets/Detour_Walgreen.mp4"
 
 import VideoComponent from "./hooks/VideoComponent.js"
 

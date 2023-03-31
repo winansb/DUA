@@ -3,7 +3,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/styles.css"; 
 import VideoPopOut from "./hooks/VideoPopOut";
-import Detour_start from "../Videos/Detour_Construction.mp4";
+import Detour_start from "../assets/Detour_Construction.mp4";
 
 export default function PlaceHolderPage () {
 	return(

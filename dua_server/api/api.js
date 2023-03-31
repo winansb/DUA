@@ -19,6 +19,9 @@ router.put('/participants/:uid/breakdownComplete', participantController.updateB
 router.put('/participants/:uid/testInProgress', participantController.updateTestInProgress);
 // Retrieve a participant entry by UID
 router.get('/participants/:uid', participantController.getParticipant);
+// Retrieve all participants as an array of JSON objects
+router.get('/participants', participantController.getAllParticipants);
+
 
 /*-----------------------------------------------*/
 

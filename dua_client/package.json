@@ -8,6 +8,7 @@
     "os": false
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -18,9 +19,11 @@
     "react-bootstrap": "^2.7.1",
     "react-dom": "^18.2.0",
     "react-native-sqlite-storage": "^6.0.1",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "reactjs-popup": "^2.0.5",
+    "redux": "^4.2.1",
     "video-react": "^0.16.0",
     "web-vitals": "^2.1.4",
     "ws": "^8.12.1"

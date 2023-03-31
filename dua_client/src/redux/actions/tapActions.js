@@ -1,4 +1,4 @@
-import { tapController } from "../controllers/tapController";
+import { tapController } from "../../controllers/tapController";
 
 export const CREATE_TAP_REQUEST = "CREATE_TAP_REQUEST";
 export const CREATE_TAP_SUCCESS = "CREATE_TAP_SUCCESS";

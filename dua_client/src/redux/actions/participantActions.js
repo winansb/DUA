@@ -11,6 +11,8 @@ export const UPDATE_TEST_IN_PROGRESS_SUCCESS = 'UPDATE_TEST_IN_PROGRESS_SUCCESS'
 export const UPDATE_TEST_IN_PROGRESS_FAILURE = 'UPDATE_TEST_IN_PROGRESS_FAILURE';
 export const GET_PARTICIPANT_SUCCESS = 'GET_PARTICIPANT_SUCCESS';
 export const GET_PARTICIPANT_FAILURE = 'GET_PARTICIPANT_FAILURE';
+export const GET_ALL_PARTICIPANTS_SUCCESS = 'GET_ALL_PARTICIPANTS_SUCCESS';
+export const GET_ALL_PARTICIPANTS_FAILURE = 'GET_ALL_PARTICIPANTS_FAILURE';
 
 // Action creators
 export const createParticipant = (participantData) => async (dispatch) => {
@@ -83,6 +85,21 @@ export const getParticipant = (uid) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_PARTICIPANT_FAILURE,
+      error,
+    });
+  }
+};
+
+export const getAllParticipants = () => async (dispatch) => {
+  try {
+    const participants = await participantController.getAllParticipants();
+    dispatch({
+      type: GET_ALL_PARTICIPANTS_SUCCESS,
+      payload: participants,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_PARTICIPANTS_FAILURE,
       error,
     });
   }

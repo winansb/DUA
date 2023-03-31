@@ -9,7 +9,9 @@ import {
     UPDATE_TEST_IN_PROGRESS_FAILURE,
     GET_PARTICIPANT_SUCCESS,
     GET_PARTICIPANT_FAILURE,
-  } from '../../actions/participantActions';
+    GET_ALL_PARTICIPANTS_SUCCESS,
+    GET_ALL_PARTICIPANTS_FAILURE,
+  } from '../actions/participantActions';
   
   const initialState = {
     participant: null,
@@ -20,6 +22,7 @@ import {
     testInProgress: false,
     createParticipantSuccess: false,
     createParticipantError: null,
+    participants: [],
   };
   
   const participantReducer = (state = initialState, action) => {
@@ -49,7 +52,19 @@ import {
       case GET_PARTICIPANT_FAILURE:
         console.error(`participant error for ${action.error.uid}:`, action.error);
         return state;
-      default:
+      case GET_ALL_PARTICIPANTS_SUCCESS:
+        return {
+          ...state,
+          participants: action.payload,
+          error: null,
+        };
+        case GET_ALL_PARTICIPANTS_FAILURE:
+        return {
+          ...state,
+          participants: [],
+          error: action.error,
+        };
+        default:
         return state;
     }
   };

@@ -1,18 +1,18 @@
 const Sequelize = require('sequelize');
-const tapModel = require('./models/Tap');
-const screenModel = require('./models/Screen');
-const testModel = require('./models/Test');
-const participantModel = require('./models/Participant')
+const tapModel = require('../api/models/Tap');
+const screenModel = require('../api/models/Screen');
+const testModel = require('../api/models/Test');
+const participantModel = require('../api/models/Participant');
 
 // get Sequelize instance
 const db = require('../config/database');
   
   
   // Define models
-  const Tap = tapModel( db, Sequelize );
-  const Screen = screenModel( db, Sequelize );
-  const Test = testModel( db, Sequelize );
-  const Participant = participantModel( db, Sequelize ); 
+  const Tap = new tapModel( db, Sequelize );
+  const Screen = new screenModel( db, Sequelize );
+  const Test = new testModel( db, Sequelize );
+  const Participant = new participantModel( db, Sequelize ); 
   
   // Define database initialization function
   const initializeDatabase = async () => {

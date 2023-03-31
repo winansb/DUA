@@ -21,7 +21,8 @@ const { initializeDatabase } = require('./db/initializer');
 
 const app = express();
 const server = http.createServer(app);
-const  wss = new WebSocket.server({ server });
+
+// const  wss = new WebSocket.server({ server });
 
 const PORT = process.env.POR || 8000; 
 

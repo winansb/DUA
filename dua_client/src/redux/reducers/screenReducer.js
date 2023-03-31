@@ -5,7 +5,7 @@ import {
     FINISH_SCREEN_FAILURE,
     GET_SCREEN_SUCCESS,
     GET_SCREEN_FAILURE
-  } from "../../actions/screenAction";
+  } from "../actions/screenActions";
   
   const initialState = {
     screen: null,

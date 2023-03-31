@@ -14,7 +14,7 @@ import {
     GET_TEST_REQUEST,
     GET_TEST_SUCCESS,
     GET_TEST_FAILURE,
-  } from "../../actions/testActions";
+  } from "../actions/testActions";
   
   const initialState = {
     isCreatingTest: false,

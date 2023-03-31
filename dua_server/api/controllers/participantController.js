@@ -89,18 +89,28 @@ const participantController = {
         const { uid } = req.params;
 
         try {
-        const participant = await Participant.findByPk(uid);
+            const participant = await Participant.findByPk(uid);
 
         if (!participant) {
             return res.status(404).send({ error: 'ParticipantController - getParticipantById: Participant not found' });
         }
 
-        return res.send(participant.toJSON());
+            return res.send(participant.toJSON());
         } catch (error) {
-        console.error(error);
-        return res.status(500).send({ error: 'Error in participantController - getParticipantById' });
+            console.error(error);
+            return res.status(500).send({ error: 'Error in participantController - getParticipantById' });
         }
     },
+    // Method to retrieve all participants as an array of JSON objects
+    getAllParticipants: async (req, res) => {
+        try {
+            const participants = await Participant.findAll();
+            return res.send(participants.map(participant => participant.toJSON()));
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send({ error: 'Error in participantController - getAllParticipants' });
+        }
+    }
 };
 
 module.exports = participantController; 
