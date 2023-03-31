@@ -2,23 +2,16 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
-const mainContainer = document.getElementById('root');
+const mainContainer = document.getElementById("root");
 const root = createRoot(mainContainer);
 
-// BrowserRouter forces reactivity for page, only 
-// loads loads/reloads things that change, not entire page
-/* ReactDOM.render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<App />
-		</BrowserRouter>
-	</React.StrictMode>,
-	document.getElementById("root")
-); */
-
 root.render(
-	<BrowserRouter>
-		<App />
-	</BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
