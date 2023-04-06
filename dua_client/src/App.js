@@ -1,35 +1,21 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import WelcomePage from "./components/welcomePage";
-import WaitingPage from "./components/trialLandingPage";
-import TestSetupPage from "./components/trialSetup";
-import PlaceHolderPage from "./components/placeHolderPage";
-import AdminPage from "./components/adminPage";
-import TestVideoDisplay from "./components/TestDisplay";
-import Agent from "./components/Agent";
-import Dev from "./components/Development"
 
-
-// Delete later, just for testing
-import StorageTestPage from "./components/storageTest";
+import HomePage from "./views/HomePage";
+import TrialSetup from "./views/TrialSetup";
+import ExportPage from "./views/ExportToCSV";
+import DeviceGUIPage from "./views/ButtonBoxGUI";
 
 const App = () => 
 {
 	return (
 		<div>
 			<Routes>
-				<Route exact path="/" element={<WelcomePage />} />
-				<Route path="/waiting" element={<WaitingPage />} />
-				<Route path="/placeHolder" element={<PlaceHolderPage />} />
-				<Route path="/testingSetup" element={<AdminPage/>} />
+				<Route exact path="/" element={<HomePage />} />
+				<Route path="/trial-setup" element={<TrialSetup />} />
+				<Route path="/export-csv" element={<ExportPage />} />
+				<Route path="/device-gui" element={<DeviceGUIPage />} />
 
-
-				<Route path="/TestVideoDisplay" element={<TestVideoDisplay/>} />
-				<Route path="/agent" element={<Agent/>}/>
-
-				<Route path="/dev" element={<Dev />}/>
-
-				<Route path="/storage" element={<StorageTestPage/> }/>
 			</Routes>
 		</div>
 	);

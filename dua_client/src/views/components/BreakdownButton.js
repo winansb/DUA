@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
-import { updateBreakdown } from '../redux/actions/participantActions';
+import { useDispatch } from 'react-redux';
+import { updateBreakdownComplete } from '../../redux/actions/participantActions'; // import the updateBreakdownComplete action
 
 function BreakdownButton(props) {
-  const { participant, updateBreakdown } = props;
+  const { participant } = props;
+  const dispatch = useDispatch(); // get the dispatch function
 
   let buttonText = '';
   let buttonClassName = '';
@@ -17,7 +19,7 @@ function BreakdownButton(props) {
 
   const handleBreakdownClick = () => {
     if (buttonText === 'Incomplete') {
-      updateBreakdown(participant.UID);
+      dispatch(updateBreakdownComplete(participant.UID)); // call the updateBreakdownComplete action with the participant UID
     }
   };
 
@@ -28,8 +30,4 @@ function BreakdownButton(props) {
   );
 }
 
-const mapDispatchToProps = {
-  updateBreakdown,
-};
-
-export default connect(null, mapDispatchToProps)(BreakdownButton);
+export default connect(null)(BreakdownButton); // remove the mapDispatchToProps function since we're not using it anymore

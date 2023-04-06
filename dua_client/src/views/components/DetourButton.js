@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
-import { updateDetour } from '../redux/actions/participantActions';
+import { updateDetourComplete } from '../../redux/actions/participantActions';
 
 function DetourButton(props) {
-  const { participant, updateDetour } = props;
+  const { participant, updateDetourComplete } = props;
 
   let buttonText = '';
   let buttonClassName = '';
 
   if (!participant.DETOUR_COMPLETE) {
     buttonText = 'Incomplete';
-  } else if (participant.DETOUR_IN_PROGRESS !== 0 && participant.DETOUR_COMPLETE ) {
+  } else if (participant.DETOUR_IN_PROGRESS !== 0 && participant.DETOUR_COMPLETE) {
     buttonText = 'In-progress';
   } else {
     buttonText = 'Complete';
@@ -17,7 +17,7 @@ function DetourButton(props) {
 
   const handleDetourClick = () => {
     if (buttonText === 'Incomplete') {
-      updateDetour(participant.UID);
+      updateDetourComplete(participant.UID);
     }
   };
 
@@ -29,7 +29,7 @@ function DetourButton(props) {
 }
 
 const mapDispatchToProps = {
-  updateDetour,
+  updateDetourComplete,
 };
 
 export default connect(null, mapDispatchToProps)(DetourButton);

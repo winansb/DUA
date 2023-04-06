@@ -46,4 +46,12 @@ export const participantController = {
             console.error('participantController - getParticipant: Error getting participant', error);
         }
     },
+    getAllParticipants: async () => {
+        try {
+            const response = await axios.get(API_ROUTES.GET_ALL_PARTICIPANTS);
+            return response.data;
+        } catch (error) {
+            console.error('participantController - getAllParticipants: Error getting all participants', error);
+        }
+    }
 };
