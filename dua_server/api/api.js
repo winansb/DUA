@@ -10,17 +10,19 @@ const testController = require('./controllers/testController');
 /*----------     Participant routes     ----------*/
 
 // Create a new participant 
-router.post('/participants', participantController.createParticipant);
+router.post('/participant', participantController.createParticipant);
 // Update DETOUR_COMPLETE
-router.put('/participants/:uid/detourComplete', participantController.updateDetourComplete);
+router.put('/participant/:uid/detourComplete', participantController.updateDetourComplete);
 // Update BREAKDOWN_COMPLETE
-router.put('/participants/:uid/breakdownComplete', participantController.updateBreakdownComplete);
-// Update TEST_IN_PROGRESS
-router.put('/participants/:uid/testInProgress', participantController.updateTestInProgress);
+router.put('/participant/:uid/breakdownComplete', participantController.updateBreakdownComplete);
+// Update DETOUR_IN_PROGRESS
+router.put('/participant/:uid/detourInProgress', participantController.updateDetourInProgress);
+// Update BREAKDOWN_IN_PROGRESS
+router.put('/participant/:uid/breakdownInProgress', participantController.updateBreakdownInProgress);
 // Retrieve a participant entry by UID
-router.get('/participants/:uid', participantController.getParticipant);
+router.get('/participant/:uid', participantController.getParticipant);
 // Retrieve all participants as an array of JSON objects
-router.get('/participants', participantController.getAllParticipants);
+router.get('/participant', participantController.getAllParticipants);
 
 
 /*-----------------------------------------------*/
@@ -28,11 +30,11 @@ router.get('/participants', participantController.getAllParticipants);
 /*----------     Screen routes     ----------*/
 
 // Creating a new screen
-router.post('/screens', screenController.createScreen);
+router.post('/screen', screenController.createScreen);
 // Finishing a screen upon exit
-router.put('/screens/:uid', screenController.finishScreen);
+router.put('/screen/:uid', screenController.finishScreen);
 // Getting a specific screen
-router.get('/screens/:uid', screenController.getScreen);
+router.get('/screen/:uid', screenController.getScreen);
 
 /*-----------------------------------------------*/
 

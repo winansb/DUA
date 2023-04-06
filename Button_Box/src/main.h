@@ -9,6 +9,8 @@
 #include "bsp/board.h"
 #include "tusb.h"
 
+#include "communication.h"
+
 
 //defines
 #define GREEN_LED 7

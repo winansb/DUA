@@ -19,11 +19,15 @@ const Participant = db.define('Participant', {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    TEST_IN_PROGRESS:{
-        type: DataTypes.STRING, 
-        allowNull: false 
+    DETOUR_IN_PROGRESS:{
+      type: DataTypes.INTEGER, 
+      allowNull: false 
+    },
+    BREAKDOWN_IN_PROGRESS:{
+      type: DataTypes.INTEGER, 
+      allowNull: false 
     }
-  });
-
+});
+  
   module.exports = Participant;
   

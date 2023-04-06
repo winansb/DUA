@@ -8,10 +8,11 @@ const participantController = {
             const { PARTICIPANT_NAME } = req.body;
 
             const participant = await Participant.create({
-            PARTICIPANT_NAME,
-            DETOUR_COMPLETE: false,
-            BREAKDOWN_COMPLETE: false,
-            TEST_IN_PROGRESS: false,
+                PARTICIPANT_NAME,
+                DETOUR_COMPLETE: false,
+                BREAKDOWN_COMPLETE: false,
+                DETOUR_IN_PROGRESS: 0,
+                BREAKDOWN_IN_PROGRESS: 0,
             });
 
             res.status(201).json(participant);
@@ -21,66 +22,89 @@ const participantController = {
         }
     },
 
-    // Method to update DETOUR_COMPLETE
+        // Method to update DETOUR_COMPLETE
     updateDetourComplete: async (req, res) => {
         const { uid } = req.params;
 
         try {
-        const [updatedRowsCount, updatedRows] = await Participant.update(
-            { DETOUR_COMPLETE: true },
-            { where: { UID: uid }, returning: true }
-        );
+            const [updatedRowsCount, updatedRows] = await Participant.update(
+                { DETOUR_COMPLETE: true },
+                { where: { UID: uid }, returning: true }
+            );
 
-        if (updatedRowsCount === 0) {
-            return res.status(404).send({ error: 'ParticipantController - updateDetourComplete: Participant not found' });
-        }
+            if (updatedRowsCount === 0) {
+                return res.status(404).send({ error: 'ParticipantController - updateDetourComplete: Participant not found' });
+            }
 
-        return res.send(updatedRows[0].toJSON());
+            return res.send(updatedRows[0].toJSON());
         } catch (error) {
-        console.error(error);
-        return res.status(500).send({ error: 'Error in participantController - updateDetourComplete' });
-        }
-    },
+            console.error(error);
+            return res.status(500).send({ error: 'Error in participantController - updateDetourComplete' });
+            }
+        },
 
     // Method to update BREAKDOWN_COMPLETE
     updateBreakdownComplete: async (req, res) => {
         const { uid } = req.params;
 
         try {
-        const [updatedRowsCount, updatedRows] = await Participant.update(
-            { BREAKDOWN_COMPLETE: true },
-            { where: { UID: uid }, returning: true }
-        );
+            const [updatedRowsCount, updatedRows] = await Participant.update(
+                { BREAKDOWN_COMPLETE: true },
+                { where: { UID: uid }, returning: true }
+            );
 
-        if (updatedRowsCount === 0) {
-            return res.status(404).send({ error: 'ParticipantController - updateBreakdownComplete: Participant not found' });
-        }
+            if (updatedRowsCount === 0) {
+                return res.status(404).send({ error: 'ParticipantController - updateBreakdownComplete: Participant not found' });
+            }
 
-        return res.send(updatedRows[0].toJSON());
+            return res.send(updatedRows[0].toJSON());
         } catch (error) {
-        console.error(error);
-        return res.status(500).send({ error: 'Error in participantController - updateBreakdownComplete' });
+            console.error(error);
+            return res.status(500).send({ error: 'Error in participantController - updateBreakdownComplete' });
+            }
+        },
+
+    // Method to update BREAKDOWN_IN_PROGRESS
+    updateBreakdownInProgress: async (req, res) => {
+        const { uid } = req.params;
+        const { breakdownInProgress } = req.body;
+    
+        try {
+            const [updatedRowsCount, updatedRows] = await Participant.update(
+            { BREAKDOWN_IN_PROGRESS: breakdownInProgress },
+            { where: { UID: uid }, returning: true }
+            );
+    
+            if (updatedRowsCount === 0) {
+                return res.status(404).send({ error: 'ParticipantController - updateBreakdownInProgress: Participant not found' });
+            }
+    
+            return res.send(updatedRows[0].toJSON());
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send({ error: 'Error in participantController - updateBreakdownInProgress' });
         }
     },
-
-    // Method to update TEST_IN_PROGRESS
-    updateTestInProgress: async (req, res) => {
+    
+    // Method to update DETOUR_IN_PROGRESS
+    updateDetourInProgress: async (req, res) => {
         const { uid } = req.params;
-
+        const { detourInProgress } = req.body;
+    
         try {
-        const [updatedRowsCount, updatedRows] = await Participant.update(
-            { TEST_IN_PROGRESS: true },
+            const [updatedRowsCount, updatedRows] = await Participant.update(
+            { DETOUR_IN_PROGRESS: detourInProgress },
             { where: { UID: uid }, returning: true }
         );
-
+    
         if (updatedRowsCount === 0) {
-            return res.status(404).send({ error: 'ParticipantController - updateTestInProgress: Participant not found' });
+            return res.status(404).send({ error: 'ParticipantController - updateDetourInProgress: Participant not found' });
         }
-
-        return res.send(updatedRows[0].toJSON());
+    
+            return res.send(updatedRows[0].toJSON());
         } catch (error) {
-        console.error(error);
-        return res.status(500).send({ error: 'Error in participantController - updateTestInProgress' });
+            console.error(error);
+            return res.status(500).send({ error: 'Error in participantController - updateDetourInProgress' });
         }
     },
 

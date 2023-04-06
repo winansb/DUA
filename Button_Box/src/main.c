@@ -34,15 +34,24 @@ int main() {
 
     uint32_t hex_code = 0x00000000; 
 
-    const float conversion_factor = 3.3f / (1 << 12);
+    const float adc_conversion_factor = 3.3f / (1 << 12);
+
+    uint8_t cdc_buffer[CDC_BUFFER_SIZE];
 
     while (true) {
 
-        //tinyusb device task
-        //tud_task();
-
-        //led_blinking_task(); 
-        //hid_task();
+            // Check for incoming CDC data
+        int bytes_available = usb_cdc_rx_available();
+        if (bytes_available > 0) {
+        // Read CDC data into buffer
+        int bytes_read = usb_cdc_rx(cdc_buffer, bytes_available);
+        
+        // Parse hex code and set PWM levels for RGB LEDs
+        for (int i = 0; i < bytes_read; i += 2) {
+            uint8_t channel = cdc_buffer[i];
+            uint8_t pwm_value = cdc_buffer[i + 1];
+            set_pwm_level(channel, pwm_value);
+        }
 
         if (is_button_pressed()) {
             printf("Button pressed!\n");
@@ -52,7 +61,7 @@ int main() {
 
             uint16_t result = adc_read();
 
-            printf("Raw value: 0x%03x, voltage: %f V\n", result, result * conversion_factor);
+            printf("Raw value: 0x%03x, voltage: %f V\n", result, result * adc_conversion_factor);
 
             // the following cascades through red->green->blue from dim to bright to show functionality 
             for (int i = 0; i < 256; i++) {

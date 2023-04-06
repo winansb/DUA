@@ -5,7 +5,8 @@ export const API_ROUTES = {
     CREATE_PARTICIPANT: `${BASE_URL}/participants`,
     UPDATE_DETOUR_COMPLETE: (uid) => `${BASE_URL}/participants/${uid}/detourComplete`,
     UPDATE_BREAKDOWN_COMPLETE: (uid) => `${BASE_URL}/participants/${uid}/breakdownComplete`,
-    UPDATE_TEST_IN_PROGRESS: (uid) => `${BASE_URL}/participants/${uid}/testInProgress`,
+    UPDATE_DETOUR_IN_PROGRESS: (uid) => `${BASE_URL}/participants/${uid}/detourInProgress`,
+    UPDATE_BREAKDOWN_IN_PROGRESS: (uid) => `${BASE_URL}/participants/${uid}/breakdownInProgress`,
     GET_PARTICIPANT: (uid) => `${BASE_URL}/participants/${uid}`,
     GET_ALL_PARTICIPANTS: `${BASE_URL}/participants`,
   

@@ -26,9 +26,5 @@ dua_client/src/Videos/testVid3.mp4
 dua_server/db/test.db
 dua_server/db/test.db
 *.db
-dua_client/src/components/Videos
-dua_client/src/Videos/Detour_Construction.mp4
-dua_client/src/Videos/Detour_Home.mp4
-dua_client/src/Videos/Detour_Waffle_House.mp4
-dua_client/src/Videos/Detour_Walgreen.mp4
+
 *.mp4

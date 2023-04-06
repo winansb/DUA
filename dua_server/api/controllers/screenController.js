@@ -25,7 +25,7 @@ const screenController = {
             res.status(201).json(newScreen);
         } catch (err) {
             console.error(err);
-            res.status(500).json({ message: 'Error in screenController - createScreen: failed to make new screen' });
+            res.status(500).json({ error: 'Error in screenController - createScreen: failed to make new screen' });
         }
     },
 
