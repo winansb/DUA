@@ -30,7 +30,7 @@ import {
       case CREATE_PARTICIPANT_SUCCESS:
         return {
           ...state,
-          [action.payload.uid]: action.payload,
+          [action.payload.UID]: action.payload,
         };
       case CREATE_PARTICIPANT_FAILURE:
         console.error('createParticipant error:', action.error);
@@ -41,8 +41,8 @@ import {
       case GET_PARTICIPANT_SUCCESS:
         return {
           ...state,
-          [action.payload.uid]: {
-            ...state[action.payload.uid],
+          [action.payload.UID]: {
+            ...state[action.payload.UID],
             ...action.payload,
           },
         };
@@ -50,7 +50,7 @@ import {
       case UPDATE_BREAKDOWN_COMPLETE_FAILURE:
       case UPDATE_TEST_IN_PROGRESS_FAILURE:
       case GET_PARTICIPANT_FAILURE:
-        console.error(`participant error for ${action.error.uid}:`, action.error);
+        console.error(`participant error for ${action.error.UID}:`, action.error);
         return state;
       case GET_ALL_PARTICIPANTS_SUCCESS:
         return {

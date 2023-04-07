@@ -6,14 +6,25 @@ import screenReducer from './redux/reducers/screenReducer';
 import tapReducer from './redux/reducers/tapReducer';
 import testReducer from './redux/reducers/testReducer';
 
+import { getAllParticipants } from './redux/actions/participantActions';
+
+export async function loadData() {
+  const participants = await getAllParticipants();
+  store.dispatch({ type: 'LOAD_DATA', payload: { participants } });
+}
+
+const rootReducer = {
+  participant: participantReducer,
+  screen: screenReducer,
+  test: testReducer,
+  tap: tapReducer, 
+};
+
+const middleware = [thunkMiddleware];
+
 const store = configureStore({
-  reducer: {
-    participant: participantReducer,
-    screen: screenReducer,
-    test: testReducer,
-    tap: tapReducer, 
-  },
-  middleware: [thunkMiddleware],
+  reducer: rootReducer,
+  middleware,
 });
 
 export default store;
