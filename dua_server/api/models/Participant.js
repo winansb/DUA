@@ -26,6 +26,10 @@ const Participant = db.define('Participant', {
     BREAKDOWN_IN_PROGRESS:{
       type: DataTypes.INTEGER, 
       allowNull: false 
+    },
+    ONGOING_TEST:{
+      type: DataTypes.INTEGER, 
+      allowNull: false 
     }
 });
   

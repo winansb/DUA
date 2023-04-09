@@ -11,18 +11,14 @@ const testController = require('./controllers/testController');
 
 // Create a new participant 
 router.post('/participant', participantController.createParticipant);
-// Update DETOUR_COMPLETE
-router.put('/participant/:uid/detourComplete', participantController.updateDetourComplete);
-// Update BREAKDOWN_COMPLETE
-router.put('/participant/:uid/breakdownComplete', participantController.updateBreakdownComplete);
-// Update DETOUR_IN_PROGRESS
-router.put('/participant/:uid/detourInProgress', participantController.updateDetourInProgress);
-// Update BREAKDOWN_IN_PROGRESS
-router.put('/participant/:uid/breakdownInProgress', participantController.updateBreakdownInProgress);
+// Update a participant 
+router.put('/participant/:uid', participantController.updateParticipant);
 // Retrieve a participant entry by UID
 router.get('/participant/:uid', participantController.getParticipant);
 // Retrieve all participants as an array of JSON objects
 router.get('/participant', participantController.getAllParticipants);
+// Delete a participant entry by UID
+router.delete('/participant/:uid', participantController.deleteParticipant);
 
 
 /*-----------------------------------------------*/
@@ -53,10 +49,6 @@ router.get('/tap/:uid', tapController.getTap);
 router.post('/test', testController.createTest);
 // Updating entire test entry
 router.put('/test/:uid', testController.updateTest);
-// Updating test BREAKDOWN_TEST_ID
-router.put('/test/breakdown/:uid', testController.updateBreakdownTestId);
-// Updating test DETOUR_TEST_ID
-router.put('/test/detour/:uid', testController.updateDetourTestId);
 // Getting a specific test
 router.get('/test/:uid', testController.getTest);
 

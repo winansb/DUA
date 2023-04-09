@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ReturnButton from './components/ReturnButton';
 import ColorPicker from './components/ColorPicker';
 import KeyCodeGetter from './components/KeyCodeGetter';
+import chroma from 'chroma-js';
 
 class DeviceGUIPage extends React.Component {
   state = {
@@ -10,8 +11,21 @@ class DeviceGUIPage extends React.Component {
   };
 
   handleChangeComplete = (color) => {
-    this.setState({ chosenColor: color.hex });
+    this.setState({ chosenColor: color.hex }, () => {
+      document.body.style.backgroundColor = chroma(this.state.chosenColor).brighten(2).hex();
+    });
   };
+
+  componentDidMount() {
+    this.originalBgColor = document.body.style.backgroundColor;
+    document.body.style.backgroundColor = chroma(this.state.chosenColor).brighten(2).hex();
+    document.body.style.overflow = 'hidden';
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = this.originalBgColor;
+    document.body.style.overflow = 'shown';
+  }
 
   render() {
     return (
@@ -28,7 +42,7 @@ class DeviceGUIPage extends React.Component {
             <KeyCodeGetter secondaryColor={this.state.chosenColor} />
           </ButtonItem>
           <ButtonItem>
-          <FunctionButton chosenColor={this.state.chosenColor}>Send</FunctionButton>
+            <FunctionButton chosenColor={this.state.chosenColor}>Send</FunctionButton>
           </ButtonItem>
         </ButtonContainer>
         <BarContainer>
@@ -45,18 +59,20 @@ class DeviceGUIPage extends React.Component {
 export default DeviceGUIPage;
 
 const Container = styled.div`
-  background-color: #f7f3fc;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 43rem;
   padding: 2rem;
+  position: relative;
 `;
+
 
 const Title = styled.h1`
   font-size: 3.5rem;
   margin-bottom: 2rem;
+  margin-top: 0rem;
 `;
 
 const ButtonContainer = styled.div`

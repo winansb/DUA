@@ -2,30 +2,56 @@ const Test = require('../models/Test');
 
 const testController = {    
     //method to create new test
-    createTest : async (req, res) => {
+    createTest: async (req, res) => {
         try {
-            const { 
-            MCI, 
-            ORDER, 
-            BREAKDOWN_TEST_ID, 
-            DETOUR_TEST_ID, 
-            USE_PLAYBOOK 
-            } = req.body;
-
-            const test = await Test.create({
+          const {
+            MCI,
+            ORDER,
+            BREAKDOWN_TEST_ID,
+            DETOUR_TEST_ID,
+            USE_PLAYBOOK,
+            BREAKDOWN_OPTION_1,
+            BREAKDOWN_OPTION_2,
+            BREAKDOWN_OPTION_3,
+            DETOUR_OPTION_1,
+            DETOUR_OPTION_2,
+            DETOUR_OPTION_3,
+          } = req.body;
+      
+          // Check for required fields
+          if (MCI === undefined || 
+            ORDER === undefined || 
+            USE_PLAYBOOK === undefined ||
+            BREAKDOWN_OPTION_1 === undefined ||
+            BREAKDOWN_OPTION_2 === undefined ||
+            BREAKDOWN_OPTION_3 === undefined ||
+            DETOUR_OPTION_1 === undefined ||
+            DETOUR_OPTION_2 === undefined ||
+            DETOUR_OPTION_3 === undefined 
+            ) {
+            return res.status(400).json({ error: 'Error in testController - createTest: Required fields are missing' });
+          }
+      
+          const test = await Test.create({
             MCI,
             ORDER,
             BREAKDOWN_TEST_ID: BREAKDOWN_TEST_ID || null,
             DETOUR_TEST_ID: DETOUR_TEST_ID || null,
             USE_PLAYBOOK,
-            });
-
-            res.status(201).json(test);
+            BREAKDOWN_OPTION_1: BREAKDOWN_OPTION_1 || null,
+            BREAKDOWN_OPTION_2: BREAKDOWN_OPTION_2 || null,
+            BREAKDOWN_OPTION_3: BREAKDOWN_OPTION_3 || null,
+            DETOUR_OPTION_1: DETOUR_OPTION_1 || null,
+            DETOUR_OPTION_2: DETOUR_OPTION_2 || null,
+            DETOUR_OPTION_3: DETOUR_OPTION_3 || null,
+          });
+      
+          res.status(201).json(test);
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Error in testController - createTest' });
+          console.error(error);
+          res.status(500).json({ error: 'Error in testController - createTest' });
         }
-    },
+      },
     //method to udate all aspects of a test
     updateTest : async (req, res) => {
         const { uid } = req.params;
@@ -43,48 +69,6 @@ const testController = {
         } catch (error) {
             console.error(error);
             return res.status(500).send({ error: 'Error in testController - updateTest' });
-        }
-    },
-    //method to assign Breakdown_Test_ID to a test entry once started
-    updateBreakdownTestId: async (req, res) => {
-        const { uid } = req.params;
-        const { breakdownTestId } = req.body;
-
-        try {
-            const [updatedRowsCount, updatedRows] = await Test.update(
-            { BREAKDOWN_TEST_ID: breakdownTestId },
-            { where: { UID: uid }, returning: true }
-            );
-
-            if (updatedRowsCount === 0) {
-            return res.status(404).send({ error: 'TestController - updateBreakdownTestId: Test not found' });
-            }
-
-            return res.send(updatedRows[0].toJSON());
-        } catch (error) {
-            console.error(error);
-            return res.status(500).send({ error: 'Error in testController - updateBreakdownTestId' });
-        }
-    },
-    //method to assign Detour_Test_ID to a test entry once started
-    updateDetourTestId: async (req, res) => {
-        const { uid } = req.params;
-        const { detourTestId } = req.body;
-
-        try {
-            const [updatedRowsCount, updatedRows] = await Test.update(
-            { DETOUR_TEST_ID: detourTestId },
-            { where: { UID: uid }, returning: true }
-            );
-
-            if (updatedRowsCount === 0) {
-            return res.status(404).send({ error: 'testController - updateDetourTestId: Test not found' });
-            }
-
-            return res.send(updatedRows[0].toJSON());
-        } catch (error) {
-            console.error(error);
-            return res.status(500).send({ error: 'Error in TestController - updateDetourTestId' });
         }
     },
     //method to get test back based on UID

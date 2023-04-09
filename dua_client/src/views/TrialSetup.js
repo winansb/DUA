@@ -1,39 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ParticipantTable from "./components/ParticipantTable";
-import { createParticipant } from '../redux/actions/participantActions';
-import { useDispatch } from 'react-redux';
+import ReturnButton from './components/ReturnButton';
+import { useDispatch, useSelector } from 'react-redux';
+import ParticipantModal from './components/ParticipantModal';
+import { getAllParticipants } from '../redux/actions/participantActions';
 
 function TrialSetup() {
-  const [inputValue, setInputValue] = useState("");
+
+  const [showModal, setShowModal] = useState(false); 
+  const [participantsData, setParticipantsData] = useState([]); 
 
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createParticipant({ PARTICIPANT_NAME: inputValue }));
-    setInputValue("");
+  const handleOpenModal = () => {
+    setShowModal(true);
   };
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
-  
+  const participants = useSelector((state) => state.participant.participants);
+
+  useEffect(() => {
+    if (showModal === false) {
+      dispatch(getAllParticipants());
+    }
+  }, [dispatch, showModal]);
+
 
   return (
     <Container>
       <Title>Testing Setup</Title>
-      <Form onSubmit={handleSubmit}>
-        <TextInput
-          type="text" 
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="Enter participant name"
+      <Button onClick={handleOpenModal}>Add Participant</Button>
+      {showModal && (
+        <ParticipantModal
+          onClose={handleCloseModal}
         />
-        <Button type="submit">Add Participant</Button>
-      </Form>
+      )}
       <ParticipantTable />
+      <ReturnButtonWrapper>
+        <ReturnButton />
+      </ReturnButtonWrapper>
     </Container>
   );
 }
@@ -50,21 +59,6 @@ const Title = styled.h1`
   margin-bottom: 2rem;
 `;
 
-const Form = styled.form`
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-`;
-
-const TextInput = styled.input`
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: none;
-  margin-right: 1rem;
-  width: 300px;
-`;
-
 const Button = styled.button`
   background-color: #7c5295;
   color: #fff;
@@ -73,10 +67,17 @@ const Button = styled.button`
   font-size: 1.5rem;
   cursor: pointer;
   border: none;
+  margin-bottom: 1rem;
 
   &:hover {
     background-color: #a180b3;
   }
+`;
+
+const ReturnButtonWrapper = styled.div`
+  margin-top: 20px;
+  text-align: right;
+  width: 100%;
 `;
 
 export default TrialSetup;

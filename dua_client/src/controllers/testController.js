@@ -2,9 +2,9 @@ import axios from 'axios';
 import { API_ROUTES } from '../apiRoutes';
 
 export const testController = {
-    createTest: async () => {
+    createTest: async (testData) => {
         try {
-            const response = await axios.post(API_ROUTES.CREATE_TEST);
+            const response = await axios.post(API_ROUTES.CREATE_TEST, testData);
             return response.data;
         } catch (error) {
             console.error('testController - createTest : Error creating test:', error);
@@ -18,26 +18,6 @@ export const testController = {
             return response.data;
         } catch (error) {
             console.error(`testController - updateTest :Error updating test ${uid}:`, error);
-            throw error;
-        }
-    },
-
-    updateBreakdownTestId: async (uid, breakdownTestId) => {
-        try {
-            const response = await axios.put(API_ROUTES.UPDATE_BREAKDOWN_TEST_ID(uid), { breakdownTestId });
-            return response.data;
-        } catch (error) {
-            console.error(`testController - updateBreakdownTestId :Error updating breakdownTestId for test ${uid}:`, error);
-            throw error;
-        }
-    },
-
-    updateDetourTestId: async (uid, detourTestId) => {
-        try {
-            const response = await axios.put(API_ROUTES.UPDATE_DETOUR_TEST_ID(uid), { detourTestId });
-            return response.data;
-        } catch (error) {
-            console.error(`testController - updateDetourTestId :Error updating detourTestId for test ${uid}:`, error);
             throw error;
         }
     },

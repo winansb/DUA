@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
-  background-color: #4CAF50; /* Green */
-  border: none;
+  background-color: ${(props) => props.backgroundColor || '#4CAF50'}; /* Green */
+  border: ${(props) => props.border || 'none'};
   color: white;
   padding: 10px 20px;
   text-align: center;
@@ -12,23 +12,30 @@ const StyledButton = styled.button`
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+  border-radius: 12px;
 
   :hover {
-    background-color: #3e8e41;
+    background-color: ${(props) => props.hoverColor || '#3e8e41'};
   }
 
   :active {
-    background-color: #4CAF50;
+    background-color: ${(props) => props.activeColor || '#4CAF50'};
     transform: translateY(2px);
   }
 `;
 
 function FunctionButton(props) {
-  const { onClick, children } = props;
+  const { onClick, text, borderColor, backgroundColor, hoverColor, activeColor } = props;
 
   return (
-    <StyledButton onClick={onClick}>
-      {children}
+    <StyledButton
+      onClick={onClick}
+      border={borderColor}
+      backgroundColor={backgroundColor}
+      hoverColor={hoverColor}
+      activeColor={activeColor}
+    >
+      {text}
     </StyledButton>
   );
 }

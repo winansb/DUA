@@ -8,42 +8,27 @@ export const participantController = {
             return response.data;
         } catch (error) {
             console.error('participantController - createParticipant: Error creating Participant', error);
+            throw error;
         }
     },
 
-    updateDetourComplete: async (uid) => {
-        try {
-            const response = await axios.put(API_ROUTES.UPDATE_DETOUR_COMPLETE(uid));
-            return response.data;
-        } catch (error) {
-            console.error('participantController - updateDetourComplete: Error updating participants detour complete record', error);
-        }
-    },
-
-    updateBreakdownComplete: async (uid) => {
-        try {
-            const response = await axios.put(API_ROUTES.UPDATE_BREAKDOWN_COMPLETE(uid));
-            return response.data;
-        } catch (error) {
-            console.error('participantController - updateBreakdownComplete : Error updating participants breakdown complete record', error);
-        }
-    },
-
-    updateTestInProgress: async (uid) => {
-        try {
-            const response = await axios.put(API_ROUTES.UPDATE_TEST_IN_PROGRESS(uid));
-            return response.data;
-        } catch (error) {
-            console.error('participantController - updateTestInProgress: Error updating participants test in progress record', error);
-        }
-    },
-
+    updateParticipant: async (uid, updatedParticipant) => {
+      try {
+          const response = await axios.put(API_ROUTES.UPDATE_PARTICIPANT(uid), updatedParticipant);
+          return response.data;
+      } catch (error) {
+          console.error('participantController - updateParticipant: Error updating participant record', error);
+          throw error;
+      }
+      },
+    
     getParticipant: async (uid) => {
         try {
             const response = await axios.get(API_ROUTES.GET_PARTICIPANT(uid));
             return response.data;
         } catch (error) {
             console.error('participantController - getParticipant: Error getting participant', error);
+            throw error;
         }
     },
     getAllParticipants: async () => {
@@ -52,6 +37,16 @@ export const participantController = {
             return response.data;
         } catch (error) {
             console.error('participantController - getAllParticipants: Error getting all participants', error);
+            throw error;
         }
-    }
+    },
+    deleteParticipant: async (uid) => {
+        try {
+          const response = await axios.delete(API_ROUTES.DELETE_PARTICIPANT(uid));
+          return response.data;
+        } catch (error) {
+          console.error('participantController - deleteParticipant: Error deleting participant', error);
+          throw error;
+        }
+      },
 };

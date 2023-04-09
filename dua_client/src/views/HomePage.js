@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const HomePage = () => {
   return (
     <Container>
-      <Title>Welcome to DUA!</Title>
+      <Title>Welcome to DUA</Title>
       <Buttons>
         <NavButton text="Trial Setup" link="/trial-setup" />
         <NavButton text="Export to .csv" link="/export-csv" />
