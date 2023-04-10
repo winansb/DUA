@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { updateParticipant } from '../../redux/actions/participantActions';
+import { getParticipant, updateParticipant, getAllParticipants  } from '../../redux/actions/participantActions';
 import { updateTest, getTest } from '../../redux/actions/testActions';
 import { useDispatch } from 'react-redux';
 
-function ParticipantSubmitForm({ onClose, participant, column  }) {
+function ParticipantSubmitForm({ onClose, participant, column, onModalTransition  }) {
   const [participantName, setParticipantName] = useState(participant.PARTICIPANT_NAME);
   const [mci, setMci] = useState('');
   const [order, setOrder] = useState('');
@@ -40,15 +40,17 @@ function ParticipantSubmitForm({ onClose, participant, column  }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let updatedParticipant = null;
-    let updatedTest = null;
-
-    if (participantName !== participant.name) {
-      updatedParticipant = { ...participant, name: participantName };
-      // Call the API to update the participant
-    }
-
-    const newTestData = {
+  
+    // Fetch the original participant and test objects
+    const originalParticipant = await dispatch(getParticipant(participant.UID));
+    const { data: originalTest } = await dispatch(getTest(participant.ONGOING_TEST));
+  
+    // Create a new participant object with the form input values
+    const newParticipant = { ...originalParticipant, PARTICIPANT_NAME: participantName };
+  
+    // Create a new test object with the form input values
+    const newTest = {
+      ...originalTest,
       MCI: mci,
       ORDER: parseInt(order),
       USE_PLAYBOOK: usePlaybook,
@@ -56,18 +58,19 @@ function ParticipantSubmitForm({ onClose, participant, column  }) {
       [column === 0 ? 'DETOUR_OPTION_2' : 'BREAKDOWN_OPTION_2']: option2,
       [column === 0 ? 'DETOUR_OPTION_3' : 'BREAKDOWN_OPTION_3']: option3,
     };
-
-    if (JSON.stringify(newTestData) !== JSON.stringify(test)) {
-      updatedTest = { ...test, ...newTestData };
-      // Call the API to update the test
+  
+    // Compare the new participant object with the original one and update if needed
+    if (JSON.stringify(newParticipant) !== JSON.stringify(originalParticipant)) {
+      await dispatch(updateParticipant(participant.UID, newParticipant));
+      dispatch(getAllParticipants());
     }
-
-    if (updatedParticipant || updatedTest) {
-      // Call the API to update the participant and/or test
-      // If you are using Redux, dispatch an action here
+  
+    // Compare the new test object with the original one and update if needed
+    if (JSON.stringify(newTest) !== JSON.stringify(originalTest)) {
+      await dispatch(updateTest(participant.ONGOING_TEST, newTest));
     }
-
-    onClose();
+  
+    onModalTransition();
   };
 
   return (

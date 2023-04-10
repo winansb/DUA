@@ -54,18 +54,18 @@ const testController = {
       },
     //method to udate all aspects of a test
     updateTest : async (req, res) => {
-        const { uid } = req.params;
         try {
-            const [updatedRowsCount, updatedRows] = await Test.update(req.body, {
-            where: { UID: uid },
-            returning: true,
+          const uid = req.params.uid;
+          const updatedTest = req.body;
+            const result = await Test.update(updatedTest, {
+            where: { uid: uid },
             });
 
-            if (updatedRowsCount === 0) {
+            if (result[0] === 0) {
             return res.status(404).send({ error: 'TestController - updateTest: Test not found' });
             }
 
-            return res.send(updatedRows[0].toJSON());
+            return res.status(200).json({ message: 'testController - updateTest: Test updated successfully' });
         } catch (error) {
             console.error(error);
             return res.status(500).send({ error: 'Error in testController - updateTest' });

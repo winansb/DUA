@@ -37,10 +37,7 @@ const participantReducer = (state = initialState, action) => {
     case GET_PARTICIPANT_SUCCESS:
       return {
         ...state,
-        [action.payload.UID]: {
-          ...state[action.payload.UID],
-          ...action.payload,
-        },
+        participant: action.payload,
       };
     case UPDATE_PARTICIPANT_FAILURE:
     case GET_PARTICIPANT_FAILURE:

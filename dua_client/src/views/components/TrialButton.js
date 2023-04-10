@@ -4,6 +4,7 @@ import { getTest } from '../../redux/actions/testActions';
 import styled from 'styled-components';
 import GeneralModal from './GeneralModal';
 import ParticipantSubmitForm from './ParticipantSubmitForm';
+import ParticipantConfirmForm from './ParticipantConfirmForm';
 
 const StyledButton = styled.button`
     background-color: ${({ buttonState }) =>
@@ -53,6 +54,11 @@ const TrialButton = ({ participant, column }) => {
     fetchTest();
   }, [dispatch, participant.ONGOING_TEST]);
 
+  const handleModalTransition = () => {
+    setShowSubmitModal(false);
+    setShowConfirmModal(true);
+  };
+
   const determineButtonState = () => {
     if (!participant.DETOUR_COMPLETE && !participant.BREAKDOWN_COMPLETE && participant.DETOUR_IN_PROGRESS === 0 && participant.BREAKDOWN_IN_PROGRESS === 0) {
       return 'state1';
@@ -100,14 +106,16 @@ const TrialButton = ({ participant, column }) => {
 
       {showSubmitModal && (
         <GeneralModal
-          content={<ParticipantSubmitForm participant={participant} column={column} onClose={() => setShowSubmitModal(false)} />} 
-          onClose={() => setShowSubmitModal(false)}
+          content={<ParticipantSubmitForm participant={participant} column={column} onClose={() => setShowSubmitModal(false)} onModalTransition={handleModalTransition} />} 
+          onClose={() => {
+            setShowSubmitModal(false);
+          }}
         />
       )}
 
       {showConfirmModal && (
-        <GeneralModal // Replace ConfirmModal with GeneralModal
-          content={<ParticipantSubmitForm participant={participant} column={column} onClose={() => setShowConfirmModal(false)} />} 
+        <GeneralModal
+          content={<ParticipantConfirmForm participant={participant} column={column} onClose={() => setShowConfirmModal(false)} />} 
           onClose={() => setShowConfirmModal(false)}
         />
       )}

@@ -37,6 +37,8 @@ export const updateParticipant = (uid, updatedParticipant) => async (dispatch) =
       type: UPDATE_PARTICIPANT_SUCCESS,
       payload: updatedData,
     });
+
+    return updatedData; 
   } catch (error) {
     dispatch({
       type: UPDATE_PARTICIPANT_FAILURE,
@@ -46,19 +48,22 @@ export const updateParticipant = (uid, updatedParticipant) => async (dispatch) =
 };
 
 
-export const getParticipant = (uid) => async (dispatch) => {
-  try {
-    const participant = await participantController.getParticipant(uid);
-    dispatch({
-      type: GET_PARTICIPANT_SUCCESS,
-      payload: participant,
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_PARTICIPANT_FAILURE,
-      error,
-    });
-  }
+export const getParticipant = (uid) => {
+  return async (dispatch) =>{
+    try {
+      const data = await participantController.getParticipant(uid);
+      dispatch({
+        type: GET_PARTICIPANT_SUCCESS,
+        payload: data,
+      });
+      return data; 
+    } catch (error) {
+      dispatch({
+        type: GET_PARTICIPANT_FAILURE,
+        error,
+      });
+    }
+  };
 };
 
 export const getAllParticipants = () => async (dispatch) => {

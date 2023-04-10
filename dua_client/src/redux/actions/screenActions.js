@@ -14,6 +14,8 @@ export const createScreen = () => {
     try {
       const screen = await screenController.createScreen();
       dispatch({ type: CREATE_SCREEN_SUCCESS, payload: screen });
+
+      return screen; 
     } catch (error) {
       console.error('createScreen error:', error);
       dispatch({ type: CREATE_SCREEN_FAILURE, payload: error.message });
@@ -26,6 +28,8 @@ export const finishScreen = (uid) => {
     try {
       const screen = await screenController.finishScreen(uid);
       dispatch({ type: FINISH_SCREEN_SUCCESS, payload: screen });
+
+      return screen; 
     } catch (error) {
       console.error(`finishScreen error for ${uid}:`, error);
       dispatch({ type: FINISH_SCREEN_FAILURE, payload: error.message });
@@ -38,6 +42,8 @@ export const getScreen = (uid) => {
     try {
       const screen = await screenController.getScreen(uid);
       dispatch({ type: GET_SCREEN_SUCCESS, payload: screen });
+
+      return screen; 
     } catch (error) {
       console.error(`getScreen error for ${uid}:`, error);
       dispatch({ type: GET_SCREEN_FAILURE, payload: error.message });

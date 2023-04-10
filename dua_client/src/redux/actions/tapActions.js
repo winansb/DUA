@@ -16,6 +16,8 @@ export const createTap = (tapData) => {
         type: CREATE_TAP_SUCCESS,
         payload: tap,
       });
+
+      return tap; 
     } catch (error) {
       dispatch({
         type: CREATE_TAP_FAILURE,
@@ -34,6 +36,8 @@ export const getTap = (uid) => {
         type: GET_TAP_SUCCESS,
         payload: tap,
       });
+
+      return tap; 
     } catch (error) {
       dispatch({
         type: GET_TAP_FAILURE,
