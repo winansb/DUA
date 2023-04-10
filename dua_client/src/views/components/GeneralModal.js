@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ParticipantInputForm from './ParticipantInputForm';
 
-function ParticipantModal({  onClose }) {
-
+function GeneralModal({  content, onClose }) {
   return (
     <ModalOverlay>
       <Modal>
-        <ParticipantInputForm onClose={onClose}/>
+      {content && React.cloneElement(content, { onClose })}
       </Modal>
     </ModalOverlay>
   );
@@ -34,4 +33,4 @@ const Modal = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-export default ParticipantModal; 
+export default GeneralModal; 

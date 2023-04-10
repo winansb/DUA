@@ -73,8 +73,9 @@ const testController = {
     },
     //method to get test back based on UID
     getTest: async (req, res) => {
+      const { uid } = req.params;
         try {
-            const test = await Test.findByPk(req.params.id);
+            const test = await Test.findByPk(uid);
     
             if (!test) {
                 return res.status(404).json({

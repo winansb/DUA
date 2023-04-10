@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAllParticipants } from '../../redux/actions/participantActions';
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import DetourButton from './DetourButton';
-import BreakdownButton from './BreakdownButton';
+import TrialButton from './TrialButton';
 
 const StyledTable = styled.table`
   width: 100%;
@@ -59,8 +58,8 @@ export function ParticipantTable() {
               <td>{row.UID}</td>
               <td>{row.PARTICIPANT_NAME}</td>
               <td>{row.UID % 2 === 0 ? 'Detour' : 'Breakdown'}</td>
-              <td><DetourButton participant={row} /></td>
-              <td><BreakdownButton participant={row} /></td>
+              <td><TrialButton participant={row} column={0} /></td>
+              <td><TrialButton participant={row} column={1} /></td>
             </tr>
           ))}
         </tbody>

@@ -3,13 +3,13 @@ import styled from "styled-components";
 import ParticipantTable from "./components/ParticipantTable";
 import ReturnButton from './components/ReturnButton';
 import { useDispatch, useSelector } from 'react-redux';
-import ParticipantModal from './components/ParticipantModal';
+import ParticipantInputForm from "./components/ParticipantEditForm";
+import GeneralModal from "./components/GeneralModal"
 import { getAllParticipants } from '../redux/actions/participantActions';
 
 function TrialSetup() {
 
   const [showModal, setShowModal] = useState(false); 
-  const [participantsData, setParticipantsData] = useState([]); 
 
   const dispatch = useDispatch();
 
@@ -20,8 +20,6 @@ function TrialSetup() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
-  const participants = useSelector((state) => state.participant.participants);
 
   useEffect(() => {
     if (showModal === false) {
@@ -35,7 +33,8 @@ function TrialSetup() {
       <Title>Testing Setup</Title>
       <Button onClick={handleOpenModal}>Add Participant</Button>
       {showModal && (
-        <ParticipantModal
+        <GeneralModal
+          content={<ParticipantInputForm onClose={handleCloseModal} />}
           onClose={handleCloseModal}
         />
       )}

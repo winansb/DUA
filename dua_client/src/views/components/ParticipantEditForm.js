@@ -67,7 +67,7 @@ function ParticipantInputForm({ onClose }) {
         </Select>
       </Label>
       <Label>
-        Order:
+        ORDER:
         <Select value={order} onChange={(e) => setOrder(e.target.value)}>
           <option value="">Select...</option>
           <option value="0">0</option>
@@ -75,7 +75,7 @@ function ParticipantInputForm({ onClose }) {
         </Select>
       </Label>
       <Label>
-        Use Playbook:
+        USE_PLAYBOOK:
         <Select value={usePlaybook} onChange={(e) => setUsePlaybook(e.target.value)}>
           <option value="">Select...</option>
           <option value="yes">Yes</option>
