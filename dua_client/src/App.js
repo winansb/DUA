@@ -6,6 +6,7 @@ import TrialSetup from "./views/TrialSetup";
 import ExportPage from "./views/ExportToCSV";
 import DeviceGUIPage from "./views/ButtonBoxGUI";
 import TrialRun from "./views/TrialRun";
+import TrialVideo from './views/TrialVideo';
 
 const App = () => 
 {
@@ -17,6 +18,7 @@ const App = () =>
 				<Route path="/export-csv" element={<ExportPage />} />
 				<Route path="/device-gui" element={<DeviceGUIPage />} />
 				<Route path="/trial-run" element={<TrialRun />} />
+				<Route path="trial-video" element={<TrialVideo />} />
 
 			</Routes>
 		</div>

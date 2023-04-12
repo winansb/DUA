@@ -60,13 +60,22 @@ const TrialButton = ({ participant, column }) => {
   };
 
   const determineButtonState = () => {
-    if (!participant.DETOUR_COMPLETE && !participant.BREAKDOWN_COMPLETE && participant.DETOUR_IN_PROGRESS === 0 && participant.BREAKDOWN_IN_PROGRESS === 0) {
+    if (
+      (column === 0 && !participant.DETOUR_COMPLETE && participant.DETOUR_IN_PROGRESS === 0) ||
+      (column === 1 && !participant.BREAKDOWN_COMPLETE && participant.BREAKDOWN_IN_PROGRESS === 0)
+    ) {
       return 'state1';
     }
-    if (participant.DETOUR_COMPLETE || participant.BREAKDOWN_COMPLETE || participant.DETOUR_IN_PROGRESS !== 0 || participant.BREAKDOWN_IN_PROGRESS !== 0) {
+    if (
+      (column === 0 && (participant.DETOUR_COMPLETE || participant.DETOUR_IN_PROGRESS !== 0)) ||
+      (column === 1 && (participant.BREAKDOWN_COMPLETE || participant.BREAKDOWN_IN_PROGRESS !== 0))
+    ) {
       return 'state2';
     }
-    if (participant.DETOUR_COMPLETE && participant.BREAKDOWN_COMPLETE && participant.DETOUR_IN_PROGRESS === 0 && participant.BREAKDOWN_IN_PROGRESS === 0) {
+    if (
+      (column === 0 && participant.DETOUR_COMPLETE && participant.DETOUR_IN_PROGRESS === 0) ||
+      (column === 1 && participant.BREAKDOWN_COMPLETE && participant.BREAKDOWN_IN_PROGRESS === 0)
+    ) {
       return 'state3';
     }
   };

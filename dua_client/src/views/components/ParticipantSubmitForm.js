@@ -13,6 +13,9 @@ function ParticipantSubmitForm({ onClose, participant, column, onModalTransition
   const [option2, setOption2] = useState('');
   const [option3, setOption3] = useState('');
 
+  const [breakdownComplete, setBreakdownComplete] = useState(participant.BREAKDOWN_COMPLETE);
+  const [detourComplete, setDetourComplete] = useState(participant.DETOUR_COMPLETE);
+
   const dispatch = useDispatch(); 
 
   useEffect(() => {
@@ -35,6 +38,15 @@ function ParticipantSubmitForm({ onClose, participant, column, onModalTransition
   const handleCancel = (e) => {
     e.preventDefault();
     onClose();
+  };
+
+  const shouldFieldBeDisabled = (column) => {
+    if (column === 0) {
+      return breakdownComplete;
+    } else if (column === 1) {
+      return detourComplete;
+    }
+    return false;
   };
 
 
@@ -77,11 +89,11 @@ function ParticipantSubmitForm({ onClose, participant, column, onModalTransition
     <Form onSubmit={handleSubmit}>
       <Label>
         Participant Name:
-        <Input type="text" value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
+        <Input type="text" value={participantName} onChange={(e) => setParticipantName(e.target.value)} disabled={shouldFieldBeDisabled(column)} />
       </Label>
       <Label>
         MCI:
-        <Select value={mci} onChange={(e) => setMci(e.target.value)}>
+        <Select value={mci} onChange={(e) => setMci(e.target.value)} disabled={shouldFieldBeDisabled(column)} >
           <option value="">{mci}</option>
           <option value="yes">Yes</option>
           <option value="no">No</option>
@@ -89,7 +101,7 @@ function ParticipantSubmitForm({ onClose, participant, column, onModalTransition
       </Label>
       <Label>
         Order:
-        <Select value={order} onChange={(e) => setOrder(e.target.value)}>
+        <Select value={order} onChange={(e) => setOrder(e.target.value)} disabled={shouldFieldBeDisabled(column)} >          
           <option value="">{order}</option>
           <option value="0">0</option>
           <option value="1">1</option>
@@ -97,7 +109,7 @@ function ParticipantSubmitForm({ onClose, participant, column, onModalTransition
       </Label>
       <Label>
         Use Playbook:
-        <Select value={usePlaybook} onChange={(e) => setUsePlaybook(e.target.value)}>
+        <Select value={usePlaybook} onChange={(e) => setUsePlaybook(e.target.value)} disabled={shouldFieldBeDisabled(column)} >          
           <option value="">{usePlaybook}</option>
           <option value="yes">Yes</option>
           <option value="no">No</option>
@@ -158,6 +170,7 @@ const Input = styled.input`
   border: 1px solid #ccc;
   margin-top: 0.5rem;
   width: 100%;
+  ${({ disabled }) => disabled && 'background-color: #f0f0f0;'}
 `;
 
 const Select = styled.select`
@@ -167,6 +180,7 @@ const Select = styled.select`
   border: 1px solid #ccc;
   margin-top: 0.5rem;
   width: 100%;
+  ${({ disabled }) => disabled && 'background-color: #f0f0f0;'}
 `;
 
 const ButtonRow = styled.div`
