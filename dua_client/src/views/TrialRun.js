@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { updateParticipant } from '../redux/actions/participantActions';
-import { showVideo } from '../redux/actions/trialActions';
 import TrialWrapper from './TrialWrapper';
 
 const TrialRun = () => {
