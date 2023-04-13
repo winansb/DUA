@@ -40,6 +40,8 @@ router.get('/screen/:uid', screenController.getScreen);
 router.post('/tap', tapController.createTap);
 // Getting a tap 
 router.get('/tap/:uid', tapController.getTap);
+// Updating a tap
+router.put('/tap/:uid', screenController.finishScreen);
 
 /*-----------------------------------------------*/
 

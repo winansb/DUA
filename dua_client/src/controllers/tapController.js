@@ -21,4 +21,13 @@ export const tapController = {
             throw error;
         }
     },
+    updateTap: async (uid, tapData) => {
+        try {
+            const response = await axios.put(API_ROUTES.UPDATE_TAP(uid), tapData);
+            return response.data;
+        } catch (error) {
+            console.error(`tapController - updateTap: Error updating tap ${uid}:`, error);
+            throw error;
+        }
+    },
 }

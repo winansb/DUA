@@ -41,7 +41,15 @@ const Tap = db.define('Tap', {
     },
     ACTION_INITIATED: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
+    },
+    PRESS_LOCATION_X_PIXELS: {
+      type: DataTypes.INTEGER,
+      allowNull: false, 
+    },
+    PRESS_LOCATION_Y_PIXELS: {
+      type: DataTypes.INTEGER,
+      allowNull: false, 
     }
   });
   

@@ -8,6 +8,12 @@ import { getCurrentTime, getTimeLeft } from '../../hooks/TimeDisplay';
 
 export default function Detour0(props) {
 
+  const handleClick = () => {
+    const event = new CustomEvent("buttonClicked", { detail: "buttonFunction" });
+    window.dispatchEvent(event);
+    // Rest of the button click logic...
+  };
+
   const { getTimeLeft } = require(`../../hooks/TimeDisplay`); 
 
   const [currentTime, setCurrentTime] = useState(getCurrentTime()); 
@@ -25,7 +31,7 @@ export default function Detour0(props) {
   return (
     <div className={cn(css(styles.root), 'detour0')}>
       <h1 id="date1" className={css(styles.big_title1)}>{currentTime}</h1>
-
+      <button onClick={handleClick}>Click me</button>
       <div className={css(styles.group)}>
         <div className={css(styles.flexRow)}>
           <h1 id="destination1" className={css(styles.big_title11)}>{props.destination}</h1>

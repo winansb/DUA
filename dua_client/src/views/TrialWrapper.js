@@ -20,25 +20,27 @@ function TrialWrapper(props) {
     const { participant, column, test, videoWindow, targetOrigin } = props;
   
     return (
-      <Trial
-        participant={participant}
-        column={column}
-        test={test}
-        videoWindow={videoWindow}
-        targetOrigin={targetOrigin}
-      >
-        <Detour0 />
-        <Detour1 />
-        <Detour2 />
-        <Detour3 />
-        <Detour4 />
-        <Detour5 />
-        <Detour6 />
-        <Detour7 />
-        <Detour8 />
-        <Detour9 />
-        <Detour10 />
-      </Trial>
+        targetOrigin && (
+        <Trial
+            participant={participant}
+            column={column}
+            test={test}
+            videoWindow={videoWindow}
+            targetOrigin={targetOrigin}
+        >
+            <Detour0 />
+            <Detour1 />
+            <Detour2 />
+            <Detour3 />
+            <Detour4 />
+            <Detour5 />
+            <Detour6 />
+            <Detour7 />
+            <Detour8 />
+            <Detour9 />
+            <Detour10 />
+        </Trial>
+        )
     );
   }
   
