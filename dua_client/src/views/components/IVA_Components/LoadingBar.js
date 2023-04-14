@@ -25,9 +25,7 @@ const LoadingBarContainer = styled.div`
 `;
 
 const ProgressBar = styled.div`
-  grid-column: 2;
-
-  margin: 100px 0px 0px -40px;
+  margin: 85px 0px 0px -50px;
 
   background: linear-gradient(
     to right,
@@ -77,14 +75,16 @@ const TimeCounter = styled.div`
 const Time = styled.span`
   font-size: 48px;
   font-weight: bold;
-  color: #ffffff;
+  color: #00000;
+  transform: translateY(-10px);
+
 `;
 
 const MinLabel = styled.span`
   font-size: 26px;
   font-weight: normal;
-  color: #ffffff;
-  transform: translateY(-10px);
+  color: #00000;
+  transform: translateY(-30px);
 `;
 
 export default LoadingBar;

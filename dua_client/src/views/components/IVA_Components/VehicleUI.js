@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import LoadingBar from './LoadingBar';
+import DefaultDisplay from './DefaultDisplay'; 
 import VehicleDate from './VehicleDate';
 import ButtonColumn from './ButtonColumn';
 import tvPic from '../../../assets/EntertainmentApp.png';
@@ -21,6 +21,14 @@ const VehicleUI = () => {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   const buttonData = [
     { text: 'Pair Your Device', imgSrc: twoPhones },
     { text: 'Entertainment', imgSrc: tvPic },
@@ -33,13 +41,12 @@ const VehicleUI = () => {
       <TopLeft>
         <VehicleDate />
       </TopLeft>
-      <TopMiddle>
-        <LoadingBar progress={progress} />
-      </TopMiddle>
       <TopRight>
         <HelpButton>Help</HelpButton>
       </TopRight>
-      <LargeLeft />
+      <LargeLeft>
+        <DefaultDisplay progress={progress} />
+      </LargeLeft>
       <LargeRight>
         <ButtonColumn buttonData={buttonData} />
       </LargeRight>
@@ -60,10 +67,6 @@ const TopLeft = styled.div`
   grid-row: 1;
 `;
 
-const TopMiddle = styled.div`
-  grid-column: 2 / span 2;
-  grid-row: 1;
-`;
 
 const TopRight = styled.div`
   grid-column: 4;
@@ -114,8 +117,10 @@ const Box = styled.div`
 `;
 
 const LargeLeft = styled(Box)`
+  
   grid-column: 1 / span 3;
   grid-row: 1 / span 5;
+
   margin: 20px 35px 40px 20px;
   height: 80%;
   align-self: end;
@@ -128,5 +133,6 @@ const LargeRight = styled(Box)`
   margin: 20px 30px 40px 10px;
   align-self: end;
 `;
+
 
 export default VehicleUI;
