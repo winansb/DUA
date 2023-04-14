@@ -12,6 +12,8 @@ import Detour8 from "../components/Tests/Detour/Detour8";
 import Detour9 from "../components/Tests/Detour/Detour9";
 import Detour10 from "../components/Tests/Detour/Detour10";
 
+import VehicleUI from "./components/IVA_Components/VehicleUI";
+
 // The reason for this TrialWrapper is that in Trial we define the return statement as a method to give all children of Trial certain exports. 
 // This wrapper page makes it so any new page added under the Trial Wrapper will have access to the participant, column (used to determine curent test)
 // and current test profile. It also makes functions for interacting with the video page readily available within each function. 
@@ -28,7 +30,8 @@ function TrialWrapper(props) {
             videoWindow={videoWindow}
             targetOrigin={targetOrigin}
         >
-            <Detour0 />
+            <VehicleUI />
+            {/* <Detour0 />
             <Detour1 />
             <Detour2 />
             <Detour3 />
@@ -38,7 +41,7 @@ function TrialWrapper(props) {
             <Detour7 />
             <Detour8 />
             <Detour9 />
-            <Detour10 />
+            <Detour10 />  */}
         </Trial>
         )
     );

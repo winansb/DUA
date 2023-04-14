@@ -34,7 +34,16 @@ const TrialRun = () => {
       `width=${800},height=${800},left=${0},top=${0}`
     );
     setVideoWindow(openedWindow);
-    setTargetOrigin(openedWindow.location.origin);
+
+    const handleWindowLoad = () => {
+      setTargetOrigin(openedWindow.location.origin);
+    };
+
+    openedWindow.addEventListener("load", handleWindowLoad);
+
+    return () => {
+      openedWindow.removeEventListener("load", handleWindowLoad);
+    };
   }, []);
 
   const handleStartTrial = () => {
@@ -44,7 +53,7 @@ const TrialRun = () => {
     setTimeout(() => {
       setCountDown(null);
       setShowTrial(true);
-      videoWindow.postMessage({ action: "play" }, targetOrigin);
+      videoWindow.postMessage({ action: "play" }, targetOrigin || '*');
     }, 3000);
   };
 
