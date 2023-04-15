@@ -1,7 +1,6 @@
 .header {
-  color:  black;
+  color: black;
   text-align: center;
-
 }
 
 .waiting {
@@ -15,115 +14,115 @@
   position: relative;
 }
 
-.quick-align{
+.quick-align {
   position: relative;
-  left: 35%
+  left: 35%;
 }
 .dua-general {
   display: grid;
-  grid-auto-rows: 25%
+  grid-auto-rows: 25%;
 }
 .dua-setup {
   display: grid;
-  grid-auto-rows: 30%
+  grid-auto-rows: 30%;
 }
 
 .submission-form {
   width: 100%;
   justify-content: center;
-  text-align:center;
-  padding-top:1em;
+  text-align: center;
+  padding-top: 1em;
 }
 
 .id-textbox {
-  border-radius:5%;
+  border-radius: 5%;
 }
 
 .test {
   height: 100vh;
-  text-align:  center;
+  text-align: center;
 }
 
-.view{
-  height:  100%; 
+.view {
+  height: 100%;
 }
 
-.fullScreen{
-  max-width:  100%;
+.fullScreen {
+  max-width: 100%;
   min-width: 100%;
-  min-height: 100%;  
-  width:  100%;
-  height:  100%; 
-  top:  0%;
-  left:  0%;
-  position: fixed; 
+  min-height: 100%;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  position: fixed;
   transform: scale(100%);
-/*   transform:  translate(50%,50%);   */
+  /*   transform:  translate(50%,50%);   */
 }
 
-.player{
-  margin: 0; 
+.player {
+  margin: 0;
   padding: 0;
-/*   display: block; 
+  /*   display: block; 
   flex-grow: 1;  */
   position: fixed;
   border: none;
-
 }
 
-.hidden{
+.hidden {
   animation: fadeOut 0.3s ease-in forwards;
-  pointer-events: none
+  pointer-events: none;
 }
 
-.shown{
+.shown {
   animation: fadeIn 0.3s ease-in forwards;
   pointer-events: all;
 }
 
-.on{
-  
+.on {
 }
 
-.off{
+.off {
   display: none;
 }
 
 /*---------------------------------------------------------------------------
   From: https://learn.microsoft.com/en-us/dual-screen/web/css-viewport-segments
   ---------------------------------------------------------------------------*/
-.TestingDisplay{
+.TestingDisplay {
   height: 100vh;
   display: flex;
   overflow: hidden;
 }
 
-.screen0{
-   /* grow: no, shrink: no, basis: fold-left */
-   flex: 0 0 env(viewport-segment-right 0 0);
+.screen0 {
+  /* grow: no, shrink: no, basis: fold-left */
+  flex: 0 0 env(viewport-segment-right 0 0);
 
-   /* equals to margin-right when writing mode is left-to-right (english)  */
-   /* equals to margin-left when writing mode is right-to-left (arabic, hebrew)  */
-   /* this will prevent content from being rendered behind the device mask */
-   transform: translate(0,2%);
-   margin-inline-end: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0)) ; /* hinge width */
-   overflow: visible;
+  /* equals to margin-right when writing mode is left-to-right (english)  */
+  /* equals to margin-left when writing mode is right-to-left (arabic, hebrew)  */
+  /* this will prevent content from being rendered behind the device mask */
+  transform: translate(0, 2%);
+  margin-inline-end: calc(
+    env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0)
+  ); /* hinge width */
+  overflow: visible;
 }
 
-.screen1{
-   /* fill the rest of the space */
-    height: 100vh; 
-    flex: 0;
+.screen1 {
+  /* fill the rest of the space */
+  height: 100vh;
+  flex: 0;
 
-   margin: 0;
-   overflow: hidden;
+  margin: 0;
+  overflow: hidden;
 }
 
 /*----------------------------------------------------------------------------
   End 
 ------------------------------------------------------------------------------*/
-.screen-holder{
-  transform: scale(0.8) translate(0%,-7%);
+.screen-holder {
+  transform: scale(0.8) translate(0%, -7%);
   overflow: hidden;
   text-align: center;
   top: 100%;
@@ -131,12 +130,20 @@
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .screenLink {
@@ -152,7 +159,7 @@
 .popup-arrow {
   color: rgb(255, 255, 255);
 }
-[role='tooltip'].popup-content {
+[role="tooltip"].popup-content {
   width: 200px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
 }
@@ -160,10 +167,9 @@
 .popup-overlay {
   background: rgba(0, 0, 0, 0.5);
 }
-[data-popup='tooltip'].popup-overlay {
+[data-popup="tooltip"].popup-overlay {
   background: transparent;
 }
-
 
 /*--------------------------------------------------------------------------------------
 
@@ -204,6 +210,6 @@
   border: 1px solid #cfcece;
 }
 
-.delete{
+.delete {
   border: 1px solid black;
 }

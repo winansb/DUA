@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
 function KeyCodeGetter(props) {
   const [keyCode, setKeyCode] = useState(null);
@@ -16,32 +16,32 @@ function KeyCodeGetter(props) {
     }
 
     if (isActive) {
-      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
     }
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isActive]);
 
   const translateKeyCode = (code) => {
     switch (code) {
       case 32:
-        return 'Space';
+        return "Space";
       case 37:
-        return 'Left Arrow';
+        return "Left Arrow";
       case 38:
-        return 'Up Arrow';
+        return "Up Arrow";
       case 39:
-        return 'Right Arrow';
+        return "Right Arrow";
       case 40:
-        return 'Down Arrow';
+        return "Down Arrow";
       default:
         return String.fromCharCode(code);
     }
   };
 
-  const buttonText = keyCode ? translateKeyCode(keyCode) : 'Click';
+  const buttonText = keyCode ? translateKeyCode(keyCode) : "Click";
 
   return (
     <Container isActive={isActive} secondaryColor={props.secondaryColor}>
@@ -95,11 +95,11 @@ const InnerCircle = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${({ isActive, secondaryColor }) =>
-    isActive ? '#00bfff' : '#fff'};
+    isActive ? "#00bfff" : "#fff"};
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  color: ${({ isActive }) => (isActive ? '#fff' : '#000')};
+  color: ${({ isActive }) => (isActive ? "#fff" : "#000")};
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;

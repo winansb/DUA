@@ -9,7 +9,7 @@ import {
   GET_ALL_PARTICIPANTS_FAILURE,
   DELETE_PARTICIPANT_SUCCESS,
   DELETE_PARTICIPANT_FAILURE,
-} from '../actions/participantActions';
+} from "../actions/participantActions";
 
 const initialState = {
   participant: null,
@@ -31,7 +31,7 @@ const participantReducer = (state = initialState, action) => {
         [action.payload.UID]: action.payload,
       };
     case CREATE_PARTICIPANT_FAILURE:
-      console.error('createParticipant error:', action.error);
+      console.error("createParticipant error:", action.error);
       return state;
     case UPDATE_PARTICIPANT_SUCCESS:
     case GET_PARTICIPANT_SUCCESS:
@@ -65,7 +65,7 @@ const participantReducer = (state = initialState, action) => {
         error: null,
       };
     case DELETE_PARTICIPANT_FAILURE:
-      console.error('deleteParticipant error:', action.error);
+      console.error("deleteParticipant error:", action.error);
       return state;
     // ...
     default:

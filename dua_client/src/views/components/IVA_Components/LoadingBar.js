@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const LoadingBar = ({ progress }) => {
   const timeLeft = Math.floor(progress / 60);
@@ -25,14 +25,9 @@ const LoadingBarContainer = styled.div`
 `;
 
 const ProgressBar = styled.div`
-  margin: 85px 0px 0px -50px;
+  margin: 85px 0px 0px -70px;
 
-  background: linear-gradient(
-    to right,
-    #6ac1ff 0%,
-    #0074e4 50%,
-    #6ac1ff 100%
-  );
+  background: linear-gradient(to right, #6ac1ff 0%, #0074e4 50%, #6ac1ff 100%);
   height: 45px;
   width: 100%;
   border: 4px solid #000;
@@ -42,7 +37,7 @@ const ProgressBar = styled.div`
   position: relative;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -68,7 +63,7 @@ const TimeCounter = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 90px 0px -10px 0px;
+  margin: 87px 10px -20px -20px;
   grid-column: 1;
 `;
 
@@ -77,7 +72,6 @@ const Time = styled.span`
   font-weight: bold;
   color: #00000;
   transform: translateY(-10px);
-
 `;
 
 const MinLabel = styled.span`

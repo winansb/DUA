@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ParticipantTable from "./components/ParticipantTable";
-import ReturnButton from './components/ReturnButton';
-import { useDispatch, useSelector } from 'react-redux';
+import ReturnButton from "./components/ReturnButton";
+import { useDispatch, useSelector } from "react-redux";
 import ParticipantInputForm from "./components/ParticipantEditForm";
-import GeneralModal from "./components/GeneralModal"
-import { getAllParticipants } from '../redux/actions/participantActions';
+import GeneralModal from "./components/GeneralModal";
+import { getAllParticipants } from "../redux/actions/participantActions";
 
 function TrialSetup() {
-
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -26,7 +25,6 @@ function TrialSetup() {
       dispatch(getAllParticipants());
     }
   }, [dispatch, showModal]);
-
 
   return (
     <Container>

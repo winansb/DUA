@@ -1,23 +1,23 @@
-import { configureStore } from '@reduxjs/toolkit';
-import thunkMiddleware from 'redux-thunk';
+import { configureStore } from "@reduxjs/toolkit";
+import thunkMiddleware from "redux-thunk";
 
-import participantReducer from './redux/reducers/participantReducer';
-import screenReducer from './redux/reducers/screenReducer';
-import tapReducer from './redux/reducers/tapReducer';
-import testReducer from './redux/reducers/testReducer';
+import participantReducer from "./redux/reducers/participantReducer";
+import screenReducer from "./redux/reducers/screenReducer";
+import tapReducer from "./redux/reducers/tapReducer";
+import testReducer from "./redux/reducers/testReducer";
 
-import { getAllParticipants } from './redux/actions/participantActions';
+import { getAllParticipants } from "./redux/actions/participantActions";
 
 export async function loadData() {
   const participants = await getAllParticipants();
-  store.dispatch({ type: 'LOAD_DATA', payload: { participants } });
+  store.dispatch({ type: "LOAD_DATA", payload: { participants } });
 }
 
 const rootReducer = {
   participant: participantReducer,
   screen: screenReducer,
   test: testReducer,
-  tap: tapReducer, 
+  tap: tapReducer,
 };
 
 const middleware = [thunkMiddleware];

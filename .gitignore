@@ -28,3 +28,4 @@ dua_server/db/test.db
 *.db
 
 *.mp4
+dua_client/src/views/components/IVA_Components/InteractiveMap.js

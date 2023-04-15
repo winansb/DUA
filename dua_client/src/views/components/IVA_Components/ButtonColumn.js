@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const ButtonColumn = ({ buttonData }) => {
   return (
@@ -36,7 +36,7 @@ const Button = styled.button`
   transition: transform 250ms;
   border-radius: 35px;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   &:hover {
     transform: translateY(-0.15rem);

@@ -1,7 +1,9 @@
-const { DataTypes} = require('sequelize');
-const db = require('../../config/database');
+const { DataTypes } = require("sequelize");
+const db = require("../../config/database");
 
-const Screen = db.define('Screen', {
+const Screen = db.define(
+  "Screen",
+  {
     UID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -15,7 +17,7 @@ const Screen = db.define('Screen', {
     SCREEN_DURATION_SECONDS: {
       type: DataTypes.FLOAT,
       allowNull: true,
-      defaultValue: null, 
+      defaultValue: null,
     },
     LOCAL_TIME_AT_START: {
       type: DataTypes.STRING,
@@ -36,7 +38,7 @@ const Screen = db.define('Screen', {
     EXIT_METHOD: {
       type: DataTypes.STRING,
       allowNull: true,
-      defaultValue: null, 
+      defaultValue: null,
     },
     VIDEO_PLAYING: {
       type: DataTypes.STRING,
@@ -49,10 +51,12 @@ const Screen = db.define('Screen', {
     VIDEO_TIME_AT_END: {
       type: DataTypes.FLOAT,
       allowNull: true,
-      defaultValue: null, 
+      defaultValue: null,
     },
-  }, {
+  },
+  {
     timestamps: false,
-  });
-  
-  module.exports = Screen;
+  }
+);
+
+module.exports = Screen;

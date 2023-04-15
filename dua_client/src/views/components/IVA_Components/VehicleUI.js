@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import DefaultDisplay from './DefaultDisplay'; 
-import VehicleDate from './VehicleDate';
-import ButtonColumn from './ButtonColumn';
-import tvPic from '../../../assets/EntertainmentApp.png';
-import twoPhones from '../../../assets/TwoPhones.png';
-import phoneApp from '../../../assets/PhoneApp.png';
-import carSettings from '../../../assets/CarSettings.png';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import DefaultDisplay from "./DefaultDisplay";
+import VehicleDate from "./VehicleDate";
+import ButtonColumn from "./ButtonColumn";
+import tvPic from "../../../assets/EntertainmentApp.png";
+import twoPhones from "../../../assets/TwoPhones.png";
+import phoneApp from "../../../assets/PhoneApp.png";
+import carSettings from "../../../assets/CarSettings.png";
 
 const VehicleUI = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 1));
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 1
+      );
     }, 100);
 
     return () => {
@@ -22,18 +24,18 @@ const VehicleUI = () => {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, []);
 
   const buttonData = [
-    { text: 'Pair Your Device', imgSrc: twoPhones },
-    { text: 'Entertainment', imgSrc: tvPic },
-    { text: 'Vehicle Setting', imgSrc: carSettings },
-    { text: 'Call', imgSrc: phoneApp },
+    { text: "Pair Your Device", imgSrc: twoPhones },
+    { text: "Entertainment", imgSrc: tvPic },
+    { text: "Vehicle Setting", imgSrc: carSettings },
+    { text: "Call", imgSrc: phoneApp },
   ];
 
   return (
@@ -66,7 +68,6 @@ const TopLeft = styled.div`
   grid-column: 1;
   grid-row: 1;
 `;
-
 
 const TopRight = styled.div`
   grid-column: 4;
@@ -117,7 +118,6 @@ const Box = styled.div`
 `;
 
 const LargeLeft = styled(Box)`
-  
   grid-column: 1 / span 3;
   grid-row: 1 / span 5;
 
@@ -133,6 +133,5 @@ const LargeRight = styled(Box)`
   margin: 20px 30px 40px 10px;
   align-self: end;
 `;
-
 
 export default VehicleUI;

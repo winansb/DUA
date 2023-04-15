@@ -1,30 +1,34 @@
-import React from 'react';
-import styled from 'styled-components';
-import ReturnButton from './components/ReturnButton';
-import ColorPicker from './components/ColorPicker';
-import KeyCodeGetter from './components/KeyCodeGetter';
-import chroma from 'chroma-js';
+import React from "react";
+import styled from "styled-components";
+import ReturnButton from "./components/ReturnButton";
+import ColorPicker from "./components/ColorPicker";
+import KeyCodeGetter from "./components/KeyCodeGetter";
+import chroma from "chroma-js";
 
 class DeviceGUIPage extends React.Component {
   state = {
-    chosenColor: '#9b4f96',
+    chosenColor: "#9b4f96",
   };
 
   handleChangeComplete = (color) => {
     this.setState({ chosenColor: color.hex }, () => {
-      document.body.style.backgroundColor = chroma(this.state.chosenColor).brighten(2).hex();
+      document.body.style.backgroundColor = chroma(this.state.chosenColor)
+        .brighten(2)
+        .hex();
     });
   };
 
   componentDidMount() {
     this.originalBgColor = document.body.style.backgroundColor;
-    document.body.style.backgroundColor = chroma(this.state.chosenColor).brighten(2).hex();
-    document.body.style.overflow = 'hidden';
+    document.body.style.backgroundColor = chroma(this.state.chosenColor)
+      .brighten(2)
+      .hex();
+    document.body.style.overflow = "hidden";
   }
 
   componentWillUnmount() {
     document.body.style.backgroundColor = this.originalBgColor;
-    document.body.style.overflow = 'shown';
+    document.body.style.overflow = "shown";
   }
 
   render() {
@@ -33,20 +37,25 @@ class DeviceGUIPage extends React.Component {
         <Title>Device Options</Title>
         <ButtonContainer>
           <ButtonItem>
-            <p style={{ fontSize: '2rem' }}>Button 1:</p>
+            <p style={{ fontSize: "2rem" }}>Button 1:</p>
           </ButtonItem>
           <ButtonItem>
-            <ColorPicker color={this.state.chosenColor} onChangeComplete={this.handleChangeComplete}/>
+            <ColorPicker
+              color={this.state.chosenColor}
+              onChangeComplete={this.handleChangeComplete}
+            />
           </ButtonItem>
           <ButtonItem>
             <KeyCodeGetter secondaryColor={this.state.chosenColor} />
           </ButtonItem>
           <ButtonItem>
-            <FunctionButton chosenColor={this.state.chosenColor}>Send</FunctionButton>
+            <FunctionButton chosenColor={this.state.chosenColor}>
+              Send
+            </FunctionButton>
           </ButtonItem>
         </ButtonContainer>
         <BarContainer>
-          <Bar chosenColor={this.state.chosenColor}/>
+          <Bar chosenColor={this.state.chosenColor} />
         </BarContainer>
         <ReturnButtonContainer>
           <ReturnButton />
@@ -67,7 +76,6 @@ const Container = styled.div`
   padding: 2rem;
   position: relative;
 `;
-
 
 const Title = styled.h1`
   font-size: 3.5rem;
@@ -127,7 +135,6 @@ const Bar = styled.div`
   width: 33%;
 
   transition: background-color 0.3s ease;
-
 `;
 
 const ReturnButtonContainer = styled.div`

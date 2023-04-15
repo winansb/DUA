@@ -1,6 +1,6 @@
-import React from 'react';
-import NavButton from './components/NavButton';
-import styled from 'styled-components';
+import React from "react";
+import NavButton from "./components/NavButton";
+import styled from "styled-components";
 
 const HomePage = () => {
   return (

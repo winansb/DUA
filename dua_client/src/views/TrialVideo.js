@@ -1,12 +1,14 @@
-import React, { useRef, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Detour_Start from '../assets/Detour_Construction.mp4';
-import Detour_Home from '../assets/Detour_Home.mp4';
-import Detour_Waffle_House from '../assets/Detour_Waffle_House.mp4';
-import Detour_Walgreen from '../assets/Detour_Walgreen.mp4';
+import React, { useRef, useEffect, useState } from "react";
+import styled from "styled-components";
+import Detour_Start from "../assets/Detour_Construction.mp4";
+import Detour_Home from "../assets/Detour_Home.mp4";
+import Detour_Waffle_House from "../assets/Detour_Waffle_House.mp4";
+import Detour_Walgreen from "../assets/Detour_Walgreen.mp4";
 
 const TrialVideo = () => {
-  const [buttonText, setButtonText] = useState('Please wait a moment while videos pre-load');
+  const [buttonText, setButtonText] = useState(
+    "Please wait a moment while videos pre-load"
+  );
   const [videosLoaded, setVideosLoaded] = useState(0);
 
   const videoPlaying = useRef(null);
@@ -20,7 +22,7 @@ const TrialVideo = () => {
   const onVideoLoaded = () => {
     setVideosLoaded((prevState) => prevState + 1);
     if (videosLoaded === 3) {
-      setButtonText('Press this to fullscreen trial footage');
+      setButtonText("Press this to fullscreen trial footage");
     }
   };
 
@@ -29,19 +31,19 @@ const TrialVideo = () => {
       const action = e.data.action;
 
       switch (action) {
-        case 'play':
+        case "play":
           videoPlaying.current.play();
           break;
-        case 'pause':
+        case "pause":
           videoPlaying.current.pause();
           break;
-        case 'setFinalVideo':
+        case "setFinalVideo":
           trialEndVideo.current.src = e.data.finalVideo;
           break;
-        case 'setVideo':
+        case "setVideo":
           videoPlaying.current.src = e.data.video;
           break;
-        case 'setTime':
+        case "setTime":
           videoPlaying.current.currentTime = e.data.time;
           break;
         default:
@@ -49,31 +51,57 @@ const TrialVideo = () => {
       }
     }
 
-    window.addEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
     return () => {
-      window.removeEventListener('message', handleMessage);
+      window.removeEventListener("message", handleMessage);
     };
   }, []);
 
   const handleFullscreen = async () => {
-    console.log(videosLoaded); 
+    console.log(videosLoaded);
     if (videosLoaded < 3) return;
 
     try {
       await videoPlaying.current.requestFullscreen();
     } catch (err) {
-      console.error('Failed to request fullscreen', err);
+      console.error("Failed to request fullscreen", err);
     }
   };
 
   return (
     <VideoWrapper>
-      <video ref={trialStartVideo} src={Detour_Start} onLoadedData={onVideoLoaded} />
-      <video ref={trialEndVideo} src='' onLoadedData={onVideoLoaded} style={{ display: 'none' }} />
-      <video src={Detour_Home} onLoadedData={onVideoLoaded} style={{ display: 'none' }} preload='auto' />
-      <video src={Detour_Waffle_House} onLoadedData={onVideoLoaded} style={{ display: 'none' }} preload='auto' />
-      <video src={Detour_Walgreen} onLoadedData={onVideoLoaded} style={{ display: 'none' }} preload='auto' />
-      <FullScreenButton onClick={handleFullscreen}>{buttonText}</FullScreenButton>
+      <video
+        ref={trialStartVideo}
+        src={Detour_Start}
+        onLoadedData={onVideoLoaded}
+      />
+      <video
+        ref={trialEndVideo}
+        src=""
+        onLoadedData={onVideoLoaded}
+        style={{ display: "none" }}
+      />
+      <video
+        src={Detour_Home}
+        onLoadedData={onVideoLoaded}
+        style={{ display: "none" }}
+        preload="auto"
+      />
+      <video
+        src={Detour_Waffle_House}
+        onLoadedData={onVideoLoaded}
+        style={{ display: "none" }}
+        preload="auto"
+      />
+      <video
+        src={Detour_Walgreen}
+        onLoadedData={onVideoLoaded}
+        style={{ display: "none" }}
+        preload="auto"
+      />
+      <FullScreenButton onClick={handleFullscreen}>
+        {buttonText}
+      </FullScreenButton>
     </VideoWrapper>
   );
 };

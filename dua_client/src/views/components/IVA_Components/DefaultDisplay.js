@@ -1,7 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import LoadingBar from './LoadingBar';
-import StartMap from '../../../assets/StartMap.png';
+import React from "react";
+import styled from "styled-components";
+import LoadingBar from "./LoadingBar";
+import StartMap from "../../../assets/StartMap.png";
+import InteractiveMap from "./InteractiveMap";
 
 const DefaultDisplay = ({ progress }) => {
   return (
@@ -11,7 +12,8 @@ const DefaultDisplay = ({ progress }) => {
         <LoadingBar progress={progress} />
       </LoadingBarContainer>
       <MapPlaceholder>
-        <MapImage src={StartMap} alt="Start Map" />
+        <InteractiveMap />
+        {/* <MapImage src={StartMap} alt="Start Map" /> */}
       </MapPlaceholder>
     </DefaultDisplayContainer>
   );
@@ -49,7 +51,7 @@ const ChangeDestinationButton = styled.button`
 `;
 
 const LoadingBarContainer = styled.div`
-  grid-column: 2 / span 2; 
+  grid-column: 2 / span 2;
   grid-row: 1;
   width: 100%;
 `;
@@ -67,8 +69,9 @@ const MapImage = styled.img`
   border: 1px solid #000;
   padding: 1px;
   box-sizing: border-box;
-  
-  transform: scale(0.80);
+  margin-left: -20px;
+
+  transform: scale(0.8);
 `;
 
 export default DefaultDisplay;

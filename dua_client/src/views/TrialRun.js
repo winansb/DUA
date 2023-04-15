@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { updateParticipant } from '../redux/actions/participantActions';
-import TrialWrapper from './TrialWrapper';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { updateParticipant } from "../redux/actions/participantActions";
+import TrialWrapper from "./TrialWrapper";
 
 const TrialRun = () => {
   const location = useLocation();
@@ -11,9 +11,8 @@ const TrialRun = () => {
   const [showTrial, setShowTrial] = useState(false);
   const [countDown, setCountDown] = useState(null);
   const [videoWindow, setVideoWindow] = useState(null);
-  const [targetOrigin, setTargetOrigin] = useState('*');
+  const [targetOrigin, setTargetOrigin] = useState("*");
   const dispatch = useDispatch();
-
 
   function updateParticipantComplete(participant) {
     if (column === 0) {
@@ -27,10 +26,10 @@ const TrialRun = () => {
   useEffect(() => {
     const updatedParticipant = updateParticipantComplete(participant);
     dispatch(updateParticipant(updatedParticipant.UID, updatedParticipant));
-  
+
     const openedWindow = window.open(
-      '/trial-video',
-      'TrialVideo',
+      "/trial-video",
+      "TrialVideo",
       `width=${800},height=${800},left=${0},top=${0}`
     );
     setVideoWindow(openedWindow);
@@ -53,7 +52,7 @@ const TrialRun = () => {
     setTimeout(() => {
       setCountDown(null);
       setShowTrial(true);
-      videoWindow.postMessage({ action: "play" }, targetOrigin || '*');
+      videoWindow.postMessage({ action: "play" }, targetOrigin || "*");
     }, 3000);
   };
 
@@ -62,7 +61,9 @@ const TrialRun = () => {
       {!showTrial && (
         <>
           <ScreenWrapper>
-            <WelcomeWrapper>Welcome, {participant.PARTICIPANT_NAME}</WelcomeWrapper>
+            <WelcomeWrapper>
+              Welcome, {participant.PARTICIPANT_NAME}
+            </WelcomeWrapper>
             {countDown ? (
               <CountdownWrapper>{countDown}</CountdownWrapper>
             ) : (
@@ -70,10 +71,18 @@ const TrialRun = () => {
                 <p>Press when you are ready to start</p>
               </InstructionWrapper>
             )}
-          </ ScreenWrapper>
+          </ScreenWrapper>
         </>
       )}
-      {showTrial && <TrialWrapper test={test} participant={participant} column={column} videoWindow={videoWindow} targetOrigin={targetOrigin} />}
+      {showTrial && (
+        <TrialWrapper
+          test={test}
+          participant={participant}
+          column={column}
+          videoWindow={videoWindow}
+          targetOrigin={targetOrigin}
+        />
+      )}
     </div>
   );
 };
@@ -92,7 +101,6 @@ const ScreenWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-
 `;
 
 const WelcomeWrapper = styled.div`

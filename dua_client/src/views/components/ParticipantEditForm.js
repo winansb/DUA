@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { createParticipant } from '../../redux/actions/participantActions';
-import { createTest } from '../../redux/actions/testActions';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { createParticipant } from "../../redux/actions/participantActions";
+import { createTest } from "../../redux/actions/testActions";
+import { useDispatch } from "react-redux";
 
 function ParticipantInputForm({ onClose }) {
-  const [participantName, setParticipantName] = useState('');
-  const [mci, setMci] = useState('');
-  const [order, setOrder] = useState('');
-  const [usePlaybook, setUsePlaybook] = useState('');
-  const [break_option1, setbreakOption1] = useState('');
-  const [break_option2, setbreakOption2] = useState('');
-  const [break_option3, setbreakOption3] = useState('');
-  const [detour_option1, setdetourOption1] = useState('');
-  const [detour_option2, setdetourOption2] = useState('');
-  const [detour_option3, setdetourOption3] = useState('');
+  const [participantName, setParticipantName] = useState("");
+  const [mci, setMci] = useState("");
+  const [order, setOrder] = useState("");
+  const [usePlaybook, setUsePlaybook] = useState("");
+  const [break_option1, setbreakOption1] = useState("");
+  const [break_option2, setbreakOption2] = useState("");
+  const [break_option3, setbreakOption3] = useState("");
+  const [detour_option1, setdetourOption1] = useState("");
+  const [detour_option2, setdetourOption2] = useState("");
+  const [detour_option3, setdetourOption3] = useState("");
 
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ function ParticipantInputForm({ onClose }) {
     ) {
       const testData = {
         MCI: mci,
-        ORDER: parseInt(order), 
+        ORDER: parseInt(order),
         USE_PLAYBOOK: usePlaybook,
         BREAKDOWN_OPTION_1: break_option1,
         BREAKDOWN_OPTION_2: break_option2,
@@ -43,11 +43,16 @@ function ParticipantInputForm({ onClose }) {
         DETOUR_OPTION_2: detour_option2,
         DETOUR_OPTION_3: detour_option3,
       };
-  
-      const createdTest = await dispatch(createTest(testData));
-      console.log(createdTest); 
 
-      dispatch(createParticipant({ PARTICIPANT_NAME: participantName, ONGOING_TEST: createdTest.UID  }));
+      const createdTest = await dispatch(createTest(testData));
+      console.log(createdTest);
+
+      dispatch(
+        createParticipant({
+          PARTICIPANT_NAME: participantName,
+          ONGOING_TEST: createdTest.UID,
+        })
+      );
       onClose();
     }
   };
@@ -56,7 +61,11 @@ function ParticipantInputForm({ onClose }) {
     <Form onSubmit={handleSubmit}>
       <Label>
         Participant Name:
-        <Input type="text" value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
+        <Input
+          type="text"
+          value={participantName}
+          onChange={(e) => setParticipantName(e.target.value)}
+        />
       </Label>
       <Label>
         MCI:
@@ -76,7 +85,10 @@ function ParticipantInputForm({ onClose }) {
       </Label>
       <Label>
         USE_PLAYBOOK:
-        <Select value={usePlaybook} onChange={(e) => setUsePlaybook(e.target.value)}>
+        <Select
+          value={usePlaybook}
+          onChange={(e) => setUsePlaybook(e.target.value)}
+        >
           <option value="">Select...</option>
           <option value="yes">Yes</option>
           <option value="no">No</option>
@@ -85,7 +97,10 @@ function ParticipantInputForm({ onClose }) {
       <LabelRow>
         <Label>
           Breakdown Option 1:
-          <Select value={break_option1} onChange={(e) => setbreakOption1(e.target.value)}>
+          <Select
+            value={break_option1}
+            onChange={(e) => setbreakOption1(e.target.value)}
+          >
             <option value="">Select...</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -93,7 +108,10 @@ function ParticipantInputForm({ onClose }) {
         </Label>
         <Label>
           Detour Option 1:
-          <Select value={detour_option1} onChange={(e) => setdetourOption1(e.target.value)}>
+          <Select
+            value={detour_option1}
+            onChange={(e) => setdetourOption1(e.target.value)}
+          >
             <option value="">Select...</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -103,7 +121,10 @@ function ParticipantInputForm({ onClose }) {
       <LabelRow>
         <Label>
           Breakdown Option 2:
-          <Select value={break_option2} onChange={(e) => setbreakOption2(e.target.value)}>
+          <Select
+            value={break_option2}
+            onChange={(e) => setbreakOption2(e.target.value)}
+          >
             <option value="">Select...</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -111,17 +132,23 @@ function ParticipantInputForm({ onClose }) {
         </Label>
         <Label>
           Detour Option 2:
-          <Select value={detour_option2} onChange={(e) => setdetourOption2(e.target.value)}>
+          <Select
+            value={detour_option2}
+            onChange={(e) => setdetourOption2(e.target.value)}
+          >
             <option value="">Select...</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </Select>
         </Label>
-      </LabelRow>      
+      </LabelRow>
       <LabelRow>
         <Label>
           Breakdown Option 3:
-          <Select value={break_option3} onChange={(e) => setbreakOption3(e.target.value)}>
+          <Select
+            value={break_option3}
+            onChange={(e) => setbreakOption3(e.target.value)}
+          >
             <option value="">Select...</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -129,7 +156,10 @@ function ParticipantInputForm({ onClose }) {
         </Label>
         <Label>
           Detour Option 3:
-          <Select value={detour_option3} onChange={(e) => setdetourOption3(e.target.value)}>
+          <Select
+            value={detour_option3}
+            onChange={(e) => setdetourOption3(e.target.value)}
+          >
             <option value="">Select...</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -137,12 +167,13 @@ function ParticipantInputForm({ onClose }) {
         </Label>
       </LabelRow>
       <ButtonRow>
-          <CancelButton onClick={onClose}>Cancel</CancelButton>
-          <SubmitButton onClick={handleSubmit}>Confirm</SubmitButton>
+        <CancelButton onClick={onClose}>Cancel</CancelButton>
+        <SubmitButton onClick={handleSubmit}>Confirm</SubmitButton>
       </ButtonRow>
     </Form>
   );
-} export default ParticipantInputForm; 
+}
+export default ParticipantInputForm;
 
 const Form = styled.form`
   display: flex;

@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const ReturnButton = () => {
   return (
-    <Link to="/" style={{ textDecoration: 'none' }}>
+    <Link to="/" style={{ textDecoration: "none" }}>
       <StyledButton>Return</StyledButton>
     </Link>
   );
@@ -18,14 +18,13 @@ const StyledButton = styled.button`
   font-size: 16px;
   cursor: pointer;
   border: none;
-  transition: transform 250ms; 
+  transition: transform 250ms;
 
   &:hover,
   &:focus-visible {
     background-color: #a180b3;
     transform: translateY(0.15rem);
-    transition: transform 250ms; 
-
+    transition: transform 250ms;
   }
 `;
 

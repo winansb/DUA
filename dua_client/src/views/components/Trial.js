@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from 'react-redux';
-import { createTap, updateTap } from '../../redux/actions/tapActions';
+import { useDispatch } from "react-redux";
+import { createTap, updateTap } from "../../redux/actions/tapActions";
 
-function Trial({ participant, column, test, children, videoWindow, targetOrigin }) {
-
+function Trial({
+  participant,
+  column,
+  test,
+  children,
+  videoWindow,
+  targetOrigin,
+}) {
   const [currentTargetOrigin, setCurrentTargetOrigin] = useState(targetOrigin);
 
   const screenTapCounter = useRef(1);
@@ -13,7 +19,7 @@ function Trial({ participant, column, test, children, videoWindow, targetOrigin 
   const [touchStartEvent, setTouchStartEvent] = useState(null);
   const [actionInitiated, setActionInitiated] = useState("");
   const touchStartTime = useRef(null);
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const handleTouchStart = () => {
     touchStartTime.current = Date.now();
@@ -29,25 +35,28 @@ function Trial({ participant, column, test, children, videoWindow, targetOrigin 
       videoWindow.postMessage({ action: "play" }, targetOrigin);
     }
   };
-  
+
   const pauseVideo = () => {
     if (currentTargetOrigin) {
       videoWindow.postMessage({ action: "pause" }, targetOrigin);
     }
   };
-  
+
   const setFinalVideo = (finalVideo) => {
     if (currentTargetOrigin) {
-      videoWindow.postMessage({ action: "setFinalVideo", finalVideo }, targetOrigin);
+      videoWindow.postMessage(
+        { action: "setFinalVideo", finalVideo },
+        targetOrigin
+      );
     }
   };
-  
+
   const setVideo = (video) => {
     if (currentTargetOrigin) {
       videoWindow.postMessage({ action: "setVideo", video }, targetOrigin);
     }
   };
-  
+
   const setTime = (time) => {
     if (currentTargetOrigin) {
       videoWindow.postMessage({ action: "setTime", time }, targetOrigin);
@@ -57,15 +66,15 @@ function Trial({ participant, column, test, children, videoWindow, targetOrigin 
   const handleTouchEnd = (e) => {
     const press_end = Date.now();
     const press_duration_ms = press_end - touchStartTime.current;
-  
+
     const tap_on_screen_number = screenTapCounter.current;
     const screen_name = currentScreenName;
-    const screen_seq = screenSequence.join(',');
+    const screen_seq = screenSequence.join(",");
     const trial_runtime_ms = Date.now() - trialStartTime.current;
 
     const x = e.changedTouches[0].clientX;
     const y = e.changedTouches[0].clientY;
-  
+
     const tapData = {
       TRIAL_ID: test.UID,
       TAP_ON_SCREEN_NUMBER: tap_on_screen_number,
@@ -79,10 +88,10 @@ function Trial({ participant, column, test, children, videoWindow, targetOrigin 
       PRESS_LOCATION_X_PIXELS: x,
       PRESS_LOCATION_Y_PIXELS: y,
     };
-  
+
     console.log(tapData);
     //dispatch(createTap(tapData));
-  
+
     screenTapCounter.current++;
   };
 
@@ -101,9 +110,9 @@ function Trial({ participant, column, test, children, videoWindow, targetOrigin 
     const handleButtonClicked = (e) => {
       setActionInitiated(e.detail);
     };
-  
+
     window.addEventListener("buttonClicked", handleButtonClicked);
-  
+
     return () => {
       window.removeEventListener("buttonClicked", handleButtonClicked);
     };
@@ -118,7 +127,6 @@ function Trial({ participant, column, test, children, videoWindow, targetOrigin 
   useEffect(() => {
     setCurrentTargetOrigin(targetOrigin);
   }, [targetOrigin]);
-  
 
   return (
     <>

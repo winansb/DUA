@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import ParticipantInputForm from './ParticipantInputForm';
+import React, { useState } from "react";
+import styled from "styled-components";
+import ParticipantInputForm from "./ParticipantInputForm";
 
-function GeneralModal({  content, onClose }) {
+function GeneralModal({ content, onClose }) {
   return (
     <ModalOverlay>
-      <Modal>
-      {content && React.cloneElement(content, { onClose })}
-      </Modal>
+      <Modal>{content && React.cloneElement(content, { onClose })}</Modal>
     </ModalOverlay>
   );
 }
@@ -33,4 +31,4 @@ const Modal = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-export default GeneralModal; 
+export default GeneralModal;
