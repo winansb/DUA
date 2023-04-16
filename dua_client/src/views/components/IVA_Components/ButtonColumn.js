@@ -2,10 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 const ButtonColumn = ({ buttonData }) => {
+  const api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
+  const handleButtonClick = () => {
+    console.log(api_key);
+  };
+
   return (
     <ButtonColumnContainer>
       {buttonData.map(({ text, imgSrc }, index) => (
-        <Button key={index}>
+        <Button key={index} onClick={handleButtonClick}>
           <ButtonImg src={imgSrc} alt={text} />
           <ButtonText>{text}</ButtonText>
         </Button>

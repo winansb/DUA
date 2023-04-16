@@ -7,9 +7,38 @@ import tvPic from "../../../assets/EntertainmentApp.png";
 import twoPhones from "../../../assets/TwoPhones.png";
 import phoneApp from "../../../assets/PhoneApp.png";
 import carSettings from "../../../assets/CarSettings.png";
+import TrialScreenInformation from "./TrialScreenInformation";
 
-const VehicleUI = () => {
+const VehicleUI = (props) => {
+  const {
+    participant,
+    column,
+    test,
+    videoWindow,
+    targetOrigin,
+    updateCurrentScreen,
+  } = props;
+
   const [progress, setProgress] = useState(0);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [defaultScreenName, setDefaultScreenName] = useState(null);
+
+  // Set the default screen name when the component is initially rendered
+  useEffect(() => {
+    const screenName = column === 0 ? "Detour0" : "Breakdown0";
+    setDefaultScreenName(screenName);
+    updateCurrentScreen(screenName);
+  }, [column]);
+
+  // Reset the screen name when the other component is unmounted
+  useEffect(() => {
+    return () => {
+      if (defaultScreenName) {
+        updateCurrentScreen(defaultScreenName);
+        console.log(defaultScreenName);
+      }
+    };
+  }, [defaultScreenName]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,11 +61,18 @@ const VehicleUI = () => {
   }, []);
 
   const buttonData = [
-    { text: "Pair Your Device", imgSrc: twoPhones },
+    {
+      text: "Pair Your Device",
+      imgSrc: twoPhones,
+    },
     { text: "Entertainment", imgSrc: tvPic },
     { text: "Vehicle Setting", imgSrc: carSettings },
     { text: "Call", imgSrc: phoneApp },
   ];
+
+  const handleHelpButtonClick = () => {
+    setShowOverlay(!showOverlay);
+  };
 
   return (
     <Grid>
@@ -44,10 +80,26 @@ const VehicleUI = () => {
         <VehicleDate />
       </TopLeft>
       <TopRight>
-        <HelpButton>Help</HelpButton>
+        <HelpButton onClick={handleHelpButtonClick}>Help</HelpButton>
       </TopRight>
-      <LargeLeft>
-        <DefaultDisplay progress={progress} />
+      <LargeLeft className={showOverlay ? "overlay-active" : ""}>
+        <DefaultDisplay column={column} progress={progress} />
+        {showOverlay && (
+          <TrialScreenInformation
+            information={
+              "We have detected a road blockage ahead that is preventing us from driving."
+            }
+            onClose={() => setShowOverlay(false)}
+          />
+        )}
+        {showOverlay && (
+          <TrialScreenInformation
+            information={
+              "We have detected a road blockage ahead that is preventing us from driving."
+            }
+            onClose={() => setShowOverlay(false)}
+          />
+        )}
       </LargeLeft>
       <LargeRight>
         <ButtonColumn buttonData={buttonData} />
@@ -108,22 +160,27 @@ const Box = styled.div`
   border-radius: 10px;
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
   transition: transform 250ms;
-
-  &:hover,
-  &:focus-visible {
-    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
-    transform: translateY(0.15rem);
-    transition: transform 500ms;
-  }
 `;
 
 const LargeLeft = styled(Box)`
   grid-column: 1 / span 3;
   grid-row: 1 / span 5;
-
   margin: 20px 35px 40px 20px;
   height: 80%;
   align-self: end;
+  position: relative;
+
+  &.overlay-active {
+    pointer-events: none;
+  }
+
+  &.overlay-active > * {
+    pointer-events: none;
+  }
+
+  &.overlay-active > *:last-child {
+    pointer-events: auto;
+  }
 `;
 
 const LargeRight = styled(Box)`

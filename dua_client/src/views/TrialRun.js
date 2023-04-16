@@ -46,20 +46,25 @@ const TrialRun = () => {
   }, []);
 
   const handleStartTrial = () => {
-    setCountDown(3);
-    setTimeout(() => setCountDown(2), 1000);
-    setTimeout(() => setCountDown(1), 2000);
-    setTimeout(() => {
-      setCountDown(null);
-      setShowTrial(true);
-      videoWindow.postMessage({ action: "play" }, targetOrigin || "*");
-    }, 3000);
+    setShowTrial(true);
+    videoWindow.postMessage({ action: "play" }, targetOrigin || "*");
+    const countdownTimer = () => {
+      if (countDown === null) {
+        setCountDown(3);
+      } else if (countDown > 1) {
+        setCountDown(countDown - 1);
+      } else {
+        setCountDown(null);
+        clearTimeout(timer);
+      }
+    };
+    const timer = setInterval(countdownTimer, 1000);
   };
 
   return (
     <div>
-      {!showTrial && (
-        <>
+      <>
+        {!showTrial && (
           <ScreenWrapper>
             <WelcomeWrapper>
               Welcome, {participant.PARTICIPANT_NAME}
@@ -72,17 +77,17 @@ const TrialRun = () => {
               </InstructionWrapper>
             )}
           </ScreenWrapper>
-        </>
-      )}
-      {showTrial && (
-        <TrialWrapper
-          test={test}
-          participant={participant}
-          column={column}
-          videoWindow={videoWindow}
-          targetOrigin={targetOrigin}
-        />
-      )}
+        )}
+        {showTrial && (
+          <TrialWrapper
+            test={test}
+            participant={participant}
+            column={column}
+            videoWindow={videoWindow}
+            targetOrigin={targetOrigin}
+          />
+        )}
+      </>
     </div>
   );
 };

@@ -30,9 +30,15 @@ function TrialWrapper(props) {
         videoWindow={videoWindow}
         targetOrigin={targetOrigin}
       >
-        <VehicleUI />
-        {/* <Detour0 />
-            <Detour1 />
+        <VehicleUI
+          participant={participant}
+          column={column}
+          test={test}
+          videoWindow={videoWindow}
+          targetOrigin={targetOrigin}
+        />
+        {/* <Detour0 /> */}
+        {/* <Detour1 />
             <Detour2 />
             <Detour3 />
             <Detour4 />
