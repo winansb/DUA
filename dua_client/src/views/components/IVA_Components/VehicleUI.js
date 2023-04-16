@@ -8,6 +8,11 @@ import twoPhones from "../../../assets/TwoPhones.png";
 import phoneApp from "../../../assets/PhoneApp.png";
 import carSettings from "../../../assets/CarSettings.png";
 import TrialScreenInformation from "./TrialScreenInformation";
+import TrialScreenPrompt from "./TrialScreenPrompt";
+import TrialScreenNotif from "./TrailScreenNotif";
+import { detourScreens } from "./Detour/Detour";
+import { breakdownScreens } from "./Breakdown/Breakdown";
+import TrialScreenCall from "./TrialScreenCall";
 
 const VehicleUI = (props) => {
   const {
@@ -21,24 +26,15 @@ const VehicleUI = (props) => {
 
   const [progress, setProgress] = useState(0);
   const [showOverlay, setShowOverlay] = useState(false);
-  const [defaultScreenName, setDefaultScreenName] = useState(null);
+  const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
 
-  // Set the default screen name when the component is initially rendered
-  useEffect(() => {
-    const screenName = column === 0 ? "Detour0" : "Breakdown0";
-    setDefaultScreenName(screenName);
-    updateCurrentScreen(screenName);
-  }, [column]);
+  const screens = column === 0 ? detourScreens : breakdownScreens;
 
-  // Reset the screen name when the other component is unmounted
-  useEffect(() => {
-    return () => {
-      if (defaultScreenName) {
-        updateCurrentScreen(defaultScreenName);
-        console.log(defaultScreenName);
-      }
-    };
-  }, [defaultScreenName]);
+  const handleScreenClose = () => {
+    setShowOverlay(false);
+    setCurrentScreenIndex(currentScreenIndex + 1);
+    console.log(currentScreenIndex);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -74,6 +70,40 @@ const VehicleUI = (props) => {
     setShowOverlay(!showOverlay);
   };
 
+  const renderTrialScreen = () => {
+    const currentScreen = screens[currentScreenIndex];
+
+    if (!currentScreen) return null;
+
+    switch (currentScreen.type) {
+      case "Information":
+        return (
+          <TrialScreenInformation
+            information={currentScreen.content}
+            onClose={handleScreenClose}
+          />
+        );
+      case "Prompt":
+        return (
+          <TrialScreenPrompt
+            contents={currentScreen.content}
+            onClose={handleScreenClose}
+          />
+        );
+      case "Notif":
+        return (
+          <TrialScreenNotif
+            contents={currentScreen.content}
+            onClose={handleScreenClose}
+          />
+        );
+      case "Call":
+        return <TrialScreenCall onClose={handleScreenClose} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <Grid>
       <TopLeft>
@@ -84,22 +114,7 @@ const VehicleUI = (props) => {
       </TopRight>
       <LargeLeft className={showOverlay ? "overlay-active" : ""}>
         <DefaultDisplay column={column} progress={progress} />
-        {showOverlay && (
-          <TrialScreenInformation
-            information={
-              "We have detected a road blockage ahead that is preventing us from driving."
-            }
-            onClose={() => setShowOverlay(false)}
-          />
-        )}
-        {showOverlay && (
-          <TrialScreenInformation
-            information={
-              "We have detected a road blockage ahead that is preventing us from driving."
-            }
-            onClose={() => setShowOverlay(false)}
-          />
-        )}
+        {showOverlay && renderTrialScreen()}
       </LargeLeft>
       <LargeRight>
         <ButtonColumn buttonData={buttonData} />

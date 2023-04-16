@@ -23,7 +23,7 @@ const popOut = keyframes`
   }
 `;
 
-const TrialScreenInformation = ({ onClose, information, screenName }) => {
+const TrialScreenNotif = ({ onClose, screenName, contents }) => {
   const [closing, setClosing] = useState(false);
 
   const handleClose = () => {
@@ -38,8 +38,10 @@ const TrialScreenInformation = ({ onClose, information, screenName }) => {
   return (
     <StyledTrialScreen closing={closing}>
       <TopBorder />
-      <InfoText>{information}</InfoText>
-      <OkButton onClick={handleClose}>Ok</OkButton>
+      {contents}
+      <ButtonRow>
+        <OkButton onClick={handleClose}>OK</OkButton>
+      </ButtonRow>
     </StyledTrialScreen>
   );
 };
@@ -49,7 +51,7 @@ const StyledTrialScreen = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 63%;
+  width: 90%;
   max-width: calc(100% - 40px);
   height: auto;
   max-height: calc(100% - 40px);
@@ -74,14 +76,15 @@ const TopBorder = styled.div`
   width: 100%;
 `;
 
-const InfoText = styled.div`
-  font-size: 2.75rem;
-  font-weight: bold;
-  text-align: center;
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const OkButton = styled.button`
-  align-self: center;
   background-color: #007bff;
   color: #fff;
   padding: 20px 40px;
@@ -90,9 +93,6 @@ const OkButton = styled.button`
   cursor: pointer;
   border: none;
   transition: transform 250ms, background-color 250ms, box-shadow 250ms;
-  margin-top: 20px;
-  margin-bottom: 20px;
-
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
 
   &:hover {
@@ -101,4 +101,4 @@ const OkButton = styled.button`
   }
 `;
 
-export default TrialScreenInformation;
+export default TrialScreenNotif;

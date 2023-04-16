@@ -23,8 +23,18 @@ const popOut = keyframes`
   }
 `;
 
-const TrialScreenInformation = ({ onClose, information, screenName }) => {
+const TrialScreenPrompt = ({ onClose, screenName, contents }) => {
   const [closing, setClosing] = useState(false);
+
+  const handleYes = () => {
+    // Add your custom functionality for Yes button here
+    handleClose();
+  };
+
+  const handleNo = () => {
+    // Add your custom functionality for No button here
+    handleClose();
+  };
 
   const handleClose = () => {
     setClosing(true);
@@ -38,8 +48,11 @@ const TrialScreenInformation = ({ onClose, information, screenName }) => {
   return (
     <StyledTrialScreen closing={closing}>
       <TopBorder />
-      <InfoText>{information}</InfoText>
-      <OkButton onClick={handleClose}>Ok</OkButton>
+      {contents}
+      <ButtonRow>
+        <YesButton onClick={handleYes}>Yes</YesButton>
+        <NoButton onClick={handleNo}>No</NoButton>
+      </ButtonRow>
     </StyledTrialScreen>
   );
 };
@@ -49,7 +62,7 @@ const StyledTrialScreen = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 63%;
+  width: 90%;
   max-width: calc(100% - 40px);
   height: auto;
   max-height: calc(100% - 40px);
@@ -74,14 +87,16 @@ const TopBorder = styled.div`
   width: 100%;
 `;
 
-const InfoText = styled.div`
-  font-size: 2.75rem;
-  font-weight: bold;
-  text-align: center;
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
-const OkButton = styled.button`
-  align-self: center;
+const YesButton = styled.button`
+  flex: 1;
   background-color: #007bff;
   color: #fff;
   padding: 20px 40px;
@@ -90,10 +105,8 @@ const OkButton = styled.button`
   cursor: pointer;
   border: none;
   transition: transform 250ms, background-color 250ms, box-shadow 250ms;
-  margin-top: 20px;
-  margin-bottom: 20px;
-
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  margin-right: 10px;
 
   &:hover {
     background-color: #3391ff;
@@ -101,4 +114,23 @@ const OkButton = styled.button`
   }
 `;
 
-export default TrialScreenInformation;
+const NoButton = styled.button`
+  flex: 1;
+  background-color: #fff;
+  color: #000;
+  padding: 20px 40px;
+  border-radius: 25px;
+  font-size: 24px;
+  cursor: pointer;
+  border: 2px solid #000;
+  transition: transform 250ms, background-color 250ms, box-shadow 250ms;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  margin-left: 10px;
+
+  &:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
+  }
+`;
+
+export default TrialScreenPrompt;

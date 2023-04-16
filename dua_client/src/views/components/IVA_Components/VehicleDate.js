@@ -22,7 +22,14 @@ const VehicleDate = () => {
     const day = new Intl.DateTimeFormat("en-US", { day: "2-digit" }).format(
       date
     );
-    const suffix = ["th", "st", "nd", "rd"][(day % 100 >> 3) ^ 1 && day % 10];
+    const suffix =
+      day % 10 === 1 && day !== 11
+        ? "st"
+        : day % 10 === 2 && day !== 12
+        ? "nd"
+        : day % 10 === 3 && day !== 13
+        ? "rd"
+        : "th";
     const time = new Intl.DateTimeFormat("en-US", {
       hour: "2-digit",
       minute: "2-digit",
