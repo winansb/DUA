@@ -25,10 +25,7 @@ const DefaultDisplay = ({ videoWindow, targetOrigin }) => {
   return (
     <DefaultDisplayContainer>
       <ChangeDestinationButton>Change Destination</ChangeDestinationButton>
-
-      <TripTravelTimeContainer>
-        <TripTravelTime videoWindow={videoWindow} targetOrigin={targetOrigin} />
-      </TripTravelTimeContainer>
+      <TripTravelTime videoWindow={videoWindow} targetOrigin={targetOrigin} />
       <MapPlaceholder>
         <MapImage src={StartMap} alt="Start Map" />
       </MapPlaceholder>
@@ -48,7 +45,8 @@ const DefaultDisplayContainer = styled.div`
 const ChangeDestinationButton = styled.button`
   grid-columnn: 1;
   grid-row: 1;
-  margin: 60px 10px 10px 40px;
+  margin: 60px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
   background-color: #fff;
   color: #000;
   border: 2px solid #000;
@@ -65,13 +63,6 @@ const ChangeDestinationButton = styled.button`
     transition: transform 250ms, background-color 250ms, box-shadow 250ms;
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.05);
   }
-`;
-
-const TripTravelTimeContainer = styled.div`
-  grid-column: 2 / span 2;
-  grid-row: 1;
-  width: 100%;
-  margin: 40px 0px 0px 350px;
 `;
 
 const MapPlaceholder = styled.div`

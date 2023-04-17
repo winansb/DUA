@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DefaultDisplay from "./DefaultDisplay";
@@ -11,7 +11,7 @@ import carSettings from "../../../assets/CarSettings.png";
 import TrialScreenInformation from "./TrialScreenInformation";
 import TrialScreenPrompt from "./TrialScreenPrompt";
 import TrialScreenNotif from "./TrailScreenNotif";
-import { detourScreens } from "./Detour/Detour";
+import { detourScreens, detourScreenTimes } from "./Detour/Detour";
 import { breakdownScreens } from "./Breakdown/Breakdown";
 import TrialScreenCall from "./TrialScreenCall";
 import { setPaused } from "../../../redux/actions/trialActions";
@@ -86,6 +86,19 @@ const VehicleUI = (props) => {
   const handleHelpButtonClick = () => {
     setShowOverlay(!showOverlay);
   };
+  const timesInSeconds = useMemo(() => [2, 4, 6], []);
+
+  useEffect(() => {
+    const timers = timesInSeconds.map((time) => {
+      return setTimeout(() => {
+        setShowOverlay(true);
+      }, time * 1000);
+    });
+
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+    };
+  }, [timesInSeconds]);
 
   const renderTrialScreen = () => {
     const currentScreen = screens[currentScreenIndex];
@@ -101,6 +114,8 @@ const VehicleUI = (props) => {
             nextIndex={currentScreen.Ok}
             videoWindow={videoWindow}
             targetOrigin={targetOrigin}
+            screenName={currentScreen.screenName}
+            displayTimeSeconds={currentScreen.displayTimeSeconds}
           />
         );
       case "Prompt":
@@ -110,6 +125,10 @@ const VehicleUI = (props) => {
             onClose={handleScreenClose}
             videoWindow={videoWindow}
             targetOrigin={targetOrigin}
+            screenName={currentScreen.screenName}
+            displayTimeSeconds={currentScreen.displayTimeSeconds}
+            yesIndex={currentScreen.yesIndex}
+            noIndex={currentScreen.noIndex}
           />
         );
       case "Notif":
@@ -119,6 +138,9 @@ const VehicleUI = (props) => {
             onClose={handleScreenClose}
             videoWindow={videoWindow}
             targetOrigin={targetOrigin}
+            screenName={currentScreen.screenName}
+            displayTimeSeconds={currentScreen.displayTimeSeconds}
+            nextIndex={currentScreen.nextIndex}
           />
         );
       case "Call":
@@ -127,6 +149,9 @@ const VehicleUI = (props) => {
             onClose={handleScreenClose}
             videoWindow={videoWindow}
             targetOrigin={targetOrigin}
+            screenName={currentScreen.screenName}
+            displayTimeSeconds={currentScreen.displayTimeSeconds}
+            nextIndex={currentScreen.nextIndex}
           />
         );
       default:

@@ -23,35 +23,53 @@ const popOut = keyframes`
   }
 `;
 
-const TrialScreenPrompt = ({ onClose, screenName, contents }) => {
+const TrialScreenPrompt = ({
+  onClose,
+  screenName,
+  contents,
+  displayTimeSeconds,
+  yesIndex,
+  noIndex,
+}) => {
   const [closing, setClosing] = useState(false);
 
-  const handleYes = () => {
-    // Add your custom functionality for Yes button here
-    handleClose();
+  const handleYes = (nextIndex) => {
+    handleClose(nextIndex);
   };
 
-  const handleNo = () => {
-    // Add your custom functionality for No button here
-    handleClose();
+  const handleNo = (nextIndex) => {
+    handleClose(nextIndex);
   };
 
-  const handleClose = () => {
+  const handleClose = (nextIndex) => {
     setClosing(true);
-    setTimeout(onClose, 300);
+    setTimeout(onClose(nextIndex), 300);
   };
 
   useEffect(() => {
     return () => setClosing(false);
   }, []);
 
+  useEffect(() => {
+    if (!closing) {
+      const timer = setTimeout(() => {
+        setClosing(false);
+        onClose(noIndex);
+      }, displayTimeSeconds * 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [closing, displayTimeSeconds, onClose]);
+
   return (
     <StyledTrialScreen closing={closing}>
       <TopBorder />
       {contents}
       <ButtonRow>
-        <YesButton onClick={handleYes}>Yes</YesButton>
-        <NoButton onClick={handleNo}>No</NoButton>
+        <YesButton onClick={() => handleYes(yesIndex)}>Yes</YesButton>
+        <NoButton onClick={() => handleNo(noIndex)}>No</NoButton>
       </ButtonRow>
     </StyledTrialScreen>
   );

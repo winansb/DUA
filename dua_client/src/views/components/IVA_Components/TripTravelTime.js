@@ -67,10 +67,12 @@ const TripTravelTime = (videoWindow, targetOrigin) => {
     <TripTravelTimeContainer>
       <TimeBox>
         <TimeLabel>Travel Time</TimeLabel>
+        <br />
         <TimeValue>{remainingTime ? `${remainingTime} min` : "--"}</TimeValue>
       </TimeBox>
       <TimeBox>
         <TimeLabel>ETA</TimeLabel>
+        <br />
         <TimeValue>{eta ? eta : "--"}</TimeValue>
       </TimeBox>
     </TripTravelTimeContainer>
@@ -78,20 +80,16 @@ const TripTravelTime = (videoWindow, targetOrigin) => {
 };
 
 const TripTravelTimeContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column: 2 / span 2;
+  grid-row: 1;
+  margin: 10px 0px 10px 10px;
+  width: 90%;
 `;
 
 const TimeBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 48%;
   background-color: #f3f3f3;
   padding: 15px;
   border-radius: 5px;

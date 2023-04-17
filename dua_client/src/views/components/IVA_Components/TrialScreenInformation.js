@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
+import { getTap, updateTap } from "../../../redux/actions/tapActions";
 import {
   setCurrentScreen,
   setPriorScreens,
@@ -27,15 +29,41 @@ const popOut = keyframes`
   }
 `;
 
-const TrialScreenInformation = ({ onClose, information, nextIndex }) => {
+const TrialScreenInformation = ({
+  onClose,
+  information,
+  nextIndex,
+  screenName,
+  displayTimeSeconds,
+}) => {
   const [closing, setClosing] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        setIsOpen(false);
+        onClose(nextIndex);
+      }, displayTimeSeconds * 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [isOpen, displayTimeSeconds, onClose]);
+
+  const disaptch = useDispatch();
 
   const handleClose = (nextIndex) => {
     setClosing(true);
+    // add getTap after making it return the most recent tap
+    // format new Tap object, we will be fillin in the tap action
+    // screenName and screen sequence.
     setTimeout(onClose(nextIndex), 300);
   };
 
   useEffect(() => {
+    setCurrentScreen(screenName);
     return () => setClosing(false);
   }, []);
 

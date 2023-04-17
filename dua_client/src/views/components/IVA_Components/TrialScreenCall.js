@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import PhoneScreen from "../../../assets/PhoneScreen.png";
 import PhoneCallEnd from "../../../assets/PhoneCallEnd.png";
@@ -25,17 +26,39 @@ const popOut = keyframes`
   }
 `;
 
-const TrialScreenCall = ({ onClose, destination, timeLeft }) => {
+const TrialScreenCall = ({
+  onClose,
+  timeLeft,
+  displayTimeSeconds,
+  nextIndex,
+  screenName,
+}) => {
   const [closing, setClosing] = useState(false);
+
+  const destination = useSelector((state) => state.destination);
+  const travelTime = useSelector((state) => state.travelTime);
 
   const handleClose = () => {
     setClosing(true);
-    setTimeout(onClose, 300);
+    setTimeout(onClose(nextIndex), 300);
   };
 
   useEffect(() => {
     return () => setClosing(false);
   }, []);
+
+  useEffect(() => {
+    if (!closing) {
+      const timer = setTimeout(() => {
+        setClosing(false);
+        onClose(nextIndex);
+      }, displayTimeSeconds * 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [closing, displayTimeSeconds, onClose]);
 
   return (
     <StyledTrialScreen closing={closing}>
@@ -45,7 +68,7 @@ const TrialScreenCall = ({ onClose, destination, timeLeft }) => {
           <PhoneCallEndImage
             src={PhoneCallEnd}
             alt="Phone Call End"
-            onClick={handleClose}
+            onClick={() => handleClose(nextIndex)}
           />
         </ImageWrapper>
         <TextWrapper>
@@ -67,7 +90,7 @@ const TrialScreenCall = ({ onClose, destination, timeLeft }) => {
               <strong>Location:</strong> E University Avenue
               <br />
               <br />
-              <strong>ETA:</strong> {timeLeft}
+              <strong>ETA:</strong> {travelTime}
             </TripInformation>
           </TextBox>
         </TextWrapper>

@@ -23,24 +23,39 @@ const popOut = keyframes`
   }
 `;
 
-const TrialScreenNotif = ({ onClose, screenName, contents }) => {
+const TrialScreenNotif = ({
+  onClose,
+  screenName,
+  contents,
+  nextIndex,
+  displayTimeSeconds,
+}) => {
   const [closing, setClosing] = useState(false);
 
-  const handleClose = () => {
+  const handleClose = (nextIndex) => {
     setClosing(true);
-    setTimeout(onClose, 300);
+    setTimeout(onClose(nextIndex), 300);
   };
 
   useEffect(() => {
-    return () => setClosing(false);
-  }, []);
+    if (!closing) {
+      const timer = setTimeout(() => {
+        setClosing(false);
+        onClose(nextIndex);
+      }, displayTimeSeconds * 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [closing, displayTimeSeconds, onClose]);
 
   return (
     <StyledTrialScreen closing={closing}>
       <TopBorder />
       {contents}
       <ButtonRow>
-        <OkButton onClick={handleClose}>OK</OkButton>
+        <OkButton onClick={() => handleClose(nextIndex)}>OK</OkButton>
       </ButtonRow>
     </StyledTrialScreen>
   );
