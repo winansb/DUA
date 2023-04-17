@@ -11,7 +11,11 @@ import carSettings from "../../../assets/CarSettings.png";
 import TrialScreenInformation from "./TrialScreenInformation";
 import TrialScreenPrompt from "./TrialScreenPrompt";
 import TrialScreenNotif from "./TrailScreenNotif";
-import { detourScreens, detourScreenTimes } from "./Detour/Detour";
+import {
+  detourScreens,
+  detourScreenTimings,
+  detourPauses,
+} from "./Detour/Detour";
 import { breakdownScreens } from "./Breakdown/Breakdown";
 import TrialScreenCall from "./TrialScreenCall";
 import { setPaused } from "../../../redux/actions/trialActions";
@@ -26,14 +30,44 @@ const VehicleUI = (props) => {
     updateCurrentScreen,
   } = props;
 
-  const [progress, setProgress] = useState(0);
   const [showOverlay, setShowOverlay] = useState(false);
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
-
-  const screens = column === 0 ? detourScreens : breakdownScreens;
-
   const dispatch = useDispatch();
   const isPaused = useSelector((state) => state.trial.isPaused);
+
+  // Counter timer logic
+  const [counter, setCounter] = useState(0);
+  useEffect(() => {
+    let timer;
+    if (!isPaused) {
+      timer = setInterval(() => {
+        setCounter((prevCounter) => prevCounter + 1000);
+      }, 1000);
+    } else {
+      clearInterval(timer);
+    }
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isPaused]);
+
+  // Pause trial based on detourPauses
+  const [pauseIndex, setPauseIndex] = useState(0);
+  useEffect(() => {
+    if (pauseIndex < detourPauses.length) {
+      const currentPauseTime = detourPauses[pauseIndex] * 1000;
+      if (counter === currentPauseTime) {
+        dispatch(setPaused(true));
+        if (videoWindow) {
+          videoWindow.postMessage({ action: "pause" }, targetOrigin || "*");
+        }
+        setPauseIndex((prevPauseIndex) => prevPauseIndex + 1);
+      }
+    }
+  }, [counter, pauseIndex, videoWindow, targetOrigin, dispatch]);
+
+  const screens = column === 0 ? detourScreens : breakdownScreens;
 
   const handlePause = useCallback(() => {
     dispatch(setPaused(!isPaused));
@@ -129,6 +163,7 @@ const VehicleUI = (props) => {
             displayTimeSeconds={currentScreen.displayTimeSeconds}
             yesIndex={currentScreen.yesIndex}
             noIndex={currentScreen.noIndex}
+            yesDestination={currentScreen.yesDestination}
           />
         );
       case "Notif":
@@ -141,6 +176,7 @@ const VehicleUI = (props) => {
             screenName={currentScreen.screenName}
             displayTimeSeconds={currentScreen.displayTimeSeconds}
             nextIndex={currentScreen.nextIndex}
+            okDestination={currentScreen.okDestination}
           />
         );
       case "Call":

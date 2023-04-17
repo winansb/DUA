@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-
+import { useDispatch } from "react-redux";
+import { getTap, updateTap } from "../../../redux/actions/tapActions";
+import { setDestination, setMap } from "../../../redux/actions/trialActions";
 const popIn = keyframes`
   0% {
     transform: translate(-50%, -50%) scale(0.7);
@@ -29,10 +31,20 @@ const TrialScreenNotif = ({
   contents,
   nextIndex,
   displayTimeSeconds,
+  okDestination,
 }) => {
   const [closing, setClosing] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleClose = (nextIndex) => {
+  const handleClose = async (nextIndex) => {
+    if (okDestination) {
+      dispatch(setDestination(okDestination));
+    }
+
+    const response = await dispatch(getTap());
+    const lastTap = response.data;
+    lastTap.action_initiated = screenName + "_ok";
+    dispatch(updateTap(lastTap.UID, lastTap));
     setClosing(true);
     setTimeout(onClose(nextIndex), 300);
   };
@@ -48,7 +60,7 @@ const TrialScreenNotif = ({
         clearTimeout(timer);
       };
     }
-  }, [closing, displayTimeSeconds, onClose]);
+  }, [closing, displayTimeSeconds, onClose, nextIndex]);
 
   return (
     <StyledTrialScreen closing={closing}>

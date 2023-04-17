@@ -50,7 +50,9 @@ const tapController = {
   // Method to retrieve a tap by its id, taps will not be updated, only queried for saving a test in progress
   getTap: async (req, res) => {
     try {
-      const tap = await Tap.findByPk(req.params.id);
+      const tap = await Tap.findOne({
+        order: [["createdAt", "DESC"]],
+      });
 
       if (!tap) {
         return res.status(404).json({
@@ -59,16 +61,17 @@ const tapController = {
         });
       }
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
-        message: "Tap retrieved successfully",
+        message: "Most recent tap retrieved successfully",
         data: tap,
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
-        message: "Error in tapController - getTap: Failed to retrieve tap",
+        message:
+          "Error in tapController - getTap: Failed to retrieve most recent tap",
         error: err.message,
       });
     }
@@ -76,7 +79,8 @@ const tapController = {
   // Method to update an existing tap entry
   updateTap: async (req, res) => {
     try {
-      const tapId = req.params.id;
+      const tapId = req.params.uid;
+
       const {
         trial_id,
         tap_on_screen_number,
@@ -114,14 +118,14 @@ const tapController = {
         PRESS_LOCATION_Y_PIXELS: press_location_y_pixels,
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Tap updated successfully",
         data: updatedTap,
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "Error in tapController - updateTap: Failed to update tap",
         error: err.message,

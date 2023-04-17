@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { createTap, updateTap } from "../../redux/actions/tapActions";
+import { useDispatch } from "react-redux";
 
 function Trial({
   participant,
@@ -16,6 +17,8 @@ function Trial({
   const [touchStartEvent, setTouchStartEvent] = useState(null);
   const [actionInitiated, setActionInitiated] = useState("");
   const touchStartTime = useRef(null);
+
+  const dispatch = useDispatch();
 
   const handleTouchStart = () => {
     touchStartTime.current = Date.now();
@@ -34,21 +37,20 @@ function Trial({
     const y = e.changedTouches[0].clientY;
 
     const tapData = {
-      TRIAL_ID: test.UID,
-      TAP_ON_SCREEN_NUMBER: tap_on_screen_number,
-      SCREEN_NAME: screen_name,
-      SCREEN_SEQ: screen_seq,
-      TRIAL_RUNTIME_MS: trial_runtime_ms,
-      PRESS_START: new Date(touchStartTime.current).toISOString(),
-      PRESS_END: new Date(press_end).toISOString(),
-      PRESS_DURATION_MS: press_duration_ms,
-      ACTION_INITIATED: actionInitiated,
-      PRESS_LOCATION_X_PIXELS: x,
-      PRESS_LOCATION_Y_PIXELS: y,
+      trial_id: test.UID,
+      tap_on_screen_number: tap_on_screen_number,
+      screen_name: screen_name,
+      screen_seq: screen_seq,
+      trial_runtime_ms: trial_runtime_ms,
+      press_start: new Date(touchStartTime.current).toISOString(),
+      press_end: new Date(press_end).toISOString(),
+      press_duration_ms: press_duration_ms,
+      action_initiated: actionInitiated,
+      press_location_x_pixels: x,
+      press_location_y_pixels: y,
     };
 
-    console.log(tapData);
-    //dispatch(createTap(tapData));
+    dispatch(createTap(tapData));
 
     screenTapCounter.current++;
   };

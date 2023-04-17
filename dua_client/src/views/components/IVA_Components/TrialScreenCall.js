@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import PhoneScreen from "../../../assets/PhoneScreen.png";
 import PhoneCallEnd from "../../../assets/PhoneCallEnd.png";
+import { getTap, updateTap } from "../../../redux/actions/tapActions";
 
 const popIn = keyframes`
   0% {
@@ -33,12 +34,16 @@ const TrialScreenCall = ({
   nextIndex,
   screenName,
 }) => {
+  const dispatch = useDispatch();
   const [closing, setClosing] = useState(false);
-
   const destination = useSelector((state) => state.destination);
   const travelTime = useSelector((state) => state.travelTime);
 
-  const handleClose = () => {
+  const handleClose = async (nextIndex) => {
+    const response = await dispatch(getTap());
+    const lastTap = response.data;
+    lastTap.action_initiated = screenName + "_ok";
+    dispatch(updateTap(lastTap.UID, lastTap));
     setClosing(true);
     setTimeout(onClose(nextIndex), 300);
   };

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
+import { getTap, updateTap } from "../../../redux/actions/tapActions";
+import { setMap, setDestination } from "../../../redux/actions/trialActions";
 
 const popIn = keyframes`
   0% {
@@ -30,14 +33,27 @@ const TrialScreenPrompt = ({
   displayTimeSeconds,
   yesIndex,
   noIndex,
+  yesDestination,
 }) => {
   const [closing, setClosing] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleYes = (nextIndex) => {
+  const handleYes = async (nextIndex) => {
+    console.log(yesDestination);
+    dispatch(setDestination(yesDestination));
+
+    const response = await dispatch(getTap());
+    const lastTap = response.data;
+    lastTap.action_initiated = screenName + "_yes";
+    dispatch(updateTap(lastTap.UID, lastTap));
     handleClose(nextIndex);
   };
 
-  const handleNo = (nextIndex) => {
+  const handleNo = async (nextIndex) => {
+    const response = await dispatch(getTap());
+    const lastTap = response.data;
+    lastTap.action_initiated = screenName + "_no";
+    dispatch(updateTap(lastTap.UID, lastTap));
     handleClose(nextIndex);
   };
 

@@ -16,7 +16,7 @@ export const API_ROUTES = {
 
   // Tap routes
   CREATE_TAP: `${BASE_URL}/tap`,
-  GET_TAP: (uid) => `${BASE_URL}/tap/${uid}`,
+  GET_TAP: `${BASE_URL}/tap`,
   UPDATE_TAP: (uid) => `${BASE_URL}/tap/${uid}`,
 
   // Test routes

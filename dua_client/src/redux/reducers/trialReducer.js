@@ -11,7 +11,7 @@ import {
 const initialState = {
   currentScreen: "",
   priorScreens: [],
-  map: "StartMap",
+  map: "Start",
   travelTime: 0,
   isPaused: false,
   destination: "walgreens",
@@ -32,7 +32,7 @@ export const trialReducer = (state = initialState, action) => {
     case SET_PAUSED:
       return { ...state, isPaused: action.payload };
     case SET_DESTINATION:
-      return { ...state, destination: action.destination };
+      return { ...state, destination: action.payload };
     default:
       return state;
   }

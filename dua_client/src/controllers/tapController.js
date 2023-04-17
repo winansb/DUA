@@ -12,12 +12,12 @@ export const tapController = {
     }
   },
 
-  getTap: async (uid) => {
+  getTap: async () => {
     try {
-      const response = await axios.get(API_ROUTES.GET_TAP(uid));
+      const response = await axios.get(API_ROUTES.GET_TAP);
       return response.data;
     } catch (error) {
-      console.error(`tapController - getTap: Error getting tap ${uid}:`, error);
+      console.error(`tapController - getTap: Error getting tap: `, error);
       throw error;
     }
   },

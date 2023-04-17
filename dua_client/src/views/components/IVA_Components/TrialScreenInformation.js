@@ -35,6 +35,7 @@ const TrialScreenInformation = ({
   nextIndex,
   screenName,
   displayTimeSeconds,
+  mapName,
 }) => {
   const [closing, setClosing] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
@@ -50,22 +51,23 @@ const TrialScreenInformation = ({
         clearTimeout(timer);
       };
     }
-  }, [isOpen, displayTimeSeconds, onClose]);
+  }, [isOpen, displayTimeSeconds, onClose, nextIndex]);
 
-  const disaptch = useDispatch();
+  const dispatch = useDispatch();
 
-  const handleClose = (nextIndex) => {
+  const handleClose = async (nextIndex) => {
+    const response = await dispatch(getTap());
+    const lastTap = response.data;
+    lastTap.action_initiated = screenName + "_ok";
+    dispatch(updateTap(lastTap.UID, lastTap));
     setClosing(true);
-    // add getTap after making it return the most recent tap
-    // format new Tap object, we will be fillin in the tap action
-    // screenName and screen sequence.
     setTimeout(onClose(nextIndex), 300);
   };
 
   useEffect(() => {
     setCurrentScreen(screenName);
     return () => setClosing(false);
-  }, []);
+  }, [screenName]);
 
   return (
     <StyledTrialScreen closing={closing}>

@@ -7,8 +7,6 @@ const testController = {
       const {
         MCI,
         ORDER,
-        BREAKDOWN_TEST_ID,
-        DETOUR_TEST_ID,
         USE_PLAYBOOK,
         BREAKDOWN_OPTION_1,
         BREAKDOWN_OPTION_2,
@@ -30,19 +28,15 @@ const testController = {
         DETOUR_OPTION_2 === undefined ||
         DETOUR_OPTION_3 === undefined
       ) {
-        return res
-          .status(400)
-          .json({
-            error:
-              "Error in testController - createTest: Required fields are missing",
-          });
+        return res.status(400).json({
+          error:
+            "Error in testController - createTest: Required fields are missing",
+        });
       }
 
       const test = await Test.create({
         MCI,
         ORDER,
-        BREAKDOWN_TEST_ID: BREAKDOWN_TEST_ID || null,
-        DETOUR_TEST_ID: DETOUR_TEST_ID || null,
         USE_PLAYBOOK,
         BREAKDOWN_OPTION_1: BREAKDOWN_OPTION_1 || null,
         BREAKDOWN_OPTION_2: BREAKDOWN_OPTION_2 || null,
@@ -52,10 +46,12 @@ const testController = {
         DETOUR_OPTION_3: DETOUR_OPTION_3 || null,
       });
 
-      res.status(201).json(test);
+      return res.status(201).json(test);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Error in testController - createTest" });
+      return res
+        .status(500)
+        .json({ error: "Error in testController - createTest" });
     }
   },
   //method to udate all aspects of a test
@@ -73,11 +69,9 @@ const testController = {
           .send({ error: "TestController - updateTest: Test not found" });
       }
 
-      return res
-        .status(200)
-        .json({
-          message: "testController - updateTest: Test updated successfully",
-        });
+      return res.status(200).json({
+        message: "testController - updateTest: Test updated successfully",
+      });
     } catch (error) {
       console.error(error);
       return res
@@ -98,14 +92,14 @@ const testController = {
         });
       }
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Test retrieved successfully",
         data: test,
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "Error in testController - getTest: Failed to retrieve test",
         error: err.message,

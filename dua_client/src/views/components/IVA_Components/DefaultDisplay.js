@@ -2,32 +2,46 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import TripTravelTime from "./TripTravelTime";
-import InteractiveMap from "./InteractiveMap";
-import StartMap from "../../../assets/StartMap.png";
+import { setMap } from "../../../redux/actions/trialActions";
 
-const DefaultDisplay = ({ videoWindow, targetOrigin }) => {
-  const [destination, setDestination] = useState("walgreens");
-  const [initialState, setInitialState] = useState(false);
+import Start from "../../../assets/StartMap.png";
+import Detour from "../../../assets/DetourMap.png";
+import waffleHouse from "../../../assets/WaffleHouseMap.png";
+import home from "../../../assets/HomeMap.png";
 
-  const goToWalgreens = () => {
-    setDestination("walgreens");
-    setInitialState(false);
-  };
+const DefaultDisplay = ({ videoWindow, targetOrigin, column }) => {
+  const destination = useSelector((state) => state.trial.destination);
 
-  const goToWaffleHouse = () => {
-    setDestination("waffleHouse");
-  };
+  const [map, setMap] = useState(Start);
 
-  const goToHome = () => {
-    setDestination("home");
-  };
+  useEffect(() => {
+    let newMap;
+    switch (destination) {
+      case "walgreens":
+        newMap = Start;
+        break;
+      case "walgreensDetour":
+        newMap = Detour;
+        break;
+      case "waffleHouse":
+        newMap = waffleHouse;
+        break;
+      case "home":
+        newMap = home;
+        break;
+      default:
+    }
+    if (destination) {
+      setMap(newMap);
+    }
+  }, [destination]);
 
   return (
     <DefaultDisplayContainer>
       <ChangeDestinationButton>Change Destination</ChangeDestinationButton>
       <TripTravelTime videoWindow={videoWindow} targetOrigin={targetOrigin} />
       <MapPlaceholder>
-        <MapImage src={StartMap} alt="Start Map" />
+        <MapImage src={map} alt="Map" />
       </MapPlaceholder>
     </DefaultDisplayContainer>
   );
@@ -72,13 +86,13 @@ const MapPlaceholder = styled.div`
 
 const MapImage = styled.img`
   display: block;
-  max-width: 100%;
-  max-height: 100%;
+  width: 1300px;
+  height: 800px;
   object-fit: contain;
   border: 1px solid #000;
   padding: 1px;
   box-sizing: border-box;
-  margin-left: -20px;
+  margin: -20px 0px 0px 20px;
 
   transform: scale(0.8);
 `;

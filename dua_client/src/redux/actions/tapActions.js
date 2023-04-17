@@ -12,8 +12,8 @@ export const UPDATE_TAP_FAILURE = "UPDATE_TAP_FAILURE";
 
 export const createTap = (tapData) => {
   return async (dispatch) => {
-    dispatch({ type: CREATE_TAP_REQUEST });
     try {
+      dispatch({ type: CREATE_TAP_REQUEST });
       const tap = await tapController.createTap(tapData);
       dispatch({
         type: CREATE_TAP_SUCCESS,
@@ -30,11 +30,11 @@ export const createTap = (tapData) => {
   };
 };
 
-export const getTap = (uid) => {
+export const getTap = () => {
   return async (dispatch) => {
     dispatch({ type: GET_TAP_REQUEST });
     try {
-      const tap = await tapController.getTap(uid);
+      const tap = await tapController.getTap();
       dispatch({
         type: GET_TAP_SUCCESS,
         payload: tap,

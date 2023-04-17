@@ -38,9 +38,9 @@ router.get("/screen/:uid", screenController.getScreen);
 // Create a tap in the db
 router.post("/tap", tapController.createTap);
 // Getting a tap
-router.get("/tap/:uid", tapController.getTap);
+router.get("/tap/", tapController.getTap);
 // Updating a tap
-router.put("/tap/:uid", screenController.finishScreen);
+router.put("/tap/:uid", tapController.updateTap);
 
 /*-----------------------------------------------*/
 
