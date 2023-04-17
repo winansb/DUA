@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DefaultDisplay from "./DefaultDisplay";
 import VehicleDate from "./VehicleDate";
@@ -13,6 +14,7 @@ import TrialScreenNotif from "./TrailScreenNotif";
 import { detourScreens } from "./Detour/Detour";
 import { breakdownScreens } from "./Breakdown/Breakdown";
 import TrialScreenCall from "./TrialScreenCall";
+import { setPaused } from "../../../redux/actions/trialActions";
 
 const VehicleUI = (props) => {
   const {
@@ -30,23 +32,38 @@ const VehicleUI = (props) => {
 
   const screens = column === 0 ? detourScreens : breakdownScreens;
 
-  const handleScreenClose = () => {
-    setShowOverlay(false);
-    setCurrentScreenIndex(currentScreenIndex + 1);
-    console.log(currentScreenIndex);
-  };
+  const dispatch = useDispatch();
+  const isPaused = useSelector((state) => state.trial.isPaused);
+
+  const handlePause = useCallback(() => {
+    dispatch(setPaused(!isPaused));
+    if (videoWindow) {
+      videoWindow.postMessage(
+        { action: isPaused ? "play" : "pause" },
+        targetOrigin || "*"
+      );
+    }
+  }, [isPaused, videoWindow, targetOrigin, dispatch]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress >= 100 ? 0 : prevProgress + 1
-      );
-    }, 100);
+    const handleKeyDown = (event) => {
+      if (event.code === "Space") {
+        handlePause();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      clearInterval(interval);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [isPaused, videoWindow, targetOrigin, handlePause]);
+
+  const handleScreenClose = (nextIndex) => {
+    setShowOverlay(false);
+    setCurrentScreenIndex(nextIndex);
+    console.log(currentScreenIndex);
+  };
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -81,6 +98,9 @@ const VehicleUI = (props) => {
           <TrialScreenInformation
             information={currentScreen.content}
             onClose={handleScreenClose}
+            nextIndex={currentScreen.Ok}
+            videoWindow={videoWindow}
+            targetOrigin={targetOrigin}
           />
         );
       case "Prompt":
@@ -88,6 +108,8 @@ const VehicleUI = (props) => {
           <TrialScreenPrompt
             contents={currentScreen.content}
             onClose={handleScreenClose}
+            videoWindow={videoWindow}
+            targetOrigin={targetOrigin}
           />
         );
       case "Notif":
@@ -95,10 +117,18 @@ const VehicleUI = (props) => {
           <TrialScreenNotif
             contents={currentScreen.content}
             onClose={handleScreenClose}
+            videoWindow={videoWindow}
+            targetOrigin={targetOrigin}
           />
         );
       case "Call":
-        return <TrialScreenCall onClose={handleScreenClose} />;
+        return (
+          <TrialScreenCall
+            onClose={handleScreenClose}
+            videoWindow={videoWindow}
+            targetOrigin={targetOrigin}
+          />
+        );
       default:
         return null;
     }
@@ -113,7 +143,11 @@ const VehicleUI = (props) => {
         <HelpButton onClick={handleHelpButtonClick}>Help</HelpButton>
       </TopRight>
       <LargeLeft className={showOverlay ? "overlay-active" : ""}>
-        <DefaultDisplay column={column} progress={progress} />
+        <DefaultDisplay
+          column={column}
+          videoWindow={videoWindow}
+          targetOrigin={targetOrigin}
+        />
         {showOverlay && renderTrialScreen()}
       </LargeLeft>
       <LargeRight>

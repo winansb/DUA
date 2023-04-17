@@ -16,12 +16,14 @@ export const detourScreens = [
     type: "Information",
     content:
       "We have detected a road blockage ahead that is preventing us from driving.",
+    Ok: 1,
   },
   //Detour 2
   {
     type: "Information",
     content:
-      "Please stay calm and remain in side the car while we solve the issue.",
+      "Please stay calm and remain inside the car while we solve the issue.",
+    Ok: 2,
   },
   //Detour 3
   {

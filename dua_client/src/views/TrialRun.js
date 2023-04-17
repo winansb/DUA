@@ -8,6 +8,7 @@ import TrialWrapper from "./TrialWrapper";
 const TrialRun = () => {
   const location = useLocation();
   const { test, participant, column } = location.state;
+  const [status, setStatus] = useState("welcome");
   const [showTrial, setShowTrial] = useState(false);
   const [countDown, setCountDown] = useState(null);
   const [videoWindow, setVideoWindow] = useState(null);
@@ -46,52 +47,63 @@ const TrialRun = () => {
   }, []);
 
   const handleStartTrial = () => {
-    setShowTrial(true);
-    videoWindow.postMessage({ action: "play" }, targetOrigin || "*");
-    const countdownTimer = () => {
-      if (countDown === null) {
-        setCountDown(3);
-      } else if (countDown > 1) {
-        setCountDown(countDown - 1);
-      } else {
-        setCountDown(null);
-        clearTimeout(timer);
-      }
-    };
-    const timer = setInterval(countdownTimer, 1000);
+    setStatus("countdown");
+    setCountDown(3);
   };
+
+  useEffect(() => {
+    let timer;
+    if (status === "countdown" && countDown !== null) {
+      timer = setInterval(() => {
+        setCountDown((prevCountDown) => prevCountDown - 1);
+      }, 1000);
+    }
+    return () => {
+      clearInterval(timer);
+    };
+  }, [status, countDown]);
+
+  useEffect(() => {
+    if (countDown === 0) {
+      setStatus("trial");
+      setShowTrial(true);
+      videoWindow.postMessage({ action: "play" }, targetOrigin || "*");
+    }
+  }, [countDown]);
 
   return (
     <div>
-      <>
-        {!showTrial && (
-          <ScreenWrapper>
+      {!showTrial && (
+        <ScreenWrapper>
+          {status === "welcome" && (
             <WelcomeWrapper>
               Welcome, {participant.PARTICIPANT_NAME}
             </WelcomeWrapper>
-            {countDown ? (
-              <CountdownWrapper>{countDown}</CountdownWrapper>
-            ) : (
-              <InstructionWrapper onClick={handleStartTrial}>
-                <p>Press when you are ready to start</p>
-              </InstructionWrapper>
-            )}
-          </ScreenWrapper>
-        )}
-        {showTrial && (
-          <TrialWrapper
-            test={test}
-            participant={participant}
-            column={column}
-            videoWindow={videoWindow}
-            targetOrigin={targetOrigin}
-          />
-        )}
-      </>
+          )}
+          {status === "countdown" && (
+            <>
+              <WelcomeWrapper>Trial beginning in {countDown}</WelcomeWrapper>
+            </>
+          )}
+          {status === "welcome" && (
+            <InstructionWrapper onClick={handleStartTrial}>
+              <p>Press when you are ready to start</p>
+            </InstructionWrapper>
+          )}
+        </ScreenWrapper>
+      )}
+      {showTrial && (
+        <TrialWrapper
+          test={test}
+          participant={participant}
+          column={column}
+          videoWindow={videoWindow}
+          targetOrigin={targetOrigin}
+        />
+      )}
     </div>
   );
 };
-
 export default TrialRun;
 
 const CountdownWrapper = styled.div`

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
+import {
+  setCurrentScreen,
+  setPriorScreens,
+} from "../../../redux/actions/trialActions";
 
 const popIn = keyframes`
   0% {
@@ -23,12 +27,12 @@ const popOut = keyframes`
   }
 `;
 
-const TrialScreenInformation = ({ onClose, information, screenName }) => {
+const TrialScreenInformation = ({ onClose, information, nextIndex }) => {
   const [closing, setClosing] = useState(false);
 
-  const handleClose = () => {
+  const handleClose = (nextIndex) => {
     setClosing(true);
-    setTimeout(onClose, 300);
+    setTimeout(onClose(nextIndex), 300);
   };
 
   useEffect(() => {
@@ -39,7 +43,7 @@ const TrialScreenInformation = ({ onClose, information, screenName }) => {
     <StyledTrialScreen closing={closing}>
       <TopBorder />
       <InfoText>{information}</InfoText>
-      <OkButton onClick={handleClose}>Ok</OkButton>
+      <OkButton onClick={() => handleClose(nextIndex)}>Ok</OkButton>
     </StyledTrialScreen>
   );
 };

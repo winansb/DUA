@@ -10,6 +10,7 @@ const TrialVideo = () => {
     "Please wait a moment while videos pre-load"
   );
   const [videosLoaded, setVideosLoaded] = useState(0);
+  const [finalVideo, setFinalVideo] = useState("");
 
   const videoPlaying = useRef(null);
   const trialStartVideo = useRef(null);
@@ -26,10 +27,38 @@ const TrialVideo = () => {
     }
   };
 
+  const sendRemainingTime = () => {
+    const currentVideoRemaining =
+      trialStartVideo.current.duration - trialStartVideo.current.currentTime;
+    const nextVideoRemaining =
+      trialEndVideo.current.duration - trialEndVideo.current.currentTime;
+
+    const timeRemaining = currentVideoRemaining + nextVideoRemaining;
+    console.log(timeRemaining);
+    window.opener.postMessage(
+      {
+        action: "receiveTimeRemaining",
+        timeRemaining,
+      },
+      "*"
+    );
+  };
+
+  const sendCurrentTime = () => {
+    const currentTime = videoPlaying.current.duration;
+    window.opener.postMessage(
+      {
+        action: "receiveCurrentTime",
+        currentTime,
+      },
+      "*"
+    );
+  };
+
   useEffect(() => {
     function handleMessage(e) {
       const action = e.data.action;
-
+      console.log(action);
       switch (action) {
         case "play":
           videoPlaying.current.play();
@@ -38,13 +67,19 @@ const TrialVideo = () => {
           videoPlaying.current.pause();
           break;
         case "setFinalVideo":
-          trialEndVideo.current.src = e.data.finalVideo;
+          setFinalVideo(e.data.finalVideo);
           break;
         case "setVideo":
           videoPlaying.current.src = e.data.video;
           break;
         case "setTime":
           videoPlaying.current.currentTime = e.data.time;
+          break;
+        case "getTimeRemaining":
+          sendRemainingTime();
+          break;
+        case "getCurrentTime":
+          sendCurrentTime();
           break;
         default:
           break;
@@ -77,9 +112,10 @@ const TrialVideo = () => {
       />
       <video
         ref={trialEndVideo}
-        src=""
+        src={Detour_Walgreen}
         onLoadedData={onVideoLoaded}
         style={{ display: "none" }}
+        preload="auto"
       />
       <video
         src={Detour_Home}

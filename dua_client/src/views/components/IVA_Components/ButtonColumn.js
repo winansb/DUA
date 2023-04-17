@@ -41,7 +41,8 @@ const Button = styled.button`
   cursor: pointer;
   transition: transform 250ms;
   border-radius: 35px;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   &:hover {
@@ -52,9 +53,12 @@ const Button = styled.button`
 const ButtonImg = styled.img`
   width: 50px;
   height: 50px;
-  margin-right: 20px;
+  flex-shrink: 0;
 `;
 
-const ButtonText = styled.span``;
+const ButtonText = styled.span`
+  text-align: center;
+  flex-grow: 1;
+`;
 
 export default ButtonColumn;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
 import { createTap, updateTap } from "../../redux/actions/tapActions";
 
 function Trial({
@@ -13,54 +12,13 @@ function Trial({
   const [currentTargetOrigin, setCurrentTargetOrigin] = useState(targetOrigin);
 
   const screenTapCounter = useRef(1);
-  const [currentScreenName, setCurrentScreenName] = useState("");
-  const [screenSequence, setScreenSequence] = useState([]);
   const trialStartTime = useRef(null);
   const [touchStartEvent, setTouchStartEvent] = useState(null);
   const [actionInitiated, setActionInitiated] = useState("");
   const touchStartTime = useRef(null);
-  const dispatch = useDispatch();
 
   const handleTouchStart = () => {
     touchStartTime.current = Date.now();
-  };
-
-  const updateCurrentScreen = (screenName) => {
-    setCurrentScreenName(screenName);
-    setScreenSequence((prevSequence) => [...prevSequence, screenName]);
-  };
-
-  const playVideo = () => {
-    if (currentTargetOrigin) {
-      videoWindow.postMessage({ action: "play" }, targetOrigin);
-    }
-  };
-
-  const pauseVideo = () => {
-    if (currentTargetOrigin) {
-      videoWindow.postMessage({ action: "pause" }, targetOrigin);
-    }
-  };
-
-  const setFinalVideo = (finalVideo) => {
-    if (currentTargetOrigin) {
-      videoWindow.postMessage(
-        { action: "setFinalVideo", finalVideo },
-        targetOrigin
-      );
-    }
-  };
-
-  const setVideo = (video) => {
-    if (currentTargetOrigin) {
-      videoWindow.postMessage({ action: "setVideo", video }, targetOrigin);
-    }
-  };
-
-  const setTime = (time) => {
-    if (currentTargetOrigin) {
-      videoWindow.postMessage({ action: "setTime", time }, targetOrigin);
-    }
   };
 
   const handleTouchEnd = (e) => {
@@ -68,8 +26,8 @@ function Trial({
     const press_duration_ms = press_end - touchStartTime.current;
 
     const tap_on_screen_number = screenTapCounter.current;
-    const screen_name = currentScreenName;
-    const screen_seq = screenSequence.join(",");
+    const screen_name = " ";
+    const screen_seq = " ";
     const trial_runtime_ms = Date.now() - trialStartTime.current;
 
     const x = e.changedTouches[0].clientX;
@@ -119,12 +77,6 @@ function Trial({
   }, []);
 
   useEffect(() => {
-    if (actionInitiated !== "") {
-      setActionInitiated("");
-    }
-  }, [actionInitiated]);
-
-  useEffect(() => {
     setCurrentTargetOrigin(targetOrigin);
   }, [targetOrigin]);
 
@@ -132,19 +84,12 @@ function Trial({
     <>
       {React.Children.map(children, (child) =>
         React.cloneElement(child, {
-          playVideo,
-          pauseVideo,
-          setFinalVideo,
-          setVideo,
-          setTime,
           videoWindow,
           targetOrigin,
-          updateCurrentScreen,
           participant,
           test,
           column,
           actionInitiated,
-          setActionInitiated,
         })
       )}
     </>
