@@ -89,7 +89,6 @@ const MapImage = styled.img`
   width: 1300px;
   height: 800px;
   object-fit: contain;
-  border: 1px solid #000;
   padding: 1px;
   box-sizing: border-box;
   margin: -20px 0px 0px 20px;
