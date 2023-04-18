@@ -75,11 +75,13 @@ const VehicleUI = (props) => {
       dispatch(setPaused((prevState) => !prevState));
     }
 
-    if (detourScreenTimings.includes(seconds)) {
-      // logic to determine whether or not to show screen
-      console.log(participant);
+    if (Object.keys(detourScreenTimings).includes(String(seconds))) {
+      const targetScreenIndex = detourScreenTimings[seconds];
+      if (currentScreenIndex === targetScreenIndex && !showOverlay) {
+        setShowOverlay(true);
+      }
     }
-  }, [participant, dispatch, counter]);
+  }, [dispatch, counter, currentScreenIndex, showOverlay]);
 
   useEffect(() => {
     if (videoWindow) {
