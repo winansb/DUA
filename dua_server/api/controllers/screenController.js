@@ -14,23 +14,21 @@ const screenController = {
       } = req.body;
 
       const newScreen = await Screen.create({
-        SCREEN_NUMBER_IN_ORDER,
-        LOCAL_TIME_AT_START,
-        TRIAL_RUNTIME_AT_START_SECONDS,
-        SCREEN_NAME,
-        TRIAL_ID,
-        VIDEO_PLAYING,
-        VIDEO_TIME_AT_START_SECONDS,
+        SCREEN_NUMBER_IN_ORDER: SCREEN_NUMBER_IN_ORDER,
+        LOCAL_TIME_AT_START: LOCAL_TIME_AT_START,
+        TRIAL_RUNTIME_AT_START_SECONDS: TRIAL_RUNTIME_AT_START_SECONDS,
+        SCREEN_NAME: SCREEN_NAME,
+        TRIAL_ID: TRIAL_ID,
+        VIDEO_PLAYING: VIDEO_PLAYING,
+        VIDEO_TIME_AT_START_SECONDS: VIDEO_TIME_AT_START_SECONDS,
       });
       res.status(201).json(newScreen);
     } catch (err) {
       console.error(err);
-      res
-        .status(500)
-        .json({
-          error:
-            "Error in screenController - createScreen: failed to make new screen",
-        });
+      res.status(500).json({
+        error:
+          "Error in screenController - createScreen: failed to make new screen",
+      });
     }
   },
 

@@ -15,10 +15,13 @@ import {
   detourScreens,
   detourScreenTimings,
   detourPauses,
-} from "./Detour/Detour";
-import { breakdownScreens } from "./Breakdown/Breakdown";
+  breakdownScreens,
+  breakdownScreenTimings,
+  breakdownPauses,
+} from "./Detour/TrialInformation";
 import TrialScreenCall from "./TrialScreenCall";
 import { setPaused } from "../../../redux/actions/trialActions";
+import { createScreen } from "../../../redux/actions/screenActions";
 
 const buttonData = [
   {
@@ -44,6 +47,7 @@ const VehicleUI = (props) => {
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
   const dispatch = useDispatch();
   const isPaused = useSelector((state) => state.trial.isPaused);
+  const travelTime = useSelector((state) => state.trial.travelTime);
 
   // Counter timer logic
   const [counter, setCounter] = useState(0);
@@ -62,7 +66,19 @@ const VehicleUI = (props) => {
     };
   }, [isPaused]);
 
-  const screens = column === 0 ? detourScreens : breakdownScreens;
+  const { screens, pauses, screenTimings } = useMemo(() => {
+    return column === 0
+      ? {
+          screens: detourScreens,
+          pauses: detourPauses,
+          screenTimings: detourScreenTimings,
+        }
+      : {
+          screens: breakdownScreens,
+          pauses: breakdownPauses,
+          screenTimings: breakdownScreenTimings,
+        };
+  }, [column]);
 
   const handlePause = useCallback(() => {
     dispatch(setPaused(!isPaused));
@@ -71,11 +87,11 @@ const VehicleUI = (props) => {
   // Trial timed pauses and timed screen functionality here
   useEffect(() => {
     const seconds = counter / 1000;
-    if (detourPauses.includes(seconds)) {
+    if (pauses.includes(seconds)) {
       dispatch(setPaused((prevState) => !prevState));
     }
 
-    if (Object.keys(detourScreenTimings).includes(String(seconds))) {
+    if (Object.keys(screenTimings).includes(String(seconds))) {
       const targetScreenIndex = detourScreenTimings[seconds];
       if (currentScreenIndex === targetScreenIndex && !showOverlay) {
         setShowOverlay(true);
@@ -113,21 +129,22 @@ const VehicleUI = (props) => {
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
+    console.log(test);
 
+    const newScreen = {
+      SCREEN_NUMBER_IN_ORDER: 0,
+      LOCAL_TIME_AT_START: new Date().toLocaleString(),
+      TRIAL_RUNTIME_AT_START_SECONDS: counter / 1000,
+      SCREEN_NAME: "DefaultUI",
+      TRIAL_ID: test.UID,
+      VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
+      VIDEO_TIME_AT_START_SECONDS: counter,
+    };
+    dispatch(createScreen(newScreen));
     return () => {
       document.body.style.overflow = "";
     };
   }, []);
-
-  const buttonData = [
-    {
-      text: "Pair Your Device",
-      imgSrc: twoPhones,
-    },
-    { text: "Entertainment", imgSrc: tvPic },
-    { text: "Vehicle Setting", imgSrc: carSettings },
-    { text: "Call", imgSrc: phoneApp },
-  ];
 
   const handleHelpButtonClick = () => {
     setShowOverlay(!showOverlay);

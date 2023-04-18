@@ -2,9 +2,9 @@ import axios from "axios";
 import { API_ROUTES } from "../apiRoutes";
 
 export const screenController = {
-  createScreen: async () => {
+  createScreen: async (newScreen) => {
     try {
-      const response = await axios.post(API_ROUTES.CREATE_SCREEN);
+      const response = await axios.post(API_ROUTES.CREATE_SCREEN, newScreen);
       return response.data;
     } catch (error) {
       console.error(

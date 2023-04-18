@@ -126,6 +126,8 @@ export const detourScreens = [
   },
 ];
 
+export const breakdownScreens = [{}];
+
 export const detourScreenTimings = {
   // TimeinSeconds : screen index (detour1=0, detour2=1 etc. )
   // D1 1:15,
@@ -146,5 +148,8 @@ export const detourScreenTimings = {
   175: 11,
 };
 
+export const breakdownScreenTimings = {};
+
 // Pause at 5 seconds, 10 seconds, 20 seconds and none other
 export const detourPauses = [5, 10, 20];
+export const breakdownPauses = [5, 10, 20];

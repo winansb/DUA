@@ -9,10 +9,10 @@ export const GET_SCREEN_SUCCESS = "GET_SCREEN_SUCCESS";
 export const GET_SCREEN_FAILURE = "GET_SCREEN_FAILURE";
 
 // action creators
-export const createScreen = () => {
+export const createScreen = (newScreen) => {
   return async (dispatch) => {
     try {
-      const screen = await screenController.createScreen();
+      const screen = await screenController.createScreen(newScreen);
       dispatch({ type: CREATE_SCREEN_SUCCESS, payload: screen });
 
       return screen;
