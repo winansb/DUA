@@ -20,6 +20,16 @@ import { breakdownScreens } from "./Breakdown/Breakdown";
 import TrialScreenCall from "./TrialScreenCall";
 import { setPaused } from "../../../redux/actions/trialActions";
 
+const buttonData = [
+  {
+    text: "Pair Your Device",
+    imgSrc: twoPhones,
+  },
+  { text: "Entertainment", imgSrc: tvPic },
+  { text: "Vehicle Setting", imgSrc: carSettings },
+  { text: "Call", imgSrc: phoneApp },
+];
+
 const VehicleUI = (props) => {
   const {
     participant,
@@ -52,32 +62,33 @@ const VehicleUI = (props) => {
     };
   }, [isPaused]);
 
-  // Pause trial based on detourPauses
-  const [pauseIndex, setPauseIndex] = useState(0);
-  useEffect(() => {
-    if (pauseIndex < detourPauses.length) {
-      const currentPauseTime = detourPauses[pauseIndex] * 1000;
-      if (counter === currentPauseTime) {
-        dispatch(setPaused(true));
-        if (videoWindow) {
-          videoWindow.postMessage({ action: "pause" }, targetOrigin || "*");
-        }
-        setPauseIndex((prevPauseIndex) => prevPauseIndex + 1);
-      }
-    }
-  }, [counter, pauseIndex, videoWindow, targetOrigin, dispatch]);
-
   const screens = column === 0 ? detourScreens : breakdownScreens;
 
   const handlePause = useCallback(() => {
     dispatch(setPaused(!isPaused));
+  }, [dispatch, isPaused]);
+
+  // Trial timed pauses and timed screen functionality here
+  useEffect(() => {
+    const seconds = counter / 1000;
+    if (detourPauses.includes(seconds)) {
+      dispatch(setPaused((prevState) => !prevState));
+    }
+
+    if (detourScreenTimings.includes(seconds)) {
+      // logic to determine whether or not to show screen
+      console.log(participant);
+    }
+  }, [participant, dispatch, counter]);
+
+  useEffect(() => {
     if (videoWindow) {
       videoWindow.postMessage(
-        { action: isPaused ? "play" : "pause" },
+        { action: isPaused ? "pause" : "play" },
         targetOrigin || "*"
       );
     }
-  }, [isPaused, videoWindow, targetOrigin, dispatch]);
+  }, [isPaused, targetOrigin, videoWindow]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -91,12 +102,11 @@ const VehicleUI = (props) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isPaused, videoWindow, targetOrigin, handlePause]);
+  }, [handlePause]);
 
   const handleScreenClose = (nextIndex) => {
     setShowOverlay(false);
     setCurrentScreenIndex(nextIndex);
-    console.log(currentScreenIndex);
   };
 
   useEffect(() => {
@@ -120,19 +130,6 @@ const VehicleUI = (props) => {
   const handleHelpButtonClick = () => {
     setShowOverlay(!showOverlay);
   };
-  const timesInSeconds = useMemo(() => [2, 4, 6], []);
-
-  useEffect(() => {
-    const timers = timesInSeconds.map((time) => {
-      return setTimeout(() => {
-        setShowOverlay(true);
-      }, time * 1000);
-    });
-
-    return () => {
-      timers.forEach((timer) => clearTimeout(timer));
-    };
-  }, [timesInSeconds]);
 
   const renderTrialScreen = () => {
     const currentScreen = screens[currentScreenIndex];

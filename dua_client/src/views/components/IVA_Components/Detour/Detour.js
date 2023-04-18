@@ -127,7 +127,7 @@ export const detourScreens = [
 ];
 
 // D1 1:15, D2: 1:30, D3: 1:45, D5: 2:00, D7: 2:15, D9: 2:30, D10: 2:45 D12: 3:00
-export const detourScreenTimings = [75, 90, 105, 115, 130, 145, 160, 175];
+export const detourScreenTimings = [5, 10, 20, 115, 130, 145, 160, 175];
 
-// Pause at 5 seconds, 10 seconds, and 12 seconds
-export const detourPauses = [5, 5, 2];
+// Pause at 5 seconds, 10 seconds, 20 seconds and none other
+export const detourPauses = [5, 10, 20];
