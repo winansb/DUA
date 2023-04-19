@@ -1,218 +1,192 @@
 #include "main.h"
 
-// // Button_Box HID Keyboard Report ! 
-// typedef struct{
-//     uint16_t digitals; // Digital inputs - buttons
-//     int16_t analogs[1]; // Analog inputs - Potentiometer used to model slider
-// } keyboard_report_t; 
+/* ----------------------------------------- */
+// Constants and variables
+const uint8_t CDC_BUF_SIZE = 64;
+uint8_t r = 0;
+uint32_t hex_code = 0x00000000;
+uint8_t button_key_code = 0;
 
-// // Button_Box CDC commands
-// // this allows for commands to be sent over serial 
-// // to trigger color changes on the button
-// typedef struct{
-//     uint32_t digitals; 
-//     int16_t analogs[1]; 
-// } cdc_commands_t;
+/* ----------------------------------------- */
 
-// // objects for storing the report each interface option should send
-// keyboard_report_t button; 
-// keyboard_report_t knob; 
+void invert_pwm(uint16_t *pwm_value) {
+    *pwm_value = 255 - *pwm_value;
+}
 
-// // object to store CDC Command Data
-// cdc_commands_t commands; 
+// Helper function to decompile hex color code into RGB components
+void hex_to_rgb(uint32_t hex_code, uint8_t *red, uint8_t *green, uint8_t *blue) {
+    //convert the uint8_t hex code into an equivalent uint16_t for the pwm, additionally invert the values as our LEDs share common power 
+    *red = 255 - ( (hex_code >> 16) & 0xFF );
+    *green = 255 - ( (hex_code >> 8) & 0xFF);
+    *blue = 255 - ( hex_code & 0xFF);
 
-// #define ITF_KEYBOARD 0
+}
 
-// void led_blinking_task(void);
-// void hid_task(void);
+// Helper function to set the RGB color using PWM
+void set_button_hex_color(uint32_t hex_code) {
 
-int main() {
- 
-    Button_Box_Systems_init();
+    uint8_t red, green, blue;
+
+    hex_to_rgb(hex_code, &red, &green, &blue); 
+
+    pwm_set_gpio_level(RED_LED, red);
+    pwm_set_gpio_level(GREEN_LED, green);
+    pwm_set_gpio_level(BLUE_LED, blue);
+
+}
+
+
+// debouncing technique and make sure the button only gets pressed once
+bool is_button_pressed() {
+    static bool last_button_state = true;
+    static uint32_t last_press_time = 0;
+    bool current_button_state = gpio_get(BTN_PIN) == 0;
+    uint32_t current_time = to_us_since_boot(get_absolute_time());
+
+    if (current_button_state && !last_button_state && current_time - last_press_time > DEBOUNCE_DELAY_US) {
+        last_press_time = current_time;
+        last_button_state = current_button_state;
+        return true;
+    }
+    
+    last_button_state = current_button_state;
+    return false;
+}
+
+void button_box_adc_init(){
+    adc_init(); 
+
+    adc_gpio_init(POT_PIN); 
+
+    adc_select_input(0); 
+
+}
+
+void button_box_gpio_init(){
+
+    //gpio_init(LED_PIN);
+    gpio_set_dir(LED_PIN, GPIO_OUT);
+
+    //gpio_init(BTN_PIN);
+    gpio_set_dir(BTN_PIN, GPIO_IN);
+    gpio_pull_up(BTN_PIN); 
+
+}
+
+void button_box_pwm_init(){
+    // Set up PWM for RGB LEDs
+    gpio_set_function(RED_LED, GPIO_FUNC_PWM);
+    gpio_set_function(GREEN_LED, GPIO_FUNC_PWM);
+    gpio_set_function(BLUE_LED, GPIO_FUNC_PWM);
+
+    uint r_slice = pwm_gpio_to_slice_num(RED_LED);
+    uint g_slice = pwm_gpio_to_slice_num(GREEN_LED);
+    uint b_slice = pwm_gpio_to_slice_num(BLUE_LED);
+
+    pwm_config config = pwm_get_default_config();
+    pwm_config_set_wrap(&config, 255);
+
+    pwm_init(r_slice, &config, true);
+    pwm_init(g_slice, &config, true);
+    pwm_init(b_slice, &config, true);
+
+    pwm_set_gpio_level(RED_LED, 0);
+    pwm_set_gpio_level(GREEN_LED, 0);
+    pwm_set_gpio_level(BLUE_LED, 0);
+
+    pwm_set_enabled(r_slice, true);
+    pwm_set_enabled(g_slice, true);
+    pwm_set_enabled(b_slice, true);
+
+}
+
+
+void Button_Box_Systems_init(){
 
     stdio_usb_init();
 
-    uint32_t hex_code = 0x00000000; 
+    stdio_init_all();
+    bi_decl(bi_program_description("Button_Box"));
+    bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
+    bi_decl(bi_1pin_with_name(BTN_PIN, "Button Pin"));
+    bi_decl(bi_1pin_with_name(GREEN_LED, "Green LED"));
+    bi_decl(bi_1pin_with_name(RED_LED, "Red LED"));
+    bi_decl(bi_1pin_with_name(BLUE_LED, "Blue LED"));
+
+    button_box_gpio_init();
+
+    button_box_pwm_init();
+
+    button_box_adc_init();
+
+
+}
+
+void process_usb_input(const char *input) {
+    if (strncmp(input, "set_key_code:", 13) == 0) {
+        uint8_t key_code = (uint8_t)strtoul(input + 13, NULL, 10);
+        button_key_code = key_code;
+    } else if (strncmp(input, "set_hex_code:", 13) == 0) {
+        uint32_t new_hex_code = (uint32_t)strtoul(input + 13, NULL, 16);
+        hex_code = new_hex_code;
+    }
+}
+
+void receive_usb_data() {
+    char buf[CDC_BUF_SIZE + 1];
+    memset(buf, 0, CDC_BUF_SIZE + 1);
+    uint32_t num_bytes_read = 0;
+
+    if (tud_cdc_connected()) {
+        num_bytes_read = tud_cdc_n_read(0, buf, CDC_BUF_SIZE);
+        if (num_bytes_read > 0) {
+            buf[num_bytes_read] = 0;  // Ensure null-termination
+            process_usb_input(buf);
+        }
+    }
+}
+
+void send_usb_data(uint8_t *data, uint32_t length) {
+    if (tud_cdc_connected()) {
+        tud_cdc_n_write(0, data, length);
+        tud_cdc_n_write_flush(0);
+    }
+}
+
+
+
+
+int main() {
+    Button_Box_Systems_init();
+
 
     const float adc_conversion_factor = 3.3f / (1 << 12);
-
-    uint8_t cdc_buffer[CDC_BUFFER_SIZE];
+    uint8_t report[3];
 
     while (true) {
 
-            // Check for incoming CDC data
-        int bytes_available = usb_cdc_rx_available();
-        if (bytes_available > 0) {
-        // Read CDC data into buffer
-        int bytes_read = usb_cdc_rx(cdc_buffer, bytes_available);
-        
-        // Parse hex code and set PWM levels for RGB LEDs
-        for (int i = 0; i < bytes_read; i += 2) {
-            uint8_t channel = cdc_buffer[i];
-            uint8_t pwm_value = cdc_buffer[i + 1];
-            set_pwm_level(channel, pwm_value);
+        // Receive serial data over USB
+        receive_usb_data();
+
+        // Set the knob value (ADC)
+        uint16_t adc_value = adc_read();
+        report[0] = adc_value & 0xFF;
+        report[1] = adc_value >> 8;
+
+        // Set the button keycode
+        if (is_button_pressed()) {
+            report[2] = button_key_code;
+        } else {
+            report[2] = 0;
         }
 
-        if (is_button_pressed()) {
-            printf("Button pressed!\n");
+        // Send report data over USB
+        send_usb_data(report, sizeof(report));
 
-            // Toggle the onboard LED
-            gpio_put(LED_PIN, !gpio_get(LED_PIN));
-
-            uint16_t result = adc_read();
-
-            printf("Raw value: 0x%03x, voltage: %f V\n", result, result * adc_conversion_factor);
-
-            // the following cascades through red->green->blue from dim to bright to show functionality 
-            for (int i = 0; i < 256; i++) {
-                uint16_t pwm_value_r = i;
-                uint16_t pwm_value_g = 0;
-                uint16_t pwm_value_b = 0;
-                invert_pwm(&pwm_value_r);
-                invert_pwm(&pwm_value_g);
-                invert_pwm(&pwm_value_b);
-                pwm_set_gpio_level(RED_LED, pwm_value_r);
-                pwm_set_gpio_level(GREEN_LED, pwm_value_g);
-                pwm_set_gpio_level(BLUE_LED, pwm_value_b);
-                sleep_ms(10);
-            }
-            for (int i = 0; i < 256; i++) {
-                uint16_t pwm_value_r = 0;
-                uint16_t pwm_value_g = i;
-                uint16_t pwm_value_b = 0;
-                invert_pwm(&pwm_value_r);
-                invert_pwm(&pwm_value_g);
-                invert_pwm(&pwm_value_b);
-                pwm_set_gpio_level(RED_LED, pwm_value_r);
-                pwm_set_gpio_level(GREEN_LED, pwm_value_g);
-                pwm_set_gpio_level(BLUE_LED, pwm_value_b);
-                sleep_ms(10);
-            }
-            for (int i = 0; i < 256; i++) {
-                uint16_t pwm_value_r = 0;
-                uint16_t pwm_value_g = 0;
-                uint16_t pwm_value_b = i;
-                invert_pwm(&pwm_value_r);
-                invert_pwm(&pwm_value_g);
-                invert_pwm(&pwm_value_b);
-                pwm_set_gpio_level(RED_LED, pwm_value_r);
-                pwm_set_gpio_level(GREEN_LED, pwm_value_g);
-                pwm_set_gpio_level(BLUE_LED, pwm_value_b);
-                sleep_ms(10);
-            }
-            
-        } 
-        // this is the hex code to produce an orange ish color, something unique to stand out
-        hex_code = 0xEBB33B;
-        set_button_hex_color(hex_code); 
-
-        pwm_set_gpio_level(RED_LED, 235);
-        pwm_set_gpio_level(GREEN_LED, 179);
-        pwm_set_gpio_level(BLUE_LED, 59);
+        // Set the RGB LED color using the received hex code
+        set_button_hex_color(hex_code);
 
     }
 
     return 0;
 }
-
-// /*-------------------------------------------------------
-// src - https://github.com/hathach/tinyusb/blob/master/examples/device/hid_generic_inout/src/main.c
-// --------------------------------------------------------*/
-// // tiny usb device callbacks
-// // Invoked when device is mounted
-// void tud_mount_cb(void)
-// {
-//   blink_interval_ms = BLINK_MOUNTED;
-// }
-
-// // Invoked when device is unmounted
-// void tud_umount_cb(void)
-// {
-//   blink_interval_ms = BLINK_NOT_MOUNTED;
-// }
-
-// // Invoked when usb bus is suspended
-// // remote_wakeup_en : if host allow us  to perform remote wakeup
-// // Within 7ms, device must draw an average of current less than 2.5 mA from bus
-// void tud_suspend_cb(bool remote_wakeup_en)
-// {
-//   (void) remote_wakeup_en;
-//   blink_interval_ms = BLINK_SUSPENDED;
-// }
-
-// // Invoked when usb bus is resumed
-// void tud_resume_cb(void)
-// {
-//   blink_interval_ms = BLINK_MOUNTED;
-// }
-
-// // Invoked when received SET_REPORT control request or
-// // received data on OUT endpoint ( Report ID = 0, Type = 0 )
-// void tud_hid_set_report_cb(uint8_t itf, uint8_t report_id, hid_report_type_t report_type, uint8_t const* buffer, uint16_t bufsize)
-// {
-//   // This example doesn't use multiple report and report ID
-//   (void) itf;
-//   (void) report_id;
-//   (void) report_type;
-
-//   // echo back anything we received from host
-//   tud_hid_report(0, buffer, bufsize);
-// }
-
-// //--------------------------------------------------------------------+
-// // BLINKING TASK
-// //--------------------------------------------------------------------+
-// void led_blinking_task(void)
-// {
-//   static uint32_t start_ms = 0;
-//   static bool led_state = false;
-
-//   // Blink every interval ms
-//   if ( board_millis() - start_ms < blink_interval_ms) return; // not enough time
-//   start_ms += blink_interval_ms;
-
-//   board_led_write(led_state);
-//   led_state = 1 - led_state; // toggle
-// }
-
-// void hid_task(void)
-// {
-//   // Poll every 10ms
-//   const uint32_t interval_ms = 10;
-//   static uint32_t start_ms = 0;
-
-//   if ( board_millis() - start_ms < interval_ms) return; // not enough time
-//   start_ms += interval_ms;
-
-//   uint32_t const btn = board_button_read();
-
-//   // Remote wakeup
-//   if ( tud_suspended() && btn )
-//   {
-//     // Wake up host if we are in suspend mode
-//     // and REMOTE_WAKEUP feature is enabled by host
-//     tud_remote_wakeup();
-//   }
-
-//   /*------------- Keyboard -------------*/
-//   if ( tud_hid_n_ready(ITF_KEYBOARD) )
-//   {
-//     // use to avoid send multiple consecutive zero report for keyboard
-//     static bool has_key = false;
-
-//     if ( btn )
-//     {
-//       uint8_t keycode[6] = { 0 };
-//       keycode[0] = HID_KEY_I;
-
-//       tud_hid_n_keyboard_report(ITF_KEYBOARD, 0, 0, keycode);
-
-//       has_key = true;
-//     }else
-//     {
-//       // send empty key report if previously has key pressed
-//       if (has_key) tud_hid_n_keyboard_report(ITF_KEYBOARD, 0, 0, NULL);
-//       has_key = false;
-//     }
-//   }
-// }

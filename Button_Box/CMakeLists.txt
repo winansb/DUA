@@ -3,8 +3,7 @@ set(BOARD pico_sdk)
 set(TINYUSB_FAMILY_PROJECT_NAME_PREFIX "tinyusb_dev")
 cmake_minimum_required(VERSION 3.13)
 
-# initialize the SDK based on PICO_SDK_PATH
-# note: this must happen before project()
+# Initialize the SDK based on PICO_SDK_PATH
 include(pico_sdk_import.cmake)
 
 # Project name and version
@@ -13,38 +12,24 @@ project(Button_Box C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-# initialize the Raspberry Pi Pico SDK
+# Initialize the Raspberry Pi Pico SDK
+add_subdirectory(${PICO_SDK_PATH}/lib/tinyusb EXCLUDE_FROM_ALL)
 pico_sdk_init()
 
-# Project added below
-
-# Add your source files here
+# Add source files
 add_executable( USB_Button_Box
     src/main.c
     src/main.h
 )
 
-# enable the usb system
+# Enable the USB system
 pico_enable_stdio_usb( USB_Button_Box 1)
 
-
-# uncomment the following to work on tinyUSB implementation
-
-# target_sources( USB_Button_Box PRIVATE
-#     src/usb_descriptors.c
-# )
-
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(USB_Button_Box 
-    pico_stdlib 
-    hardware_pwm 
-    hardware_adc
-      ) 
+target_link_libraries(USB_Button_Box pico_stdlib tinyusb_device tinyusb_board tinyusb_class pico_stdlib hardware_pwm hardware_adc)
+# Add TinyUSB headers
+target_include_directories(USB_Button_Box PRIVATE ${CMAKE_CURRENT_LIST_DIR}/tinyusb/src)
 
-# create UF2 file as the output. Drag and drop the resultant USB_Button_Box.uf2 file onto the mounted board
+
+# Create UF2 file as the output. Drag and drop the resultant USB_Button_Box.uf2 file onto the mounted board
 pico_add_extra_outputs(USB_Button_Box)
-
-
-
-      #Add the below pieces to the above statement to compile tinyUSB work
-      #tinyusb_device tinyusb_board tinyusb_host tinyusb_hid

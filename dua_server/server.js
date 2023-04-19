@@ -59,21 +59,21 @@ server.listen(PORT, () => {
 
 ---------------------------------------------------------------------------------------------*/
 
-// const { SerialPort } = require('serialport') // SerialPort for reading serial results from usb port
-// const { SerialPortStream } = require('@serialport/stream')
-// const serial_port = new SerialPort({ path: 'COM8', baudRate: 115200 })
-// 										  //^^^^ This has to be updated for the lab. COM8 works on my laptop as the left hand USB port
+const { SerialPort } = require("serialport"); // SerialPort for reading serial results from usb port
+const { SerialPortStream } = require("@serialport/stream");
+const serial_port = new SerialPort({ path: "COM8", baudRate: 115200 });
+//^^^^ This has to be updated for the lab. COM8 works on my laptop as the left hand USB port
 
-// serial_port.on('data', (data) => {
-// 	console.log(`Received data from serial port: ${data}`);
+serial_port.on("data", (data) => {
+  console.log(`Received data from serial port: ${data}`);
 
-// 	// send the data to all connected WebSocket clients
-// 	wss.clients.forEach((client) => {
-// 		if (client.readyState === WebSocket.OPEN) {
-// 		client.send(data);
-// 		}
-// 	});
-// });
+  // send the data to all connected WebSocket clients
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(data);
+    }
+  });
+});
 
 /*--------------------------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------------------------
@@ -81,20 +81,20 @@ server.listen(PORT, () => {
 			WebSocket Stuff uncomment for button box
 
 ---------------------------------------------------------------------------------------------*/
-//const wss = new WebSocket.Server({ server });
-// handle WebSocket connections
-// wss.on('connection', (ws) => {
-// 	console.log('WebSocket connected');
+const wss = new WebSocket.Server({ server });
+//handle WebSocket connections
+wss.on("connection", (ws) => {
+  console.log("WebSocket connected");
 
-// 	// send a message to the client
-// 	ws.send('Welcome to the WebSocket server');
+  // send a message to the client
+  ws.send("Welcome to the WebSocket server");
 
-// 	// handle messages received from the client
-// 	ws.on('message', (message) => {
-// 	  console.log(`Received message: ${message}`);
+  // handle messages received from the client
+  ws.on("message", (message) => {
+    console.log(`Received message: ${message}`);
 
-// 	  // echo the message back to the client
-// 	  ws.send(`You said: ${message}`);
-// 	});
-// });
+    // echo the message back to the client
+    ws.send(`You said: ${message}`);
+  });
+});
 /*--------------------------------------------------------------------------------------------*/
