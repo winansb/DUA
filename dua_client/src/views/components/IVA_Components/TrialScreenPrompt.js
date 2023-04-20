@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import { getTap, updateTap } from "../../../redux/actions/tapActions";
-import { setMap, setDestination } from "../../../redux/actions/trialActions";
+import { setDestination } from "../../../redux/actions/trialActions";
 
 const popIn = keyframes`
   0% {

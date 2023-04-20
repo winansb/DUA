@@ -1,6 +1,7 @@
 const express = require("express"); // express hook (web framework)
 const fs = require("fs");
-const https = require("https"); //add https
+// const https = require("https"); //add https (Comment this line for HTTP)
+const http = require("http"); // Add this line for HTTP
 const WebSocket = require("ws"); // websocket for bi-directional communication protocol
 const cors = require("cors"); // cross-origin resource sharing
 
@@ -11,16 +12,17 @@ const { initializeDatabase } = require("./db/initializer");
 const app = express();
 
 // HTTPS configuration
-const privateKey = fs.readFileSync("./private-key.pem", "utf8");
-const certificate = fs.readFileSync("./certificate.pem", "utf8");
+// const privateKey = fs.readFileSync("./private-key.pem", "utf8"); // Comment this line for HTTP
+// const certificate = fs.readFileSync("./certificate.pem", "utf8"); // Comment this line for HTTP
 
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-};
+// const credentials = { // Comment this block for HTTP
+//   key: privateKey,
+//   cert: certificate,
+// };
 
 // Create the HTTPS server with the Express app
-const server = https.createServer(credentials, app);
+// const server = https.createServer(credentials, app); // Comment this line for HTTP
+const server = http.createServer(app); // Add this line for HTTP
 
 const PORT = process.env.PORT || 8000;
 

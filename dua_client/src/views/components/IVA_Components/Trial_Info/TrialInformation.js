@@ -1,11 +1,11 @@
-import Detour3Content from "./Detour3Content";
-import Detour4Content from "./Detour4Content";
-import Detour5Content from "./Detour5Content";
-import Detour6Content from "./Detour6Content";
-import Detour7Content from "./Detour7Content";
-import Detour8Content from "./Detour8Content";
-import Detour9Content from "./Detour9Content";
-import Detour10Content from "./Detour10Content";
+import Detour3Content from "../Detour/Detour3Content";
+import Detour4Content from "../Detour/Detour4Content";
+import Detour5Content from "../Detour/Detour5Content";
+import Detour6Content from "../Detour/Detour6Content";
+import Detour7Content from "../Detour/Detour7Content";
+import Detour8Content from "../Detour/Detour8Content";
+import Detour9Content from "../Detour/Detour9Content";
+import Detour10Content from "../Detour/Detour10Content";
 
 import Detour from "../../../../assets/DetourMap.png";
 import WaffleHouse from "../../../../assets/WaffleHouseMap.png";
@@ -17,7 +17,7 @@ export const detourScreens = [
     type: "Information",
     content:
       "We have detected a road blockage ahead that is preventing us from driving.",
-    Ok: 1,
+    nextIndex: 1,
     screenName: "Detour1",
     displayTimeSeconds: 5,
   },
@@ -26,7 +26,7 @@ export const detourScreens = [
     type: "Information",
     content:
       "Please stay calm and remain inside the car while we solve the issue.",
-    Ok: 2, // Detour 3 is next
+    nextIndex: 2, // Detour 3 is next
     screenName: "Detour2",
     displayTimeSeconds: 5,
   },

@@ -11,6 +11,12 @@ import carSettings from "../../../assets/CarSettings.png";
 import TrialScreenInformation from "./TrialScreenInformation";
 import TrialScreenPrompt from "./TrialScreenPrompt";
 import TrialScreenNotif from "./TrailScreenNotif";
+import TrialScreenCall from "./TrialScreenCall";
+import { setPaused } from "../../../redux/actions/trialActions";
+import { createScreen } from "../../../redux/actions/screenActions";
+import Detour_Home from "../../../assets/Detour_Home.mp4";
+import Detour_Waffle_House from "../../../assets/Detour_Waffle_House.mp4";
+import Detour_Walgreen from "../../../assets/Detour_Walgreen.mp4";
 import {
   detourScreens,
   detourScreenTimings,
@@ -18,10 +24,7 @@ import {
   breakdownScreens,
   breakdownScreenTimings,
   breakdownPauses,
-} from "./Detour/TrialInformation";
-import TrialScreenCall from "./TrialScreenCall";
-import { setPaused } from "../../../redux/actions/trialActions";
-import { createScreen } from "../../../redux/actions/screenActions";
+} from "./Trial_Info/TrialInformation";
 
 const buttonData = [
   {
@@ -47,7 +50,7 @@ const VehicleUI = (props) => {
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
   const dispatch = useDispatch();
   const isPaused = useSelector((state) => state.trial.isPaused);
-  const travelTime = useSelector((state) => state.trial.travelTime);
+  const destination = useSelector((state) => state.trial.destination);
 
   // Counter timer logic
   const [counter, setCounter] = useState(0);
@@ -109,6 +112,33 @@ const VehicleUI = (props) => {
   }, [isPaused, targetOrigin, videoWindow]);
 
   useEffect(() => {
+    if (destination) {
+      console.log(destination);
+
+      const videoSrcMap = {
+        walgreensDetour: Detour_Walgreen,
+        waffleHouse: Detour_Waffle_House,
+        home: Detour_Home,
+      };
+
+      const finalVideoSrc = videoSrcMap[destination];
+
+      if (!finalVideoSrc) {
+        console.warn(`Unknown destination: ${destination}`);
+        return;
+      }
+
+      videoWindow.postMessage(
+        {
+          action: "setFinalVideo",
+          finalVideo: finalVideoSrc,
+        },
+        targetOrigin || "*"
+      );
+    }
+  }, [destination]);
+
+  useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.code === "Space") {
         handlePause();
@@ -161,7 +191,7 @@ const VehicleUI = (props) => {
           <TrialScreenInformation
             information={currentScreen.content}
             onClose={handleScreenClose}
-            nextIndex={currentScreen.Ok}
+            nextIndex={currentScreen.nextIndex}
             videoWindow={videoWindow}
             targetOrigin={targetOrigin}
             screenName={currentScreen.screenName}

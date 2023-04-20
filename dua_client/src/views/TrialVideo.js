@@ -10,7 +10,7 @@ const TrialVideo = () => {
     "Please wait a moment while videos pre-load"
   );
   const [videosLoaded, setVideosLoaded] = useState(0);
-  const [finalVideo, setFinalVideo] = useState("");
+  const [finalVideo, setFinalVideo] = useState(Detour_Walgreen);
 
   const videoPlaying = useRef(null);
   const trialStartVideo = useRef(null);
@@ -25,6 +25,20 @@ const TrialVideo = () => {
     if (videosLoaded === 3) {
       setButtonText("Press this to fullscreen trial footage");
     }
+  };
+
+  const handleTrialStartVideoEnded = async () => {
+    trialStartVideo.current.style.display = "none";
+    trialEndVideo.current.style.display = "block";
+    videoPlaying.current = trialEndVideo.current;
+
+    try {
+      await videoPlaying.current.requestFullscreen();
+    } catch (err) {
+      console.error("Failed to request fullscreen", err);
+    }
+
+    videoPlaying.current.play();
   };
 
   const sendRemainingTime = () => {
@@ -55,6 +69,17 @@ const TrialVideo = () => {
     );
   };
 
+  const sendCurrentVideo = () => {
+    const currentVideo = videoPlaying.current;
+    window.opener.postMessage(
+      {
+        action: "receiveCurrentVideo",
+        currentVideo,
+      },
+      "*"
+    );
+  };
+
   useEffect(() => {
     function handleMessage(e) {
       const action = e.data.action;
@@ -67,6 +92,7 @@ const TrialVideo = () => {
           videoPlaying.current.pause();
           break;
         case "setFinalVideo":
+          console.log(e.data.finalVideo);
           setFinalVideo(e.data.finalVideo);
           break;
         case "setVideo":
@@ -81,6 +107,9 @@ const TrialVideo = () => {
         case "getCurrentTime":
           sendCurrentTime();
           break;
+        case "getCurrentVideo":
+          sendCurrentVideo();
+          break;
         default:
           break;
       }
@@ -90,7 +119,7 @@ const TrialVideo = () => {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, []);
+  }, [finalVideo]);
 
   const handleFullscreen = async () => {
     console.log(videosLoaded);
@@ -109,10 +138,11 @@ const TrialVideo = () => {
         ref={trialStartVideo}
         src={Detour_Start}
         onLoadedData={onVideoLoaded}
+        onEnded={handleTrialStartVideoEnded}
       />
       <video
         ref={trialEndVideo}
-        src={Detour_Walgreen}
+        src={finalVideo}
         onLoadedData={onVideoLoaded}
         style={{ display: "none" }}
         preload="auto"
