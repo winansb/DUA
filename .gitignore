@@ -34,3 +34,5 @@ Button_Box/src/communication.c
 Button_Box/src/communication.h
 Button_Box/src/main.c
 Button_Box/src/main.h
+certificate.pem
+dua_server/private-key-no-pass.pem

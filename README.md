@@ -48,12 +48,12 @@ The Reed Laboratory Trials Management System is a client-server application deve
    Or navigate into the dua_server dir and use "npm start"
 
    You will know the server is working when you see this
-   ![Server Running in the command line](assets\Server_running.png)
+   ![Server Running in the command line](./assets/Server_running.png)
 
 4. Start the Client:
    double click the start_client.cmd file
    Or navigate into the dua_client dir and use "npm start"
-   ![Web Homepage opening after starting the client](assets\Home_Page.png)
+   ![Web Homepage opening after starting the client](./assets/Home_Page.png)
 
    You are now running the project!
 
