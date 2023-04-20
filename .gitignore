@@ -26,3 +26,13 @@ dua_client/src/Videos/testVid3.mp4
 dua_server/db/test.db
 dua_server/db/test.db
 *.db
+
+*.mp4
+dua_client/.env
+Button_Box/CMakeLists.txt
+Button_Box/src/communication.c
+Button_Box/src/communication.h
+Button_Box/src/main.c
+Button_Box/src/main.h
+certificate.pem
+dua_server/private-key-no-pass.pem

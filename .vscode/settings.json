@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "main.h": "c"
+  },
+  "cmake.sourceDirectory": "${workspaceFolder}/Button_Box"
+}

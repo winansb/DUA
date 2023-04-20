@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "binary_info.h": "c",
+        "board.h": "c"
+    }
+}

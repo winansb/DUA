@@ -1,179 +1,91 @@
-# DUA
-This is the repository for CEN3907C Senior Design Project DUA
+# Reed Laboratory Trials Management System
 
+The Reed Laboratory Trials Management System is a client-server application developed for The Reed Laboratory at the University of Florida. It is designed to help perform trials in an ongoing study by providing an easy-to-use interface for managing and collecting trial data.
 
-Story Boards: 
-https://www.figma.com/file/fyXDsA3Gs1XOVCoAQr7neX/story-boards-dua?node-id=0%3A1
+## Technologies Used
 
-We are currently in the Prototype stage of our project. This project runs using a
-webstack containing SQLite3, Express, React, and Node.js. SQLite3 was preferred over 
-other databases to allow for easier file translation (CSV, etc.)
+- React
+- Node.js
+- Express
+- Sequelize (ORM)
+- SQLite
+- Redux
+- Axios
+- Styled Components
 
-## Proto-Type:
+## Features
 
-### External Interface: 
-React we application that allows for navigation of skeleton site
+- Vehicle UI:
 
-### Persistent State:
-SQLite db setup to support server end. clicks saved from prior sessions
-are shown on bootup of site/storage page. 
+- MVC server:
 
-### Internal Systems: 
-SQL lite encorporated with React, node.js. Bootstrap used to simplify visuals. 
-All internal systems are linked and working on a local machine. 
+- Button Box:
 
-### Communication: 
-Server-client communication succesful from proof of concept html get post test.
-Received clicks in relation to a session ID across boot up by querying the 
-server. Changes are reflected in realtime on the app. 
+## Getting Started
 
-### Integrity & Resilience:
-Using bootstrap allows for more responsive, resilient UI, capable of resizing to any 
-screensize while mainting visually pleasing ratios. To increase performance on varied
-hardware bases code is being implemented to only update parts of the screen that
-change to save reasources. Additionally, a method to buffer and split pre-loading
-between videos used in trials with the site is underworks to assure no staggering will
-occure during trials. 
+### Prerequisites
 
-## Front-End
-Two methods for Implementing Test partially completed: 
-  Separate screen approach: 
-    -Use axios handlers for get and post requests between pages 
-    which initiate changes on the separate pages
+- git https://git-scm.com/downloads
+- Node.js (version 18.16.0 or higher) https://nodejs.org/en
 
-    cons: Slow, delays tested around 2-300ms from home setup. Some functionality
-    must be compromised for this approach.
-    benefits: both screens can be full screened for potentially more immersive
-    experience 
+### Installation
 
-  Dual screen appraoch: 
-    -Use a single page but span it across the length of the monitors to 
-    create a dual screen responsive webpage. CSS identifies both monitors 
-    and scales the testing interface to fit. 
+( In the command line )
 
-    cons: if monitors cannot be recognized by the graphics cards of the setup
-    there will be no full screen capability. May have to use windows features
-    to change resolution of one screen to match the other. 
+1. Clone the repository:
+   -git clone https://github.com/winansb/DUA.git
 
-    pros: Far easier to program interactions and test logic for. No functionality
-    loss. No delays. More granualar control over actions taken during test. If 
-    setup can recognize both monitors for advanced controls, page can even be
-    fullscreened across both monitors. 
+2. Install the dependencies:
+   (with Node.js installed)
+   double click Install Dependencies
 
-    possible additonal fix: install dual monitor tools as potential work around 
+   Alternatively in the command line
+   -Navigate to /DUA/dua_client/ and use "npm install"
+   -Navigate to /DUA/dua_server/ and use "npm install"
 
-Dual Screen appraoch currently has pausing implemented on spacebar and allows
-for switching between videos using 1,2,3,4. Use 5 to turn IVA screen off and on.
-Same approach used to swap between test videos except display: none is used 
-instead of display:hidden as this allows videos to transition with fade effect 
-while IVA screens change immedietely. This also makes it so that IVA screens 
-don't overlay each other and cause clicks for one screen to register on another 
-screen. 
+3. Start the server:
+   Double click the start_server.cmd file
+   Or navigate into the dua_server dir and use "npm start"
 
---current issue with Dual Screen. When IVA screen turns off, place holder
-doesn't fill the blank space and the Video ports to the left side. This should 
-be fixed when additional screens are attatched to toggle on as the prior toggles
-off. 
+   You will know the server is working when you see this
 
-### Proof/Prior art for dual screen:
-https://www.youtube.com/watch?v=DXrZWsqXPVc&ab_channel=Microsoft365Developer
-additionally,
-https://learn.microsoft.com/en-us/dual-screen/web/css-viewport-segments
+   ![Server Running in the command line](./assets/Server_running.png)
 
+4. Start the Client:
+   double click the start_client.cmd file
+   Or navigate into the dua_client dir and use "npm start"
 
-Removed SCSS in favor of Aphrodite as this module allows IVA screen imports to be 
-a single file instead of two files across different folders. This improves
-the pipeline and decreases the load for next semester when we want to accept 
-a .js file outputted by pxcode and retrofit it to new IVA screen callable in the
-test Interface by a key based on user input. 
+   ![Web Homepage opening after starting the client](./assets/Home_Page.png)
 
-Attempted to introduce react-app-rewired and customize-cra to allow for a 
-reconfigurable file path which would make imported assets from pxcode require 
-no additional to run properly. This approach postponed till next semester due
-to complexity and lack of short-term payoff while trying to deliver 
-fuller prototype for early pilot trials. 
+   You are now running the project!
 
+## Usage
 
+## Server API Reference
 
-## Back-End
-SQLite database built with Express routing. Runs on port 8000 and uses HTTP
-communication protocol. Currently basic read/write functionality and testing
-page can be accessed at `./storage`.
+## How to Edit Trials
 
-## Compilation and Testing
-DUA runs using the REST API, so for testing purposes currently requires that the
-client and server be run independently.
-Client will run on **PORT 3000** and can be ran locally using:
-```
-cd dua_client
-npm start
-```
+Trials are composed from a series of components generated from one array per a trial. Arrays can be as long or short as you like and cover three basic screens. To create a new screen or edit old ones navigate to dua_client/src/views/components/IVA_Components/Trial_Info/TrialInformation.js. This file contains the three arrays responsible for defining trial behavior. There are DetourScreens, DetourScreenTimings, and detourPauses and the equivalent for the breakdown test. Simply edit the text in these files and save them for most changes.
 
-Server will run on **PORT 8000** and can be ran locally using:
-```
-cd dua_server
-node server.js
-```
+### Information Screen
 
-**Running both of these node processes at the same time is vital for full functionality**
+![Code for making an Information Trial Screen](./assets/Information_screen_code.png)
 
-As the project continues to be developed, more features will be unavailable if both are not
-ran at the same time, please do so when testing! Eventually a singular script will be written 
-to run both simultaneously.
+Displays an Ok button and text to the user
+-type: "Information",
+-content: "any text in double qutes that you want to show on the screen."
+-nextIndex: The index of the next screen within the 'test'Screens array to show after this screen is finished. If you want Detour2 to display as the next screen after the user presses okay you would but 1 here.
+-screenName: the name used for data collection techniques when communicating on what sreen something happened such as action initiated. Detour1_Ok.
+-displayTimeSeconds: integer describing the seconds this screen should stay open for before closing.
 
+### Prompt Screen
 
-## Dependencies from scratch
+Displays Yes or no option, takes 'content' as an argument. This is a jsx object that portrays what will show on the screen that pops up during the trial over the default UI.
 
-Download node.js  (npm) using the online installer
-Clone the repo for this project 
+-
 
-Now, using Node.js install these dependencies  
+### Notif Screen
 
-  Express:
-    npm install express
+### Editing Trials
 
-  Sass:      
-    npm install sass
-
-  Aphrodite:
-    npm install aphrodite 
-
-use npm install i --force in project folder to fix any updated dependency issues if any
-
-Project will be ready for compilation and testing
-
-
-Hardware Info:
-  IVA display: 
-    aspect ratio 3:2 
-    View port dimensions: 1920 x 1280 
-    touchscreen
-    set windows scaling 100%! - missing this detail caused a lot of greif,
-      new computers are set to 200% scaling. 
-
-  Video Dispaly:
-    FooWin usb-c enabled monitor 
-
-
-##In-Lab Work: 
-  -Installed project onto laptop under Mahtab's account so it can be used
-  and easily updated by downloading the repo from our github. This way updates
-  can be posted from a distance and easily implemented without help from here 
-  on out. This requried general trouble shooting with the UF firewall and getting
-  permission from UF IT to allow our project to download dependencies from here
-  on out. Now we can update the dependencies to the project without causing 
-  unintended compilation errors on the lab computer.
-
-  -Meeting scheduled for this Friday to show functionality of test using database table. 
-  Database table will represent a single test. Test points will be checked at each critical
-  moment where a decision must be made. Choices made during the test and before the test
-  will determine what video is played at decision points through post commands to the 
-  database table. At decision points get commands will run to query the decision. Pausing 
-  functionality has been reduced due to general lag. The test can be paused by the 
-  user clicking on the video display and hitting space but they cannot pause the video 
-  from the interactive tab due to polling delays being unwanted and the general ease
-  of the alternative. Media elements on the test are not to be implimented until 
-  the middle of January with the completion of test scenarios and videos for test 
-  scenarios. 
-
-
+## Contributing
