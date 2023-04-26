@@ -2,13 +2,13 @@ version: "3"
 
 services:
   server:
-    build: ./server
+    build: ./dua_server
     ports:
       - "8080:8080"
     depends_on:
       - client
 
   client:
-    build: ./client
+    build: ./dua_client
     ports:
       - "80:80"
