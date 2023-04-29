@@ -19,31 +19,31 @@ Make sure you have the following installed:
 
 2. Use 'describe' blocks to group your tests based on the functionality being tested. Each block should contai a description of the functionality it covers. 
 
-```javascript
-describe("testController", () => {
-  // Test cases for each functionality
-});
-```
+    ```javascript
+    describe("testController", () => {
+    // Test cases for each functionality
+    });
+    ```
 
 3. Inside the 'describe' blocks, create test cases using the 'it' function. Each test case should have a description of the expected outcome. 
 
-```javascript 
-it("should create a new test", async () => {
-  // Test implementation
-});
-```
+    ```javascript 
+    it("should create a new test", async () => {
+    // Test implementation
+    });
+    ```
 
 4. For each test case, define the necessary input, mocks, and expected outputs. Use the Jest spyOn function to mock calls to model methods like create, update, and findByPk. Make sure to restore the mocks after each test.
 
-```javascript
-const mockCreate = jest.spyOn(Test, "create").mockResolvedValueOnce(test);
-// Test implementation
-mockCreate.mockRestore();
-```
+    ```javascript
+    const mockCreate = jest.spyOn(Test, "create").mockResolvedValueOnce(test);
+    // Test implementation
+    mockCreate.mockRestore();
+    ```
 
 5. Use expect to check if the expected output matches the actual output of the function being tested.
 
-```javascript
-expect(res.status).toHaveBeenCalledWith(201);
-expect(res.json).toHaveBeenCalledWith(test);
-```
+    ```javascript
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith(test);
+    ```

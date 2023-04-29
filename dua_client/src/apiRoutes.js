@@ -1,4 +1,7 @@
-const BASE_URL = "http://localhost:8000/api";
+const PROTOCOL = process.env.REACT_APP_PROTOCOL || "http";
+const PORT = process.env.REACT_APP_PORT || "8000";
+
+const BASE_URL = `${PROTOCOL}://server:${PORT}/api`;
 
 export const API_ROUTES = {
   // Participants routes

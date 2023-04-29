@@ -12,12 +12,13 @@ The Reed Laboratory Trials Management System is a client-server application deve
 - Redux
 - Axios
 - Styled Components
+- Docker
 
 ## Features
 
-- Vehicle UI:
+- Client Application:
 
-- MVC server:
+- Server Application:
 
 - Button Box:
 
@@ -25,39 +26,24 @@ The Reed Laboratory Trials Management System is a client-server application deve
 
 ### Prerequisites
 
+- Docker (latest version) https://www.docker.com/get-started
 - git https://git-scm.com/downloads
-- Node.js (version 18.16.0 or higher) https://nodejs.org/en
 
 ### Installation
 
 ( In the command line )
 
 1. Clone the repository:
-   -git clone https://github.com/winansb/DUA.git
+   -git clone https://github.com/winansb/DUA.git (alternatively download from this link)
 
-2. Install the dependencies:
-   (with Node.js installed)
-   double click Install Dependencies
+2. Double click Start.cmd in the DUA folder
 
-   Alternatively in the command line
-   -Navigate to /DUA/dua_client/ and use "npm install"
-   -Navigate to /DUA/dua_server/ and use "npm install"
+3. You can now access the project by opening your browser and inputting 'localhost'
+![Typing localhost into the navigation bar of google chrome](./assets/Navigation.png)
 
-3. Start the server:
-   Double click the start_server.cmd file
-   Or navigate into the dua_server dir and use "npm start"
-
-   You will know the server is working when you see this
-
-   ![Server Running in the command line](./assets/Server_running.png)
-
-4. Start the Client:
-   double click the start_client.cmd file
-   Or navigate into the dua_client dir and use "npm start"
+4. You are now running the project and should see this page 
 
    ![Web Homepage opening after starting the client](./assets/Home_Page.png)
-
-   You are now running the project!
 
 ## Usage
 
@@ -89,3 +75,133 @@ Displays Yes or no option, takes 'content' as an argument. This is a jsx object 
 ### Editing Trials
 
 ## Contributing
+
+## Project File Structure
+```
+	|-assest
+		|- * All content used in documentation *
+	|-Button_Box
+		|-src
+			|-communication.h*
+			|-main.c
+			|-main.h
+		|-CMakeLists.txt
+		|-pic_sdk_import.cmake
+		|-README.md
+	|-docs
+		|-creating_db_tables.md
+		|-creating_new_trial_scenario.md
+		|-creating_unit_tests.md
+	|-dua_client
+		|-public
+			|-index.html
+		|-src
+			|-assets
+				|- * All videos and images used for testing *
+			|-controllers
+				|-participantController.js
+				|-screenController.js
+				|-tapController.js
+				|-testController.js
+			|-css*
+			|-redux
+				|-actions
+					|-participantActions.js
+					|-screenActions.js
+					|-tapActions.js
+					|-testActions.js
+					|-trialActions.js
+				|-reducers
+					|-participantReducer.js
+					|-screenReducer.js
+					|-tapReducer.js
+					|-testReducer.js
+					|-trialReducer.js
+			|-views
+				|-components
+					|-IVA_Components
+						|-Detour
+							|- * All Content Related to Detour Scenario * 
+						|-Trial_Info
+							|- TrialInformation.js * component for coordinating scenarios * 
+						|-Buttoncolumn.js
+						|-DefaultDisplay.js
+						|-InteractiveMap_INCOMPLETE.js*
+						|-TrialScreenNotif.js
+						|-TrialScreen.js
+						|-TrialScreenCall.js
+						|-TrialScreenInformation.js
+						|-TrialScreenrompt.js
+						|-TripTravelTime.js
+						|-VehicleDate.js
+						|-VehicleUI.js
+					|-ColorPicker.js
+					|-FunctionButton.js
+					|-GeneralModal.js
+					|-KeyCodeGetter.js
+					|-NavButton.js
+					|-ParticipantConfirmForm.js
+					|-ParticipantSubmitForm.js
+					|-ParticipantTable.js
+					|-ReturnButton.js
+					|-Trial.js
+					|-TrialButton.js
+				|-ButtonBoxGUI.js
+				|-ExportToCSV.js*
+				|-HomePage.js
+				|-ParticipantWaiting.js
+				|-TrialRun.js
+				|-TrialSetup.js
+				|-TrialVideo.js
+				|-TrialWrapper.js
+			|-apiRoutes.js
+			|-App.js
+			|-index.js
+			|-store.js
+			|-styles.css*
+		|-config.env
+		|-Dockerfile
+		|-package-lock.json
+		|-package.json
+	|-dua_server
+		|-api
+			|-controllers
+				|- __test__
+					|-participantController.test.js
+					|-screenController.test.js
+					|-tapController.test.js
+					|-testController.test.js			
+				|-participantController.js
+				|-screenController.js
+				|-tapController.js
+				|-testController.js
+			|-models
+				|-Participant.js
+				|-Screen.js
+				|-Tap.js
+				|-Test.js
+			|-api.js
+	
+		|-config
+			|-database.js
+		|-db
+			|-initializer.js
+		|-config.env
+		|-Dockerfile
+		|-package-lock.json
+		|-package.json
+		|-server.js
+```
+
+## Documentation
+
+- [Communication](./docs/communication.md)
+- [Button Box](./docs/button_box.md)
+- [Redux](./docs/redux.md)
+- [Components](./docs/components.md)
+- [Docker](./docs/docker.md)
+- [Database](./docs/database.md)
+- [DUA Server](./dua_server/README.md)
+- [Creating DB Tables](./docs/creating_db_tables.md)
+- [Creating New Trial Scenarios](./docs/creating_new_trial_scenario.md)
+- [Creating Unit Tests](./docs/creating_unit_tests.md)

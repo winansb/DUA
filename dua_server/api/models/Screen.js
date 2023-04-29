@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const db = require("../../config/database");
+const db = require("../../configDB/database");
 
 const Screen = db.define(
   "Screen",

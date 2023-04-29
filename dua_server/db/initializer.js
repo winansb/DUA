@@ -5,7 +5,7 @@ const testModel = require("../api/models/Test");
 const participantModel = require("../api/models/Participant");
 
 // get Sequelize instance
-const db = require("../config/database");
+const db = require("../configDB/database");
 
 // Define models
 const Tap = new tapModel(db, Sequelize);

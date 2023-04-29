@@ -3,24 +3,10 @@
 ## Introduction
 This is the server-side application for the DUA project. It provides an API for managing participants, screens, taps, and tests.
 
-## Prerequisites
-- Node.js
-- npm
-
-## Installation
-1. Clone the repository
-2. Navigate to the `dua_server` folder
-3. Run `npm install` to install dependencies
-
 ## Configuration
 Create a `.env` file in the root of the `dua_server` folder with the following contents:
 PORT=__desired port number__. If nothing is selected 
 8000 is the default.
-
-
-## Usage
-To start the server, run the following command in the `dua_server` folder:
-__npm start__
 
 
 ## API Endpoints
@@ -157,7 +143,7 @@ __npm start__
 
 ## Contributing
 
-We welcome contributions to improve and maintain this project. Currently, the test suite is outdated and needs to be updated to match the new API format. The testing interface uses Jest. If you would like to contribute, please consider updating the tests and submitting a pull request.
+Currently, the test suite is outdated and needs to be updated to match the new API format. The testing interface uses Jest. If you would like to contribute, please consider updating the tests and submitting a pull request.
 
 To get started with updating the tests, follow these steps:
 
@@ -173,9 +159,13 @@ npm test
 
 ## Documentation
 
-For more information and detailed guides on specific topics, please refer to the following documents:
-
-- [Creating Tests](../docs/creating_tests.md)
-- [Creating Models](../docs/creating_models.md)
-- [Other Guides](../docs/other_guides.md)
-
+- [Communication](./docs/communication.md)
+- [Button Box](./docs/button_box.md)
+- [Redux](./docs/redux.md)
+- [Components](./docs/components.md)
+- [Docker](./docs/docker.md)
+- [Database](./docs/database.md)
+- [DUA Server](./dua_server/README.md)
+- [Creating DB Tables](./docs/creating_db_tables.md)
+- [Creating New Trial Scenarios](./docs/creating_new_trial_scenario.md)
+- [Creating Unit Tests](./docs/creating_unit_tests.md)

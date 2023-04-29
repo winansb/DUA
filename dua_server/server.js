@@ -1,28 +1,24 @@
-const express = require("express"); // express hook (web framework)
+const express = require("express");
 const fs = require("fs");
-// const https = require("https"); //add https (Comment this line for HTTP)
-const http = require("http"); // Add this line for HTTP
-const WebSocket = require("ws"); // websocket for bi-directional communication protocol
-const cors = require("cors"); // cross-origin resource sharing
-
-// Database and init function
-const db = require("./config/database");
+const http = require("http");
+const https = require("https");
+const WebSocket = require("ws");
+const cors = require("cors");
 const { initializeDatabase } = require("./db/initializer");
+
+// Load environment variables
+require('dotenv').config();
 
 const app = express();
 
-// HTTPS configuration
-// const privateKey = fs.readFileSync("./private-key.pem", "utf8"); // Comment this line for HTTP
-// const certificate = fs.readFileSync("./certificate.pem", "utf8"); // Comment this line for HTTP
-
-// const credentials = { // Comment this block for HTTP
-//   key: privateKey,
-//   cert: certificate,
-// };
-
-// Create the HTTPS server with the Express app
-// const server = https.createServer(credentials, app); // Comment this line for HTTP
-const server = http.createServer(app); // Add this line for HTTP
+const server = (process.env.PROTOCOL === "https") ? (
+  https.createServer({
+    key: fs.readFileSync(process.env.KEY_PATH, 'utf8'),
+    cert: fs.readFileSync(process.env.CERT_PATH, 'utf8'),
+  }, app)
+) : (
+  http.createServer(app)
+);
 
 const PORT = process.env.PORT || 8000;
 

@@ -2,13 +2,13 @@ version: "3"
 
 services:
   server:
-    build: ./dua_server
+    image: winansben/dua_server
     ports:
-      - "8080:8080"
-    depends_on:
-      - client
+      - "8000:8000"
 
   client:
-    build: ./dua_client
+    image: winansben/dua_client
     ports:
       - "80:80"
+    depends_on:
+      - server
