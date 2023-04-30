@@ -50,21 +50,20 @@ const StyledButton = styled.button`
   }
 `;
 
-const TrialButton = ({ participant, column }) => {
+const TrialButton = ({ participant, column, setTest}) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
-  const [test, setTest] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchTest = async () => {
-      const testId = participant.ONGOING_TEST;
+      const testId = participant.TRIAL_ID;
       const fetchedTest = await dispatch(getTest(testId));
-      setTest(fetchedTest);
+      setTest(fetchedTest.data);
     };
 
     fetchTest();
-  }, [dispatch, participant.ONGOING_TEST]);
+  }, [dispatch, participant.TRIAL_ID]);
 
   const handleModalTransition = () => {
     setShowSubmitModal(false);

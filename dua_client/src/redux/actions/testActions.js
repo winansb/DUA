@@ -40,6 +40,12 @@ export const updateTest = (uid, data) => {
 
 export const getTest = (uid) => {
   return async (dispatch) => {
+    if (!uid) {
+      // Handle the case when uid is undefined or null
+      console.error("The test ID is undefined or null");
+      return;
+    }
+
     try {
       dispatch({ type: GET_TEST_REQUEST });
       const data = await testController.getTest(uid);
@@ -51,3 +57,4 @@ export const getTest = (uid) => {
     }
   };
 };
+

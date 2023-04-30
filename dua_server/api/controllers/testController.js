@@ -5,28 +5,30 @@ const testController = {
   createTest: async (req, res) => {
     try {
       const {
+        PARTICIPANT_ID,
         MCI,
         ORDER,
         USE_PLAYBOOK,
-        BREAKDOWN_OPTION_1,
-        BREAKDOWN_OPTION_2,
-        BREAKDOWN_OPTION_3,
-        DETOUR_OPTION_1,
-        DETOUR_OPTION_2,
-        DETOUR_OPTION_3,
+        EMERGENCY_CONTACT_BREAKDOWN,
+        ROADSIDE_ASSISTANCE,
+        RELAXING_MUSIC,
+        NEXT_DESTINATION,
+        GO_HOME,
+        EMERGENCY_CONTACT_DETOUR,
       } = req.body;
 
       // Check for required fields
       if (
+        PARTICIPANT_ID === undefined ||
         MCI === undefined ||
         ORDER === undefined ||
         USE_PLAYBOOK === undefined ||
-        BREAKDOWN_OPTION_1 === undefined ||
-        BREAKDOWN_OPTION_2 === undefined ||
-        BREAKDOWN_OPTION_3 === undefined ||
-        DETOUR_OPTION_1 === undefined ||
-        DETOUR_OPTION_2 === undefined ||
-        DETOUR_OPTION_3 === undefined
+        EMERGENCY_CONTACT_BREAKDOWN === undefined ||
+        ROADSIDE_ASSISTANCE === undefined ||
+        RELAXING_MUSIC === undefined ||
+        NEXT_DESTINATION === undefined ||
+        GO_HOME === undefined ||
+        EMERGENCY_CONTACT_DETOUR === undefined
       ) {
         return res.status(400).json({
           error:
@@ -35,15 +37,16 @@ const testController = {
       }
 
       const test = await Test.create({
+        PARTICIPANT_ID,
         MCI,
         ORDER,
         USE_PLAYBOOK,
-        BREAKDOWN_OPTION_1: BREAKDOWN_OPTION_1 || null,
-        BREAKDOWN_OPTION_2: BREAKDOWN_OPTION_2 || null,
-        BREAKDOWN_OPTION_3: BREAKDOWN_OPTION_3 || null,
-        DETOUR_OPTION_1: DETOUR_OPTION_1 || null,
-        DETOUR_OPTION_2: DETOUR_OPTION_2 || null,
-        DETOUR_OPTION_3: DETOUR_OPTION_3 || null,
+        EMERGENCY_CONTACT_BREAKDOWN,
+        ROADSIDE_ASSISTANCE,
+        RELAXING_MUSIC,
+        NEXT_DESTINATION,
+        GO_HOME,
+        EMERGENCY_CONTACT_DETOUR,
       });
 
       return res.status(201).json(test);

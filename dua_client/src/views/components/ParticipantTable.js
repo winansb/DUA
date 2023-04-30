@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { getAllParticipants } from "../../redux/actions/participantActions";
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -27,6 +28,7 @@ const StyledTable = styled.table`
 
 export function ParticipantTable() {
   const dispatch = useDispatch();
+  const [test, setTest] = useState(null);
   const participants = useSelector((state) => state.participant.participants);
   const isParticipantLoading = useSelector(
     (state) => state.participant.isParticipantLoading
@@ -46,7 +48,7 @@ export function ParticipantTable() {
         <thead>
           <tr>
             <th>UID</th>
-            <th>Participant Name</th>
+            <th>Participant ID</th>
             <th>Starting Scenario</th>
             <th>Detour</th>
             <th>Breakdown</th>
@@ -57,13 +59,13 @@ export function ParticipantTable() {
             participants.map((row) => (
               <tr key={row.UID}>
                 <td>{row.UID}</td>
-                <td>{row.PARTICIPANT_NAME}</td>
-                <td>{row.UID % 2 === 0 ? "Detour" : "Breakdown"}</td>
+                <td>{row.PARTICIPANT_ID}</td>
+                <td>{test && test.ORDER}</td>
                 <td>
-                  <TrialButton participant={row} column={0} />
+                  <TrialButton participant={row} column={0} setTest={setTest} />
                 </td>
                 <td>
-                  <TrialButton participant={row} column={1} />
+                  <TrialButton participant={row} column={1} setTest={setTest} />
                 </td>
               </tr>
             ))}

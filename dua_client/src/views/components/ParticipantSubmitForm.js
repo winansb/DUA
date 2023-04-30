@@ -14,8 +14,8 @@ function ParticipantSubmitForm({
   column,
   onModalTransition,
 }) {
-  const [participantName, setParticipantName] = useState(
-    participant.PARTICIPANT_NAME
+  const [participantID, setParticipantName] = useState(
+    participant.PARTICIPANT_ID
   );
   const [mci, setMci] = useState("");
   const [order, setOrder] = useState("");
@@ -35,26 +35,26 @@ function ParticipantSubmitForm({
 
   useEffect(() => {
     const fetchTest = async () => {
-      const test = await dispatch(getTest(participant.ONGOING_TEST));
+      const test = await dispatch(getTest(participant.TRIAL_ID));
 
       if (test) {
         setMci(test.data.MCI);
         setOrder(test.data.ORDER);
         setUsePlaybook(test.data.USE_PLAYBOOK);
         setOption1(
-          test.data[column === 0 ? "DETOUR_OPTION_1" : "BREAKDOWN_OPTION_1"]
+          test.data[column === 0 ? "NEXT_DESTINATION" : "EMERGENCY_CONTACT_BREAKDOWN"]
         );
         setOption2(
-          test.data[column === 0 ? "DETOUR_OPTION_2" : "BREAKDOWN_OPTION_2"]
+          test.data[column === 0 ? "GO_HOME" : "ROADSIDE_ASSISTANCE"]
         );
         setOption3(
-          test.data[column === 0 ? "DETOUR_OPTION_3" : "BREAKDOWN_OPTION_3"]
+          test.data[column === 0 ? "EMERGENCY_CONTACT_DETOUR" : "RELAXING_MUSIC"]
         );
       }
     };
 
     fetchTest();
-  }, [dispatch, participant.ONGOING_TEST, column]);
+  }, [dispatch, participant.TRIAL_ID, column]);
 
   const handleCancel = (e) => {
     e.preventDefault();
@@ -76,13 +76,13 @@ function ParticipantSubmitForm({
     // Fetch the original participant and test objects
     const originalParticipant = await dispatch(getParticipant(participant.UID));
     const { data: originalTest } = await dispatch(
-      getTest(participant.ONGOING_TEST)
+      getTest(participant.TRIAL_ID)
     );
 
     // Create a new participant object with the form input values
     const newParticipant = {
       ...originalParticipant,
-      PARTICIPANT_NAME: participantName,
+      PARTICIPANT_ID: participantID,
     };
 
     // Create a new test object with the form input values
@@ -91,9 +91,9 @@ function ParticipantSubmitForm({
       MCI: mci,
       ORDER: parseInt(order),
       USE_PLAYBOOK: usePlaybook,
-      [column === 0 ? "DETOUR_OPTION_1" : "BREAKDOWN_OPTION_1"]: option1,
-      [column === 0 ? "DETOUR_OPTION_2" : "BREAKDOWN_OPTION_2"]: option2,
-      [column === 0 ? "DETOUR_OPTION_3" : "BREAKDOWN_OPTION_3"]: option3,
+      [column === 0 ? "NEXT_DESTINATION" : "EMERGENCY_CONTACT_BREAKDOWN"]: option1,
+      [column === 0 ? "GO_HOME" : "ROADSIDE_ASSISTANCE"]: option2,
+      [column === 0 ? "EMERGENCY_CONTACT_DETOUR" : "RELAXING_MUSIC"]: option3,
     };
 
     // Compare the new participant object with the original one and update if needed
@@ -106,7 +106,7 @@ function ParticipantSubmitForm({
 
     // Compare the new test object with the original one and update if needed
     if (JSON.stringify(newTest) !== JSON.stringify(originalTest)) {
-      await dispatch(updateTest(participant.ONGOING_TEST, newTest));
+      await dispatch(updateTest(participant.TRIAL_ID, newTest));
     }
 
     onModalTransition();
@@ -115,10 +115,10 @@ function ParticipantSubmitForm({
   return (
     <Form onSubmit={handleSubmit}>
       <Label>
-        Participant Name:
+        Participant ID:
         <Input
           type="text"
-          value={participantName}
+          value={participantID}
           onChange={(e) => setParticipantName(e.target.value)}
           disabled={shouldFieldBeDisabled(column)}
         />
@@ -160,7 +160,7 @@ function ParticipantSubmitForm({
         </Select>
       </Label>
       <Label>
-        {column === 0 ? "Detour Option 1:" : "Breakdown Option 1:"}
+        {column === 0 ? "Next Destination:" : "Emergency Contact Breakdown:"}
         <Select value={option1} onChange={(e) => setOption1(e.target.value)}>
           <option value="">{option1}</option>
           <option value="yes">Yes</option>
@@ -168,7 +168,7 @@ function ParticipantSubmitForm({
         </Select>
       </Label>
       <Label>
-        {column === 0 ? "Detour Option 2:" : "Breakdown Option 2:"}
+        {column === 0 ? "Go Home:" : "Roadside Assistance:"}
         <Select value={option2} onChange={(e) => setOption2(e.target.value)}>
           <option value="">{option2}</option>
           <option value="yes">Yes</option>
@@ -176,7 +176,7 @@ function ParticipantSubmitForm({
         </Select>
       </Label>
       <Label>
-        {column === 0 ? "Detour Option 3:" : "Breakdown Option 3:"}
+        {column === 0 ? "Emergency Contact Detour" : "Relaxing Music:"}
         <Select value={option3} onChange={(e) => setOption3(e.target.value)}>
           <option value="">{option3}</option>
           <option value="yes">Yes</option>

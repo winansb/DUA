@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ParticipantTable from "./components/ParticipantTable";
 import ReturnButton from "./components/ReturnButton";
 import { useDispatch, useSelector } from "react-redux";
-import ParticipantInputForm from "./components/ParticipantEditForm";
+import ParticipantInputForm from "./components/ParticipantInputForm";
 import GeneralModal from "./components/GeneralModal";
 import { getAllParticipants } from "../redux/actions/participantActions";
 

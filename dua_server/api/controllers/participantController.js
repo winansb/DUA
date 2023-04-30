@@ -4,15 +4,15 @@ const participantController = {
   // Method to create a new participant entry
   createParticipant: async (req, res) => {
     try {
-      const { PARTICIPANT_NAME, ONGOING_TEST } = req.body;
+      const { PARTICIPANT_ID, TRIAL_ID } = req.body;
 
       const participant = await Participant.create({
-        PARTICIPANT_NAME,
+        PARTICIPANT_ID,
         DETOUR_COMPLETE: false,
         BREAKDOWN_COMPLETE: false,
         DETOUR_IN_PROGRESS: 0,
         BREAKDOWN_IN_PROGRESS: 0,
-        ONGOING_TEST,
+        TRIAL_ID,
       });
 
       res.status(201).json(participant);

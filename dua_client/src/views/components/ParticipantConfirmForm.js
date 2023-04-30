@@ -11,14 +11,14 @@ const ParticipantConfirmForm = ({ participant, column, onClose }) => {
 
   useEffect(() => {
     const fetchTest = async () => {
-      const testId = participant.ONGOING_TEST;
+      const testId = participant.TRIAL_ID;
       const response = await dispatch(getTest(testId));
       const fetchedTest = response.data;
       setTest(fetchedTest);
     };
 
     fetchTest();
-  }, [dispatch, participant.ONGOING_TEST]);
+  }, [dispatch, participant.TRIAL_ID]);
 
   const onConfirm = () => {
     navigate("/trial-run", { state: { test, participant, column } });
@@ -33,33 +33,33 @@ const ParticipantConfirmForm = ({ participant, column, onClose }) => {
       <h2>Test Confirmation</h2>
       <InfoContainer>
         <InfoRow>
-          <InfoLabel>Name</InfoLabel>
+          <InfoLabel>ID</InfoLabel>
           <InfoLabel>MCI</InfoLabel>
           <InfoLabel>Order</InfoLabel>
           <InfoLabel>Use Playbook</InfoLabel>
           <InfoLabel>
-            {column === 0 ? "Detour Option 1" : "Breakdown Option 1"}
+            {column === 0 ? "Next Destination" : "Emergency Contact Breakdown"}
           </InfoLabel>
           <InfoLabel>
-            {column === 0 ? "Detour Option 2" : "Breakdown Option 2"}
+            {column === 0 ? "Go Home" : "Roadside Assistance"}
           </InfoLabel>
           <InfoLabel>
-            {column === 0 ? "Detour Option 3" : "Breakdown Option 3"}
+            {column === 0 ? "Emergency Contact Detour" : "Relaxing Music"}
           </InfoLabel>
         </InfoRow>
         <InfoRow>
-          <InfoData>{participant.PARTICIPANT_NAME}</InfoData>
+          <InfoData>{participant.PARTICIPANT_ID}</InfoData>
           <InfoData>{test.MCI}</InfoData>
           <InfoData>{test.ORDER}</InfoData>
           <InfoData>{test.USE_PLAYBOOK}</InfoData>
           <InfoData>
-            {test[column === 0 ? "DETOUR_OPTION_1" : "BREAKDOWN_OPTION_1"]}
+            {test[column === 0 ? "NEXT_DESTINATION" : "EMERGENCY_CONTACT_BREAKDOWN"]}
           </InfoData>
           <InfoData>
-            {test[column === 0 ? "DETOUR_OPTION_2" : "BREAKDOWN_OPTION_2"]}
+            {test[column === 0 ? "GO_HOME" : "ROADSIDE_ASSISTANCE"]}
           </InfoData>
           <InfoData>
-            {test[column === 0 ? "DETOUR_OPTION_3" : "BREAKDOWN_OPTION_3"]}
+            {test[column === 0 ? "EMERGENCY_CONTACT_BREAKDOWN" : "RELAXING_MUSIC"]}
           </InfoData>
         </InfoRow>
       </InfoContainer>

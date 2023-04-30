@@ -7,39 +7,43 @@ const Test = db.define("Test", {
     primaryKey: true,
     autoIncrement: true,
   },
+  PARTICIPANT_ID:{
+    type: DataTypes.STRING,
+    allowNull: false, 
+  },
   MCI: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   ORDER: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   USE_PLAYBOOK: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  BREAKDOWN_OPTION_1: {
+  EMERGENCY_CONTACT_BREAKDOWN: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  BREAKDOWN_OPTION_2: {
+  ROADSIDE_ASSISTANCE: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  BREAKDOWN_OPTION_3: {
+  RELAXING_MUSIC: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  DETOUR_OPTION_1: {
+  NEXT_DESTINATION: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  DETOUR_OPTION_2: {
+  GO_HOME: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  DETOUR_OPTION_3: {
+  EMERGENCY_CONTACT_DETOUR: {
     type: DataTypes.STRING,
     allowNull: true,
   },

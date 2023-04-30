@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import ParticipantInputForm from "./ParticipantInputForm";
 
 function GeneralModal({ content, onClose }) {
   return (

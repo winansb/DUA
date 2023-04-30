@@ -7,7 +7,7 @@ const Participant = db.define("Participant", {
     primaryKey: true,
     autoIncrement: true,
   },
-  PARTICIPANT_NAME: {
+  PARTICIPANT_ID: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -27,7 +27,7 @@ const Participant = db.define("Participant", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  ONGOING_TEST: {
+  TRIAL_ID: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
