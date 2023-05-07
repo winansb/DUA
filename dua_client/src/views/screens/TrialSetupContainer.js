@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ParticipantTable from "./components/ParticipantTable";
-import ReturnButton from "./components/ReturnButton";
+import ParticipantTable from "../components/TrialSetup/ParticipantTable";
+import ReturnButton from "../components/General/ReturnButton";
 import { useDispatch, useSelector } from "react-redux";
-import ParticipantInputForm from "./components/ParticipantInputForm";
-import GeneralModal from "./components/GeneralModal";
-import { getAllParticipants } from "../redux/actions/participantActions";
+import ParticipantInputForm from "../components/Forms/ParticipantInputForm";
+import GeneralModal from "../components/General/GeneralModal";
+import { getAllParticipants } from "../../redux/actions/participantActions";
 
 function TrialSetup() {
   const [showModal, setShowModal] = useState(false);

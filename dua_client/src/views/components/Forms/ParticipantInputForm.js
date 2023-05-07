@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { createParticipant } from "../../redux/actions/participantActions";
-import { createTest } from "../../redux/actions/testActions";
+import { createParticipant } from "../../../redux/actions/participantActions";
+import { createTest } from "../../../redux/actions/testActions";
 import { useDispatch } from "react-redux";
 
 function ParticipantInputForm({ onClose }) {

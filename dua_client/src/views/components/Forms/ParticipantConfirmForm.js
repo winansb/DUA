@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { getTest } from "../../redux/actions/testActions";
+import { getTest } from "../../../redux/actions/testActions";
 import { useNavigate } from "react-router-dom";
 
 const ParticipantConfirmForm = ({ participant, column, onClose }) => {

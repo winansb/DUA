@@ -78,119 +78,175 @@ Displays Yes or no option, takes 'content' as an argument. This is a jsx object 
 
 ## Project File Structure
 ```
-	|-assest
-		|- * All content used in documentation *
-	|-Button_Box
-		|-src
-			|-communication.h*
-			|-main.c
-			|-main.h
-		|-CMakeLists.txt
-		|-pic_sdk_import.cmake
-		|-README.md
-	|-docs
-		|-creating_db_tables.md
-		|-creating_new_trial_scenario.md
-		|-creating_unit_tests.md
-	|-dua_client
-		|-public
-			|-index.html
-		|-src
-			|-assets
-				|- * All videos and images used for testing *
-			|-controllers
-				|-participantController.js
-				|-screenController.js
-				|-tapController.js
-				|-testController.js
-			|-css*
-			|-redux
-				|-actions
-					|-participantActions.js
-					|-screenActions.js
-					|-tapActions.js
-					|-testActions.js
-					|-trialActions.js
-				|-reducers
-					|-participantReducer.js
-					|-screenReducer.js
-					|-tapReducer.js
-					|-testReducer.js
-					|-trialReducer.js
-			|-views
-				|-components
-					|-IVA_Components
-						|-Detour
-							|- * All Content Related to Detour Scenario * 
-						|-Trial_Info
-							|- TrialInformation.js * component for coordinating scenarios * 
-						|-Buttoncolumn.js
-						|-DefaultDisplay.js
-						|-InteractiveMap_INCOMPLETE.js*
-						|-TrialScreenNotif.js
-						|-TrialScreen.js
-						|-TrialScreenCall.js
-						|-TrialScreenInformation.js
-						|-TrialScreenrompt.js
-						|-TripTravelTime.js
-						|-VehicleDate.js
-						|-VehicleUI.js
-					|-ColorPicker.js
-					|-FunctionButton.js
-					|-GeneralModal.js
-					|-KeyCodeGetter.js
-					|-NavButton.js
-					|-ParticipantConfirmForm.js
-					|-ParticipantSubmitForm.js
-					|-ParticipantTable.js
-					|-ReturnButton.js
-					|-Trial.js
-					|-TrialButton.js
-				|-ButtonBoxGUI.js
-				|-ExportToCSV.js*
-				|-HomePage.js
-				|-ParticipantWaiting.js
-				|-TrialRun.js
-				|-TrialSetup.js
-				|-TrialVideo.js
-				|-TrialWrapper.js
-			|-apiRoutes.js
-			|-App.js
-			|-index.js
-			|-store.js
-			|-styles.css*
-		|-config.env
-		|-Dockerfile
-		|-package-lock.json
-		|-package.json
-	|-dua_server
-		|-api
-			|-controllers
-				|- __test__
-					|-participantController.test.js
-					|-screenController.test.js
-					|-tapController.test.js
-					|-testController.test.js			
-				|-participantController.js
-				|-screenController.js
-				|-tapController.js
-				|-testController.js
-			|-models
-				|-Participant.js
-				|-Screen.js
-				|-Tap.js
-				|-Test.js
-			|-api.js
-	
-		|-config
-			|-database.js
-		|-db
-			|-initializer.js
-		|-config.env
-		|-Dockerfile
-		|-package-lock.json
-		|-package.json
-		|-server.js
+├─ .gitignore
+├─ .prettierignore
+├─ assets
+  ├─ Home_Page.png
+  ├─ Information_screen_code.png
+  ├─ Navigation.png
+  ├─ Server_running.png
+├─ Button_Box
+  ├─ CMakeLists.txt
+  ├─ pico_sdk_import.cmake
+  ├─ README.md
+  ├─ src
+    ├─ communication.h
+    ├─ main.c
+    ├─ main.h
+├─ docker-compose.yml
+├─ docs
+  ├─ button_box.md
+  ├─ communication.md
+  ├─ components.md
+  ├─ creating_db_tables.md
+  ├─ creating_new_trial_scenario.md
+  ├─ creating_unit_tests.md
+  ├─ database.md
+  ├─ docker.md
+  ├─ redux.md
+├─ dua_client
+  ├─ config.env
+  ├─ Dockerfile
+  ├─ package-lock.json
+  ├─ package.json
+  ├─ public
+    ├─ index.html
+    ├─ manifest.json
+  ├─ src
+    ├─ apiRoutes.js
+    ├─ App.js
+    ├─ assets
+      ├─ Breakdown_Breakdown.mp4
+      ├─ Breakdown_Not_Pull_Over.mp4
+      ├─ Breakdown_Pull_Over.mp4
+      ├─ CarSettings.png
+      ├─ DetourMap.png
+      ├─ Detour_Construction.mp4
+      ├─ Detour_Home.mp4
+      ├─ Detour_Waffle_House.mp4
+      ├─ Detour_Walgreen.mp4
+      ├─ EntertainmentApp.png
+      ├─ HomeMap.png
+      ├─ PhoneApp.png
+      ├─ PhoneButton.png
+      ├─ PhoneCallEnd.png
+      ├─ PhoneScreen.png
+      ├─ Roadside_AssistancePhoneCall.png
+      ├─ StartMap.png
+      ├─ TwoPhones.png
+      ├─ WaffleHouseMap.png
+    ├─ controllers
+      ├─ participantController.js
+      ├─ screenController.js
+      ├─ tapController.js
+      ├─ testController.js
+      ├─ trialController.js
+    ├─ css
+      ├─ styles.css
+    ├─ index.js
+    ├─ models
+      ├─ screen.js
+      ├─ trial.js
+    ├─ redux
+      ├─ actions
+        ├─ participantActions.js
+        ├─ screenActions.js
+        ├─ tapActions.js
+        ├─ testActions.js
+        ├─ trialActions.js
+      ├─ reducers
+        ├─ participantReducer.js
+        ├─ screenReducer.js
+        ├─ tapReducer.js
+        ├─ testReducer.js
+        ├─ trialReducer.js
+    ├─ store.js
+    ├─ styles.css
+    ├─ views
+      ├─ components
+        ├─ ButtonBoxGUI
+          ├─ ColorPicker.js
+          ├─ KeyCodeGetter.js
+        ├─ Forms
+          ├─ ParticipantConfirmForm.js
+          ├─ ParticipantInputForm.js
+          ├─ ParticipantSubmitForm.js
+        ├─ General
+          ├─ FunctionButton.js
+          ├─ GeneralModal.js
+          ├─ NavButton.js
+          ├─ ReturnButton.js
+        ├─ TrialScreens
+          ├─ Detour
+            ├─ Detour10Content.js
+            ├─ Detour3Content.js
+            ├─ Detour4Content.js
+            ├─ Detour5Content.js
+            ├─ Detour6Content.js
+            ├─ Detour7Content.js
+            ├─ Detour8Content.js
+            ├─ Detour9Content.js
+            ├─ DetourGoogleMaps.js
+          ├─ Trial.js
+          ├─ Trial_Info
+            ├─ TrialInformation.js
+        ├─ TrialSetup
+          ├─ ParticipantTable.js
+          ├─ TrialButton.js
+        ├─ TrialVideos
+        ├─ VehicleUI
+          ├─ ButtonColumn.js
+          ├─ DefaultDisplay.js
+          ├─ InteractiveMap_INCOMPLETE.js
+          ├─ TrialScreen.js
+          ├─ TrialScreenCall.js
+          ├─ TrialScreenInformation.js
+          ├─ TrialScreenNotif.js
+          ├─ TrialScreenPrompt.js
+          ├─ TripTravelTime.js
+          ├─ VehicleDate.js
+      ├─ DataWrapper.js
+      ├─ screens
+        ├─ ButtonBoxGUI.js
+        ├─ ExportToCSV.js
+        ├─ HomePage.js
+        ├─ TrialRun.js
+        ├─ TrialSetupContainer.js
+        ├─ TrialVideoContainer.js
+        ├─ VehicleUIContainer.js
+├─ dua_server
+  ├─ api
+    ├─ api.js
+    ├─ controllers
+      ├─ participantController.js
+      ├─ screenController.js
+      ├─ tapController.js
+      ├─ testController.js
+      ├─ __tests__
+        ├─ participantController.test.js
+        ├─ screenController.test.js
+        ├─ tapController.test.js
+        ├─ testController.test.js
+    ├─ models
+      ├─ Participant.js
+      ├─ Screen.js
+      ├─ Tap.js
+      ├─ Test.js
+  ├─ config.env
+  ├─ configDB
+    ├─ database.js
+  ├─ db
+    ├─ initializer.js
+    ├─ Trial_Data.db
+  ├─ Dockerfile
+  ├─ package-lock.json
+  ├─ package.json
+  ├─ README.md
+  ├─ server.js
+├─ file_structure.py
+├─ README.md
+├─ Start.cmd
+├─ Stop.cmd
 ```
 
 ## Documentation

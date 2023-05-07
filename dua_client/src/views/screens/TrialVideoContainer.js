@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import Detour_Start from "../assets/Detour_Construction.mp4";
-import Detour_Home from "../assets/Detour_Home.mp4";
-import Detour_Waffle_House from "../assets/Detour_Waffle_House.mp4";
-import Detour_Walgreen from "../assets/Detour_Walgreen.mp4";
+import Detour_Start from "../../assets/Detour_Construction.mp4";
+import Detour_Home from "../../assets/Detour_Home.mp4";
+import Detour_Waffle_House from "../../assets/Detour_Waffle_House.mp4";
+import Detour_Walgreen from "../../assets/Detour_Walgreen.mp4";
 
 const TrialVideo = () => {
   const [buttonText, setButtonText] = useState(

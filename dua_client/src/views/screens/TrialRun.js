@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { updateParticipant } from "../redux/actions/participantActions";
-import TrialWrapper from "./TrialWrapper";
+import { updateParticipant } from "../../redux/actions/participantActions";
+import DataWrapper from "../DataWrapper";
 
 const TrialRun = () => {
   const location = useLocation();
@@ -93,7 +93,7 @@ const TrialRun = () => {
         </ScreenWrapper>
       )}
       {showTrial && (
-        <TrialWrapper
+        <DataWrapper
           test={test}
           participant={participant}
           column={column}

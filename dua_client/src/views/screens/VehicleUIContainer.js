@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import DefaultDisplay from "./DefaultDisplay";
-import VehicleDate from "./VehicleDate";
-import ButtonColumn from "./ButtonColumn";
-import tvPic from "../../../assets/EntertainmentApp.png";
-import twoPhones from "../../../assets/TwoPhones.png";
-import phoneApp from "../../../assets/PhoneApp.png";
-import carSettings from "../../../assets/CarSettings.png";
-import TrialScreenInformation from "./TrialScreenInformation";
-import TrialScreenPrompt from "./TrialScreenPrompt";
-import TrialScreenNotif from "./TrailScreenNotif";
-import TrialScreenCall from "./TrialScreenCall";
-import { setPaused } from "../../../redux/actions/trialActions";
-import { createScreen } from "../../../redux/actions/screenActions";
-import Detour_Home from "../../../assets/Detour_Home.mp4";
-import Detour_Waffle_House from "../../../assets/Detour_Waffle_House.mp4";
-import Detour_Walgreen from "../../../assets/Detour_Walgreen.mp4";
+import DefaultDisplay from "../components/VehicleUI/DefaultDisplay";
+import VehicleDate from "../components/VehicleUI/VehicleDate";
+import ButtonColumn from "../components/VehicleUI/ButtonColumn";
+import tvPic from "../../assets/EntertainmentApp.png";
+import twoPhones from "../../assets/TwoPhones.png";
+import phoneApp from "../../assets/PhoneApp.png";
+import carSettings from "../../assets/CarSettings.png";
+import TrialScreenInformation from "../components/VehicleUI/TrialScreenInformation";
+import TrialScreenPrompt from "../components/VehicleUI/TrialScreenPrompt";
+import TrialScreenNotif from "../components/VehicleUI/TrialScreenNotif";
+import TrialScreenCall from "../components/VehicleUI/TrialScreenCall";
+import { setPaused } from "../../redux/actions/trialActions";
+import { createScreen, finishScreen } from "../../redux/actions/screenActions";
+import Detour_Home from "../../assets/Detour_Home.mp4";
+import Detour_Waffle_House from "../../assets/Detour_Waffle_House.mp4";
+import Detour_Walgreen from "../../assets/Detour_Walgreen.mp4";
 import {
   detourScreens,
   detourScreenTimings,
@@ -24,7 +24,7 @@ import {
   breakdownScreens,
   breakdownScreenTimings,
   breakdownPauses,
-} from "./Trial_Info/TrialInformation";
+} from "../components/TrialScreens/Trial_Info/TrialInformation";
 
 const buttonData = [
   {
@@ -87,17 +87,30 @@ const VehicleUI = (props) => {
     dispatch(setPaused(!isPaused));
   }, [dispatch, isPaused]);
 
-  // Trial timed pauses and timed screen functionality here
   useEffect(() => {
     const seconds = counter / 1000;
+  
     if (pauses.includes(seconds)) {
       dispatch(setPaused((prevState) => !prevState));
     }
-
+  
     if (Object.keys(screenTimings).includes(String(seconds))) {
       const targetScreenIndex = detourScreenTimings[seconds];
+  
       if (currentScreenIndex === targetScreenIndex && !showOverlay) {
         setShowOverlay(true);
+  
+        // Send screen open information to the database
+        const newScreen = {
+          SCREEN_NUMBER_IN_ORDER: targetScreenIndex,
+          LOCAL_TIME_AT_START: new Date().toLocaleString(),
+          TRIAL_RUNTIME_AT_START_SECONDS: counter / 1000,
+          SCREEN_NAME: screens[targetScreenIndex].screenName,
+          TRIAL_ID: test.UID,
+          VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
+          VIDEO_TIME_AT_START_SECONDS: counter,
+        };
+        dispatch(createScreen(newScreen));
       }
     }
   }, [dispatch, counter, currentScreenIndex, showOverlay]);
@@ -155,22 +168,24 @@ const VehicleUI = (props) => {
   const handleScreenClose = (nextIndex) => {
     setShowOverlay(false);
     setCurrentScreenIndex(nextIndex);
+  
+    // Send screen close information to the database
+    const closingScreen = {
+      SCREEN_NUMBER_IN_ORDER: currentScreenIndex,
+      LOCAL_TIME_AT_CLOSE: new Date().toLocaleString(),
+      TRIAL_RUNTIME_AT_CLOSE_SECONDS: counter / 1000,
+      TRIAL_ID: test.UID,
+      VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
+      VIDEO_TIME_AT_CLOSE_SECONDS: counter,
+    };
+    dispatch(finishScreen(closingScreen));
   };
 
+  // DOM manipulation 
   useEffect(() => {
     document.body.style.overflow = "hidden";
     console.log(test);
 
-    const newScreen = {
-      SCREEN_NUMBER_IN_ORDER: 0,
-      LOCAL_TIME_AT_START: new Date().toLocaleString(),
-      TRIAL_RUNTIME_AT_START_SECONDS: counter / 1000,
-      SCREEN_NAME: "DefaultUI",
-      TRIAL_ID: test.UID,
-      VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
-      VIDEO_TIME_AT_START_SECONDS: counter,
-    };
-    dispatch(createScreen(newScreen));
     return () => {
       document.body.style.overflow = "";
     };

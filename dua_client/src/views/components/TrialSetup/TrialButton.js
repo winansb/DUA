@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getTest } from "../../redux/actions/testActions";
+import { getTest } from "../../../redux/actions/testActions";
 import styled from "styled-components";
-import GeneralModal from "./GeneralModal";
-import ParticipantSubmitForm from "./ParticipantSubmitForm";
-import ParticipantConfirmForm from "./ParticipantConfirmForm";
+import GeneralModal from "../General/GeneralModal";
+import ParticipantSubmitForm from "../Forms/ParticipantSubmitForm";
+import ParticipantConfirmForm from "../Forms/ParticipantConfirmForm";
 
 const StyledButton = styled.button`
   background-color: ${({ buttonState }) =>

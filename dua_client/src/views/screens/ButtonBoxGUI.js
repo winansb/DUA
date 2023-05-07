@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import ReturnButton from "./components/ReturnButton";
-import ColorPicker from "./components/ColorPicker";
-import KeyCodeGetter from "./components/KeyCodeGetter";
+import ReturnButton from "../components/General/ReturnButton";
+import ColorPicker from "../components/ButtonBoxGUI/ColorPicker";
+import KeyCodeGetter from "../components/ButtonBoxGUI/KeyCodeGetter";
 import chroma from "chroma-js";
 
 class DeviceGUIPage extends React.Component {

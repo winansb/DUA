@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { createTap, updateTap } from "../../redux/actions/tapActions";
+import { createTap, updateTap } from "../../../redux/actions/tapActions";
 import { useDispatch } from "react-redux";
 
 function Trial({

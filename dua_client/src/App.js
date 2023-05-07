@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import HomePage from "./views/HomePage";
-import TrialSetup from "./views/TrialSetup";
-import ExportPage from "./views/ExportToCSV";
-import DeviceGUIPage from "./views/ButtonBoxGUI";
-import TrialRun from "./views/TrialRun";
-import TrialVideo from "./views/TrialVideo";
+import HomePage from "./views/screens/HomePage";
+import TrialSetup from "./views/screens/TrialSetupContainer";
+import ExportPage from "./views/screens/ExportToCSV";
+import DeviceGUIPage from "./views/screens/ButtonBoxGUI";
+import TrialRun from "./views/screens/TrialRun";
+import TrialVideo from "./views/screens/TrialVideoContainer";
 
 const App = () => {
   return (

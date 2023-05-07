@@ -4,8 +4,8 @@ import {
   getParticipant,
   updateParticipant,
   getAllParticipants,
-} from "../../redux/actions/participantActions";
-import { updateTest, getTest } from "../../redux/actions/testActions";
+} from "../../../redux/actions/participantActions";
+import { updateTest, getTest } from "../../../redux/actions/testActions";
 import { useDispatch } from "react-redux";
 
 function ParticipantSubmitForm({
@@ -89,7 +89,7 @@ function ParticipantSubmitForm({
     const newTest = {
       ...originalTest,
       MCI: mci,
-      ORDER: parseInt(order),
+      ORDER: order,
       USE_PLAYBOOK: usePlaybook,
       [column === 0 ? "NEXT_DESTINATION" : "EMERGENCY_CONTACT_BREAKDOWN"]: option1,
       [column === 0 ? "GO_HOME" : "ROADSIDE_ASSISTANCE"]: option2,
@@ -143,8 +143,8 @@ function ParticipantSubmitForm({
           disabled={shouldFieldBeDisabled(column)}
         >
           <option value="">{order}</option>
-          <option value="0">0</option>
-          <option value="1">1</option>
+          <option value="Detour">Detour</option>
+          <option value="Breakdown">Breakdown</option>
         </Select>
       </Label>
       <Label>

@@ -1,5 +1,5 @@
 import React from "react";
-import NavButton from "./components/NavButton";
+import NavButton from "../components/General/NavButton";
 import styled from "styled-components";
 
 const HomePage = () => {

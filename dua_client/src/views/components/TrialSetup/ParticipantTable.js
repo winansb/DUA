@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { getAllParticipants } from "../../redux/actions/participantActions";
+import { getAllParticipants } from "../../../redux/actions/participantActions";
 import { useEffect } from "react";
 import styled from "styled-components";
 import TrialButton from "./TrialButton";

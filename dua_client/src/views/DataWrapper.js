@@ -1,7 +1,7 @@
 import React from "react";
-import Trial from "./components/Trial";
+import Trial from "./components/TrialScreens/Trial";
 
-import VehicleUI from "./components/IVA_Components/VehicleUI";
+import VehicleUI from "./screens/VehicleUIContainer";
 
 // The reason for this TrialWrapper is that in Trial we define the return statement as a method to give all children of Trial certain exports.
 // This wrapper page makes it so any pages added under this umbrella will have the tap recording functionality. It also provides some redux functionality.
