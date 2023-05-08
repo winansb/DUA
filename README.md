@@ -26,28 +26,35 @@ The Reed Laboratory Trials Management System is a client-server application deve
 
 ### Prerequisites
 
-- Docker (latest version) https://www.docker.com/get-started
+- Node Package Manager (LTS version) https://nodejs.org/en/download
 - git https://git-scm.com/downloads
 
-### Installation
+### Install the project
 
 ( In the command line )
 
 1. Clone the repository:
    -git clone https://github.com/winansb/DUA.git (alternatively download from this link)
 
-2. Double click Start.cmd in the DUA folder
 
-3. You can now access the project by opening your browser and inputting 'localhost'
+### Get the Latest Version 
+
+1. Double click the Update.cmd script
+
+2. Double click the Install Client Dependencies.cmd & Install Server Dependencies scripts
+
+### Run the project
+
+1. Double Click the Run Client.cmd & Run Server.cmd scripts
+
+2. If a window does not automatically open, you can now access the project by opening your browser and inputting 'localhost'. This project was tested for and developed with google chrome. Image below is dated and should be localhost:3000
 ![Typing localhost into the navigation bar of google chrome](./assets/Navigation.png)
 
-4. You are now running the project and should see this page 
+3. You are now running the project and should see this page 
 
    ![Web Homepage opening after starting the client](./assets/Home_Page.png)
 
 ## Usage
-
-## Server API Reference
 
 ## How to Edit Trials
 
@@ -59,7 +66,7 @@ Trials are composed from a series of components generated from one array per a t
 
 Displays an Ok button and text to the user
 -type: "Information",
--content: "any text in double qutes that you want to show on the screen."
+-content: "any text in double quotes that you want to show on the screen."
 -nextIndex: The index of the next screen within the 'test'Screens array to show after this screen is finished. If you want Detour2 to display as the next screen after the user presses okay you would but 1 here.
 -screenName: the name used for data collection techniques when communicating on what sreen something happened such as action initiated. Detour1_Ok.
 -displayTimeSeconds: integer describing the seconds this screen should stay open for before closing.
@@ -163,8 +170,6 @@ Displays Yes or no option, takes 'content' as an argument. This is a jsx object 
         ├─ tapReducer.js
         ├─ testReducer.js
         ├─ trialReducer.js
-    ├─ services
-      ├─ trialStartupService.js
     ├─ store.js
     ├─ styles.css
     ├─ views
@@ -192,7 +197,7 @@ Displays Yes or no option, takes 'content' as an argument. This is a jsx object 
             ├─ Detour8Content.js
             ├─ Detour9Content.js
             ├─ DetourGoogleMaps.js
-          ├─ Trial.js
+          ├─ TapRecording.js
           ├─ Trial_Info
             ├─ TrialInformation.js
         ├─ TrialSetup
@@ -210,11 +215,11 @@ Displays Yes or no option, takes 'content' as an argument. This is a jsx object 
           ├─ TrialScreenPrompt.js
           ├─ TripTravelTime.js
           ├─ VehicleDate.js
-      ├─ DataWrapper.js
       ├─ screens
         ├─ ButtonBoxGUI.js
         ├─ ExportToCSV.js
         ├─ HomePage.js
+        ├─ ThankYou.js
         ├─ TrialRun.js
         ├─ TrialSetupContainer.js
         ├─ TrialVideoContainer.js
