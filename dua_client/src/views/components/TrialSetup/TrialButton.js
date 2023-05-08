@@ -6,6 +6,114 @@ import GeneralModal from "../General/GeneralModal";
 import ParticipantSubmitForm from "../Forms/ParticipantSubmitForm";
 import ParticipantConfirmForm from "../Forms/ParticipantConfirmForm";
 
+
+
+const TrialButton = ({ participant, trialType, setTest }) => {
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchTest = async () => {
+      const testId = participant.TRIAL_ID;
+      const fetchedTest = await dispatch(getTest(testId));
+      setTest(fetchedTest.data);
+    };
+
+    fetchTest();
+  }, [dispatch, participant.TRIAL_ID]);
+
+  const handleModalTransition = () => {
+    setShowSubmitModal(false);
+    setShowConfirmModal(true);
+  };
+  const determineButtonState = () => {
+    const upperCaseTrialType = trialType.toUpperCase();
+  
+    if (
+      !participant[`${upperCaseTrialType}_COMPLETE`] &&
+      participant[`${upperCaseTrialType}_IN_PROGRESS`] === 0
+    ) {
+      return "state1";
+    }
+    if (participant[`${upperCaseTrialType}_IN_PROGRESS`] !== 0) {
+      return "state2";
+    }
+    if (participant[`${upperCaseTrialType}_COMPLETE`]) {
+      return "state3";
+    }
+  };
+
+  const getButtonText = () => {
+    const buttonState = determineButtonState();
+    if (buttonState === "state1") {
+      return `Start ${trialType}`;
+    }
+    if (buttonState === "state2") {
+      return `Continue ${trialType}`;
+    }
+    if (buttonState === "state3") {
+      return "Completed";
+    }
+  };
+
+  const handleButtonClick = () => {
+    const buttonState = determineButtonState();
+
+    if (buttonState === "state1") {
+      setShowSubmitModal(true);
+    } else if (buttonState === "state2") {
+      setShowConfirmModal(true);
+    }
+  };
+
+  const buttonState = determineButtonState();
+  const isDisabled = buttonState === "state3";
+
+  return (
+    <>
+      <StyledButton
+        buttonState={buttonState}
+        onClick={handleButtonClick}
+        disabled={isDisabled}
+      >
+        {getButtonText()}
+      </StyledButton>
+
+      {showSubmitModal && (
+        <GeneralModal
+          content={
+            <ParticipantSubmitForm
+              participant={participant}
+              trialType={trialType}
+              onClose={() => setShowSubmitModal(false)}
+              onModalTransition={handleModalTransition}
+            />
+          }
+          onClose={() => {
+            setShowSubmitModal(false);
+          }}
+        />
+      )}
+
+      {showConfirmModal && (
+        <GeneralModal
+          content={
+            <ParticipantConfirmForm
+              participant={participant}
+              trialType={trialType}
+              onClose={() => setShowConfirmModal(false)}
+            />
+          }
+          onClose={() => setShowConfirmModal(false)}
+        />
+      )}
+    </>
+  );
+};
+
+export default TrialButton;
+
 const StyledButton = styled.button`
   background-color: ${({ buttonState }) =>
     buttonState === "state1"
@@ -49,126 +157,3 @@ const StyledButton = styled.button`
     cursor: not-allowed;
   }
 `;
-
-const TrialButton = ({ participant, column, setTest}) => {
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showSubmitModal, setShowSubmitModal] = useState(false);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchTest = async () => {
-      const testId = participant.TRIAL_ID;
-      const fetchedTest = await dispatch(getTest(testId));
-      setTest(fetchedTest.data);
-    };
-
-    fetchTest();
-  }, [dispatch, participant.TRIAL_ID]);
-
-  const handleModalTransition = () => {
-    setShowSubmitModal(false);
-    setShowConfirmModal(true);
-  };
-
-  const determineButtonState = () => {
-    if (
-      (column === 0 &&
-        !participant.DETOUR_COMPLETE &&
-        participant.DETOUR_IN_PROGRESS === 0) ||
-      (column === 1 &&
-        !participant.BREAKDOWN_COMPLETE &&
-        participant.BREAKDOWN_IN_PROGRESS === 0)
-    ) {
-      return "state1";
-    }
-    if (
-      (column === 0 &&
-        (participant.DETOUR_COMPLETE ||
-          participant.DETOUR_IN_PROGRESS !== 0)) ||
-      (column === 1 &&
-        (participant.BREAKDOWN_COMPLETE ||
-          participant.BREAKDOWN_IN_PROGRESS !== 0))
-    ) {
-      return "state2";
-    }
-    if (
-      (column === 0 &&
-        participant.DETOUR_COMPLETE &&
-        participant.DETOUR_IN_PROGRESS === 0) ||
-      (column === 1 &&
-        participant.BREAKDOWN_COMPLETE &&
-        participant.BREAKDOWN_IN_PROGRESS === 0)
-    ) {
-      return "state3";
-    }
-  };
-
-  const getButtonText = () => {
-    const buttonState = determineButtonState();
-    if (buttonState === "state1") {
-      return column === 0 ? "Start Detour" : "Start Breakdown";
-    }
-    if (buttonState === "state2") {
-      return column === 0 ? "Continue Detour" : "Continue Breakdown";
-    }
-    if (buttonState === "state3") {
-      return column === 0 ? "Detour Complete" : "Breakdown Complete";
-    }
-  };
-
-  const handleButtonClick = () => {
-    const buttonState = determineButtonState();
-
-    if (buttonState === "state1") {
-      setShowSubmitModal(true);
-    } else if (buttonState === "state2") {
-      setShowConfirmModal(true);
-    }
-  };
-
-  const buttonState = determineButtonState();
-  const isDisabled = buttonState === "state3";
-
-  return (
-    <>
-      <StyledButton
-        buttonState={buttonState}
-        onClick={handleButtonClick}
-        disabled={isDisabled}
-      >
-        {getButtonText()}
-      </StyledButton>
-
-      {showSubmitModal && (
-        <GeneralModal
-          content={
-            <ParticipantSubmitForm
-              participant={participant}
-              column={column}
-              onClose={() => setShowSubmitModal(false)}
-              onModalTransition={handleModalTransition}
-            />
-          }
-          onClose={() => {
-            setShowSubmitModal(false);
-          }}
-        />
-      )}
-
-      {showConfirmModal && (
-        <GeneralModal
-          content={
-            <ParticipantConfirmForm
-              participant={participant}
-              column={column}
-              onClose={() => setShowConfirmModal(false)}
-            />
-          }
-          onClose={() => setShowConfirmModal(false)}
-        />
-      )}
-    </>
-  );
-};
-
-export default TrialButton;

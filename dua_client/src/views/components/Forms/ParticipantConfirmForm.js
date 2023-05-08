@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback  } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { getTest } from "../../../redux/actions/testActions";
 import { useNavigate } from "react-router-dom";
+import generalData from "../../../data/GeneralData";
+import trialDataArray from "../../../data/TrialData";
 
-const ParticipantConfirmForm = ({ participant, column, onClose }) => {
+const ParticipantConfirmForm = ({ participant, trialType, onClose }) => {
   const [test, setTest] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,49 +23,54 @@ const ParticipantConfirmForm = ({ participant, column, onClose }) => {
     fetchTest();
   }, [dispatch, participant.TRIAL_ID]);
 
+  useEffect(() => {
+    if (test) {
+      const initialValues = {};
+
+      generalData.forEach((field) => {
+        initialValues[field.serverName] = test[field.serverName] || "";
+      });
+
+      trialDataArray.forEach((trial) => {
+        if (trial.trialType === trialType) {
+          trial.preTrialQuestions.forEach((item) => {
+            initialValues[item.serverName] = test[item.serverName] || "";
+          });
+        }
+      });
+
+      setSelectedOptions(initialValues);
+    }
+  }, [test, trialType, participant]);
+
   const onConfirm = () => {
-    navigate("/trial-run", { state: { test, participant, column } });
+    navigate("/trial-run", { state: { test, participant, trialType } });
   };
 
   if (!test) {
     return <div>Loading...</div>;
   }
 
+  const trial = trialDataArray.find((t) => t.trialType === trialType);
+
   return (
     <Container>
-      <h2>Test Confirmation</h2>
-      <InfoContainer>
-        <InfoRow>
-          <InfoLabel>ID</InfoLabel>
-          <InfoLabel>MCI</InfoLabel>
-          <InfoLabel>Order</InfoLabel>
-          <InfoLabel>Use Playbook</InfoLabel>
-          <InfoLabel>
-            {column === 0 ? "Next Destination" : "Emergency Contact Breakdown"}
-          </InfoLabel>
-          <InfoLabel>
-            {column === 0 ? "Go Home" : "Roadside Assistance"}
-          </InfoLabel>
-          <InfoLabel>
-            {column === 0 ? "Emergency Contact Detour" : "Relaxing Music"}
-          </InfoLabel>
+      <h1>Test Confirmation</h1>
+      {generalData.map((field) => (
+        <InfoRow key={field.id}>
+          <InfoLabel>{field.label}:</InfoLabel>
+          <InfoData>{selectedOptions[field.serverName]}</InfoData>
         </InfoRow>
-        <InfoRow>
-          <InfoData>{participant.PARTICIPANT_ID}</InfoData>
-          <InfoData>{test.MCI}</InfoData>
-          <InfoData>{test.ORDER}</InfoData>
-          <InfoData>{test.USE_PLAYBOOK}</InfoData>
-          <InfoData>
-            {test[column === 0 ? "NEXT_DESTINATION" : "EMERGENCY_CONTACT_BREAKDOWN"]}
-          </InfoData>
-          <InfoData>
-            {test[column === 0 ? "GO_HOME" : "ROADSIDE_ASSISTANCE"]}
-          </InfoData>
-          <InfoData>
-            {test[column === 0 ? "EMERGENCY_CONTACT_BREAKDOWN" : "RELAXING_MUSIC"]}
-          </InfoData>
-        </InfoRow>
-      </InfoContainer>
+      ))}
+      <React.Fragment key={`trial-${trialType}`}>
+        <h1>{trial.trialType}</h1>
+        {trial.preTrialQuestions.map((item, index) => (
+          <InfoRow key={`${trial.trialType}-${index}`}>
+            <InfoLabel>{item.question}:</InfoLabel>
+            <InfoData>{selectedOptions[item.serverName]}</InfoData>
+          </InfoRow>
+        ))}
+      </React.Fragment>
       <Buttons>
         <CancelButton onClick={onClose}>Cancel</CancelButton>
         <SubmitButton onClick={onConfirm}>Confirm</SubmitButton>
@@ -75,12 +83,6 @@ export default ParticipantConfirmForm;
 
 const Container = styled.div`
   text-align: center;
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const InfoRow = styled.div`

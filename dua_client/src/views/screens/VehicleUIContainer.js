@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { updateParticipant } from "../../redux/actions/participantActions";
 import DefaultDisplay from "../components/VehicleUI/DefaultDisplay";
 import VehicleDate from "../components/VehicleUI/VehicleDate";
 import ButtonColumn from "../components/VehicleUI/ButtonColumn";
@@ -14,17 +15,18 @@ import TrialScreenNotif from "../components/VehicleUI/TrialScreenNotif";
 import TrialScreenCall from "../components/VehicleUI/TrialScreenCall";
 import { setPaused } from "../../redux/actions/trialActions";
 import { createScreen, finishScreen } from "../../redux/actions/screenActions";
+import { useNavigate } from "react-router-dom";
+
+// Trial Videos Add new videos here to add to trial 
 import Detour_Home from "../../assets/Detour_Home.mp4";
 import Detour_Waffle_House from "../../assets/Detour_Waffle_House.mp4";
 import Detour_Walgreen from "../../assets/Detour_Walgreen.mp4";
-import {
-  detourScreens,
-  detourScreenTimings,
-  detourPauses,
-  breakdownScreens,
-  breakdownScreenTimings,
-  breakdownPauses,
-} from "../components/TrialScreens/Trial_Info/TrialInformation";
+import Breakdown_Start from "../../assets/Breakdown_Breakdown.mp4";
+import Breakdown_Not_Pull_Over from "../../assets/Breakdown_Not_Pull_Over.mp4";
+import Breakdown_Pull_Over from "../../assets/Breakdown_Pull_Over.mp4";
+
+// Trial Data structure
+import trialDataArray from "../../data/TrialData";
 
 const buttonData = [
   {
@@ -44,6 +46,7 @@ const VehicleUI = (props) => {
     videoWindow,
     targetOrigin,
     updateCurrentScreen,
+    trialType,
   } = props;
 
   const [showOverlay, setShowOverlay] = useState(false);
@@ -51,6 +54,7 @@ const VehicleUI = (props) => {
   const dispatch = useDispatch();
   const isPaused = useSelector((state) => state.trial.isPaused);
   const destination = useSelector((state) => state.trial.destination);
+  const navigate = useNavigate();
 
   // Counter timer logic
   const [counter, setCounter] = useState(0);
@@ -69,19 +73,24 @@ const VehicleUI = (props) => {
     };
   }, [isPaused]);
 
+  // Get the data based on the trialType
   const { screens, pauses, screenTimings } = useMemo(() => {
-    return column === 0
-      ? {
-          screens: detourScreens,
-          pauses: detourPauses,
-          screenTimings: detourScreenTimings,
-        }
-      : {
-          screens: breakdownScreens,
-          pauses: breakdownPauses,
-          screenTimings: breakdownScreenTimings,
+    if (trialType) {
+      const trialData = trialDataArray.find((item) => item.trialType === trialType);
+
+      if (trialData) {
+        return {
+          screens: trialData.screens,
+          pauses: trialData.pauses,
+          screenTimings: trialData.screenTimings,
         };
-  }, [column]);
+      } else {
+        console.log(trialDataArray);
+        console.error(`Invalid trialType: ${trialType}`);
+        return { screens: [], pauses: [], screenTimings: {} };
+      }
+    }
+  }, [trialType]);
 
   const handlePause = useCallback(() => {
     dispatch(setPaused(!isPaused));
@@ -95,7 +104,7 @@ const VehicleUI = (props) => {
     }
   
     if (Object.keys(screenTimings).includes(String(seconds))) {
-      const targetScreenIndex = detourScreenTimings[seconds];
+      const targetScreenIndex = screenTimings[seconds];
   
       if (currentScreenIndex === targetScreenIndex && !showOverlay) {
         setShowOverlay(true);
@@ -124,14 +133,21 @@ const VehicleUI = (props) => {
     }
   }, [isPaused, targetOrigin, videoWindow]);
 
+
+  // Destination Changing Logic! Add new videos here to add to the trial
   useEffect(() => {
     if (destination) {
       console.log(destination);
 
       const videoSrcMap = {
+        walgreens: Detour_Walgreen,
         walgreensDetour: Detour_Walgreen,
         waffleHouse: Detour_Waffle_House,
         home: Detour_Home,
+
+        breakdown: Breakdown_Start,
+        breakdownPullOver: Breakdown_Pull_Over,
+        breakdownNotPullOver: Breakdown_Not_Pull_Over,
       };
 
       const finalVideoSrc = videoSrcMap[destination];
@@ -150,6 +166,31 @@ const VehicleUI = (props) => {
       );
     }
   }, [destination]);
+
+  // Listen for the end of the trial and close down the trial
+  
+  function updateParticipantComplete(participant) {
+    const upperCaseTrialType = trialType.toUpperCase();
+    participant[`${upperCaseTrialType}_COMPLETE`] = true;
+    participant[`${upperCaseTrialType}_IN_PROGRESS`] = false;
+    return participant;
+  }
+
+  useEffect(() => {
+    const handleMessage = (e) => {
+      if (e.data.action === "finalVideoEnded") {
+        const updatedParticipant = updateParticipantComplete(participant);
+        dispatch(updateParticipant(updatedParticipant.UID, updatedParticipant));
+        navigate("/ThankYou");
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [dispatch, participant]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -181,6 +222,10 @@ const VehicleUI = (props) => {
     dispatch(finishScreen(closingScreen));
   };
 
+  const handleHelpButtonClick = () => {
+    setShowOverlay(!showOverlay);
+  };
+
   // DOM manipulation 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -191,9 +236,19 @@ const VehicleUI = (props) => {
     };
   }, []);
 
-  const handleHelpButtonClick = () => {
-    setShowOverlay(!showOverlay);
-  };
+  // logic to determine if a screen should be shown or not
+  // const shouldShowScreen = (screenName) => {
+  //   const question = test.preTrialQuestions.find(
+  //     (q) => q.impact.screenName === screenName
+  //   );
+  
+  //   if (!question) return true;
+  
+  //   const serverName = question.serverName;
+  //   const result = test[serverName];
+  
+  //   return impact ? impact.impact.show : true;
+  // };
 
   const renderTrialScreen = () => {
     const currentScreen = screens[currentScreenIndex];
@@ -262,11 +317,11 @@ const VehicleUI = (props) => {
         <VehicleDate />
       </TopLeft>
       <TopRight>
-        <HelpButton onClick={handleHelpButtonClick}>Help</HelpButton>
+      {/* onClick={handleHelpButtonClick} */}
+        <HelpButton >Help</HelpButton>
       </TopRight>
       <LargeLeft className={showOverlay ? "overlay-active" : ""}>
         <DefaultDisplay
-          column={column}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
         />

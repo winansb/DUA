@@ -7,6 +7,7 @@ import ExportPage from "./views/screens/ExportToCSV";
 import DeviceGUIPage from "./views/screens/ButtonBoxGUI";
 import TrialRun from "./views/screens/TrialRun";
 import TrialVideo from "./views/screens/TrialVideoContainer";
+import ThankYou from "./views/screens/ThankYou";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/device-gui" element={<DeviceGUIPage />} />
         <Route path="/trial-run" element={<TrialRun />} />
         <Route path="trial-video" element={<TrialVideo />} />
+        <Route path="/ThankYou" element={<ThankYou />} />
       </Routes>
     </div>
   );

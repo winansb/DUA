@@ -1,265 +1,244 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import {
-  getParticipant,
-  updateParticipant,
-  getAllParticipants,
-} from "../../../redux/actions/participantActions";
-import { updateTest, getTest } from "../../../redux/actions/testActions";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
+import trialDataArray from "../../../data/TrialData";
+import generalData from "../../../data/GeneralData";
+import { getTest, updateTest } from "../../../redux/actions/testActions";
 
-function ParticipantSubmitForm({
-  onClose,
-  participant,
-  column,
-  onModalTransition,
-}) {
-  const [participantID, setParticipantName] = useState(
-    participant.PARTICIPANT_ID
-  );
-  const [mci, setMci] = useState("");
-  const [order, setOrder] = useState("");
-  const [usePlaybook, setUsePlaybook] = useState("");
-  const [option1, setOption1] = useState("");
-  const [option2, setOption2] = useState("");
-  const [option3, setOption3] = useState("");
-
-  const [breakdownComplete, setBreakdownComplete] = useState(
-    participant.BREAKDOWN_COMPLETE
-  );
-  const [detourComplete, setDetourComplete] = useState(
-    participant.DETOUR_COMPLETE
-  );
-
+function ParticipantSubmitForm({ participant, trialType, onClose, onModalTransition  }) {
+  const [test, setTest] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchTest = async () => {
-      const test = await dispatch(getTest(participant.TRIAL_ID));
+  const determineState = () => {
+    let disableGeneralData = false;
 
-      if (test) {
-        setMci(test.data.MCI);
-        setOrder(test.data.ORDER);
-        setUsePlaybook(test.data.USE_PLAYBOOK);
-        setOption1(
-          test.data[column === 0 ? "NEXT_DESTINATION" : "EMERGENCY_CONTACT_BREAKDOWN"]
-        );
-        setOption2(
-          test.data[column === 0 ? "GO_HOME" : "ROADSIDE_ASSISTANCE"]
-        );
-        setOption3(
-          test.data[column === 0 ? "EMERGENCY_CONTACT_DETOUR" : "RELAXING_MUSIC"]
-        );
+    trialDataArray.forEach((trial) => {
+      const upperCaseTrialType = trial.trialType.toUpperCase();
+
+      if (
+        participant[`${upperCaseTrialType}_COMPLETE`] ||
+        participant[`${upperCaseTrialType}_IN_PROGRESS`] !== 0
+      ) {
+        disableGeneralData = true;
       }
-    };
+    });
+
+    return disableGeneralData;
+  };
+
+  const isDisabled = determineState();
+
+  useEffect(() => {
+    async function fetchTest() {
+      if (loading) {
+        const fetchedTest = await dispatch(getTest(participant.TRIAL_ID));
+
+        if (fetchedTest) {
+          setTest(fetchedTest.data);
+        }
+        setLoading(false);
+      }
+    }
 
     fetchTest();
-  }, [dispatch, participant.TRIAL_ID, column]);
+  }, [participant, loading, dispatch]);
 
-  const handleCancel = (e) => {
-    e.preventDefault();
-    onClose();
-  };
+  useEffect(() => {
+    if (test) {
+      const initialValues = {};
 
-  const shouldFieldBeDisabled = (column) => {
-    if (column === 0) {
-      return breakdownComplete;
-    } else if (column === 1) {
-      return detourComplete;
+      generalData.forEach((field) => {
+        initialValues[field.serverName] = test[field.serverName] || "";
+      });
+
+      trialDataArray.forEach((trial) => {
+        if (trial.trialType === trialType) {
+          trial.preTrialQuestions.forEach((item) => {
+            initialValues[item.serverName] = test[item.serverName] || "";
+          });
+        }
+      });
+
+      setSelectedOptions(initialValues);
     }
-    return false;
-  };
+  }, [test, trialType, participant]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Check if there are any changes
+    const hasChanges = Object.keys(selectedOptions).some(
+      (key) => selectedOptions[key] !== test[key]
+    ); 
 
-    // Fetch the original participant and test objects
-    const originalParticipant = await dispatch(getParticipant(participant.UID));
-    const { data: originalTest } = await dispatch(
-      getTest(participant.TRIAL_ID)
-    );
+    if (hasChanges) {
+      // Create a new updatedTest object with the changed values
+      const updatedTest = {
+        ...test,
+        ...selectedOptions,
+      };
 
-    // Create a new participant object with the form input values
-    const newParticipant = {
-      ...originalParticipant,
-      PARTICIPANT_ID: participantID,
-    };
-
-    // Create a new test object with the form input values
-    const newTest = {
-      ...originalTest,
-      MCI: mci,
-      ORDER: order,
-      USE_PLAYBOOK: usePlaybook,
-      [column === 0 ? "NEXT_DESTINATION" : "EMERGENCY_CONTACT_BREAKDOWN"]: option1,
-      [column === 0 ? "GO_HOME" : "ROADSIDE_ASSISTANCE"]: option2,
-      [column === 0 ? "EMERGENCY_CONTACT_DETOUR" : "RELAXING_MUSIC"]: option3,
-    };
-
-    // Compare the new participant object with the original one and update if needed
-    if (
-      JSON.stringify(newParticipant) !== JSON.stringify(originalParticipant)
-    ) {
-      await dispatch(updateParticipant(participant.UID, newParticipant));
-      dispatch(getAllParticipants());
+      // Call the updateTest action with the updatedTest object and test UID
+      await dispatch(updateTest(test.UID, updatedTest));
     }
 
-    // Compare the new test object with the original one and update if needed
-    if (JSON.stringify(newTest) !== JSON.stringify(originalTest)) {
-      await dispatch(updateTest(participant.TRIAL_ID, newTest));
-    }
-
+    // Close the form
+    onClose();
+    // Transition to the next modal
     onModalTransition();
   };
 
+  const handleOptionChange = (optionId, value) => {
+    setSelectedOptions((prevOptions) => ({
+      ...prevOptions,
+      [optionId]: value,
+    }));
+  };
+
+  const trial = trialDataArray.find((t) => t.trialType === trialType);
+
   return (
-    <Form onSubmit={handleSubmit}>
-      <Label>
-        Participant ID:
-        <Input
-          type="text"
-          value={participantID}
-          onChange={(e) => setParticipantName(e.target.value)}
-          disabled={shouldFieldBeDisabled(column)}
-        />
-      </Label>
-      <Label>
-        MCI:
-        <Select
-          value={mci}
-          onChange={(e) => setMci(e.target.value)}
-          disabled={shouldFieldBeDisabled(column)}
-        >
-          <option value="">{mci}</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </Select>
-      </Label>
-      <Label>
-        Order:
-        <Select
-          value={order}
-          onChange={(e) => setOrder(e.target.value)}
-          disabled={shouldFieldBeDisabled(column)}
-        >
-          <option value="">{order}</option>
-          <option value="Detour">Detour</option>
-          <option value="Breakdown">Breakdown</option>
-        </Select>
-      </Label>
-      <Label>
-        Use Playbook:
-        <Select
-          value={usePlaybook}
-          onChange={(e) => setUsePlaybook(e.target.value)}
-          disabled={shouldFieldBeDisabled(column)}
-        >
-          <option value="">{usePlaybook}</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </Select>
-      </Label>
-      <Label>
-        {column === 0 ? "Next Destination:" : "Emergency Contact Breakdown:"}
-        <Select value={option1} onChange={(e) => setOption1(e.target.value)}>
-          <option value="">{option1}</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </Select>
-      </Label>
-      <Label>
-        {column === 0 ? "Go Home:" : "Roadside Assistance:"}
-        <Select value={option2} onChange={(e) => setOption2(e.target.value)}>
-          <option value="">{option2}</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </Select>
-      </Label>
-      <Label>
-        {column === 0 ? "Emergency Contact Detour" : "Relaxing Music:"}
-        <Select value={option3} onChange={(e) => setOption3(e.target.value)}>
-          <option value="">{option3}</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </Select>
-      </Label>
-      <ButtonRow>
-        <CancelButton onClick={handleCancel}>Cancel</CancelButton>
-        <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
-      </ButtonRow>
-    </Form>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        {generalData.map((field) => (
+          <InfoRow key={field.id}>
+            <InfoLabel>{field.label}:</InfoLabel>
+            <InfoData>
+              {field.type === "text" ? (
+                <Input
+                  value={selectedOptions[field.serverName] || ""}
+                  onChange={(e) => handleOptionChange(field.serverName, e.target.value)}
+                  disabled={isDisabled}
+                />
+              ) : (
+                <Select
+                  value={selectedOptions[field.serverName] || ""}
+                  onChange={(e) => handleOptionChange(field.serverName, e.target.value)}
+                  disabled={isDisabled}
+                >
+                  {field.options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Select>
+              )}
+            </InfoData>
+          </InfoRow>
+        ))}
+        <React.Fragment key={`trial-${trialType}`}>
+          <h1>{trial.trialType}</h1>
+          {trial.preTrialQuestions.map((item, index) => (
+            <InfoRow key={`${trial.trialType}-${index}`}>
+              <InfoLabel>{item.question}:</InfoLabel>
+              <InfoData>
+                  <Select
+                    value={selectedOptions[item.serverName] || ""}
+                    onChange={(e) =>
+                      handleOptionChange(item.serverName, e.target.value)
+                    }
+                  >
+                {item.options.map((option, optionIndex) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                  ))}
+                </Select>
+              </InfoData>
+            </InfoRow>
+            ))}
+        </React.Fragment>
+      <Buttons>
+        <CancelButton onClick={onClose}>Cancel</CancelButton>
+        <SubmitButton type="submit">Confirm</SubmitButton>
+      </Buttons>
+      </Form>
+    </Container>
   );
 }
+
 export default ParticipantSubmitForm;
 
-const Form = styled.form`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 1rem;
-  justify-items: center;
-  align-items: center;
+const Container = styled.div`
+text-align: center;
 `;
 
-const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  width: 100%;
+const Form = styled.form``;
+
+const InfoRow = styled.div`
+display: flex;
+justify-content: space-between;
+width: 90%;
+max-width: 800px;
+margin-bottom: 10px;
+`;
+
+const InfoLabel = styled.div`
+font-weight: bold;
+flex: 1;
+text-align: left;
+`;
+
+const InfoData = styled.div`
+flex: 1;
+text-align: left;
+margin-right: 10px;
+
+&:last-child {
+margin-right: 0;
+}
 `;
 
 const Input = styled.input`
-  font-size: 1rem;
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-top: 0.5rem;
-  width: 100%;
-  ${({ disabled }) => disabled && "background-color: #f0f0f0;"}
+font-size: 1rem;
+padding: 0.5rem;
+border-radius: 4px;
+border: 1px solid #ccc;
+width: 100%;
+${({ disabled }) => disabled && "background-color: #f0f0f0;"}
 `;
 
 const Select = styled.select`
-  font-size: 1rem;
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-top: 0.5rem;
-  width: 100%;
-  ${({ disabled }) => disabled && "background-color: #f0f0f0;"}
+font-size: 1rem;
+padding: 0.5rem;
+border-radius: 4px;
+border: 1px solid #ccc;
+width: 100%;
+${({ disabled }) => disabled && "background-color: #f0f0f0;"}
 `;
 
-const ButtonRow = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-  grid-column: span 2;
+const Buttons = styled.div`
+display: flex;
+justify-content: space-between;
+margin-top: 20px;
 `;
 
 const CancelButton = styled.button`
-  background-color: #ccc;
-  color: #333;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  border: none;
-  margin-right: 1rem;
+background-color: #ccc;
+color: #333;
+padding: 8px 16px;
+border-radius: 4px;
+font-size: 1rem;
+cursor: pointer;
+border: none;
+margin-right: 1rem;
 
-  &:hover {
-    background-color: #bbb;
-  }
+&:hover {
+background-color: #bbb;
+}
 `;
 
 const SubmitButton = styled.button`
-  background-color: #7c5295;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  border: none;
+background-color: #7c5295;
+color: #fff;
+padding: 8px 16px;
+border-radius: 4px;
+font-size: 1rem;
+cursor: pointer;
+border: none;
 
-  &:hover {
-    background-color: #a180b3;
-  }
+&:hover {
+background-color: #a180b3;
+}
 `;

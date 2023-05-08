@@ -3,11 +3,11 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { updateParticipant } from "../../redux/actions/participantActions";
-import DataWrapper from "../DataWrapper";
+import VehicleUIContainer from "./VehicleUIContainer";
 
 const TrialRun = () => {
   const location = useLocation();
-  const { test, participant, column } = location.state;
+  const { test, participant, trialType } = location.state;
   const [status, setStatus] = useState("welcome");
   const [showTrial, setShowTrial] = useState(false);
   const [countDown, setCountDown] = useState(null);
@@ -15,17 +15,14 @@ const TrialRun = () => {
   const [targetOrigin, setTargetOrigin] = useState("*");
   const dispatch = useDispatch();
 
-  function updateParticipantComplete(participant) {
-    if (column === 0) {
-      participant.DETOUR_COMPLETE = true;
-    } else if (column === 1) {
-      participant.BREAKDOWN_COMPLETE = true;
-    }
+  function updateParticipantInProgress(participant) {
+    const upperCaseTrialType = trialType.toUpperCase();
+    participant[`${upperCaseTrialType}_IN_PROGRESS`] = true;
     return participant;
   }
 
   useEffect(() => {
-    const updatedParticipant = updateParticipantComplete(participant);
+    const updatedParticipant = updateParticipantInProgress(participant);
     dispatch(updateParticipant(updatedParticipant.UID, updatedParticipant));
 
     const openedWindow = window.open(
@@ -67,7 +64,8 @@ const TrialRun = () => {
     if (countDown === 0) {
       setStatus("trial");
       setShowTrial(true);
-      videoWindow.postMessage({ action: "play" }, targetOrigin || "*");
+      videoWindow.postMessage({ action: "setType", trialType: trialType }, targetOrigin || "*");
+      videoWindow.postMessage({ action: "play", trialType: trialType }, targetOrigin || "*");
     }
   }, [countDown]);
 
@@ -93,10 +91,10 @@ const TrialRun = () => {
         </ScreenWrapper>
       )}
       {showTrial && (
-        <DataWrapper
+        <VehicleUIContainer
           test={test}
           participant={participant}
-          column={column}
+          trialType={trialType}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
         />
@@ -106,11 +104,7 @@ const TrialRun = () => {
 };
 export default TrialRun;
 
-const CountdownWrapper = styled.div`
-  font-size: 6rem;
-  margin-bottom: 20px;
-  color: #333;
-`;
+
 
 const ScreenWrapper = styled.div`
   display: flex;

@@ -7,6 +7,7 @@ import ParticipantInputForm from "../components/Forms/ParticipantInputForm";
 import GeneralModal from "../components/General/GeneralModal";
 import { getAllParticipants } from "../../redux/actions/participantActions";
 
+
 function TrialSetup() {
   const [showModal, setShowModal] = useState(false);
 
@@ -49,6 +50,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 2rem;
+  overflow: auto;
 `;
 
 const Title = styled.h1`

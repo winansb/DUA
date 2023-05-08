@@ -143,6 +143,9 @@ Displays Yes or no option, takes 'content' as an argument. This is a jsx object 
       ├─ trialController.js
     ├─ css
       ├─ styles.css
+    ├─ data
+      ├─ GeneralData.js
+      ├─ TrialData.js
     ├─ index.js
     ├─ models
       ├─ screen.js
@@ -160,6 +163,8 @@ Displays Yes or no option, takes 'content' as an argument. This is a jsx object 
         ├─ tapReducer.js
         ├─ testReducer.js
         ├─ trialReducer.js
+    ├─ services
+      ├─ trialStartupService.js
     ├─ store.js
     ├─ styles.css
     ├─ views

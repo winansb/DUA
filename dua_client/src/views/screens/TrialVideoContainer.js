@@ -1,9 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
+
+// Trial Videos! add here to add to the trial
 import Detour_Start from "../../assets/Detour_Construction.mp4";
 import Detour_Home from "../../assets/Detour_Home.mp4";
 import Detour_Waffle_House from "../../assets/Detour_Waffle_House.mp4";
 import Detour_Walgreen from "../../assets/Detour_Walgreen.mp4";
+import Breakdown_Start from "../../assets/Breakdown_Breakdown.mp4";
+import Breakdown_Not_Pull_Over from "../../assets/Breakdown_Not_Pull_Over.mp4";
+import Breakdown_Pull_Over from "../../assets/Breakdown_Pull_Over.mp4";
 
 const TrialVideo = () => {
   const [buttonText, setButtonText] = useState(
@@ -11,6 +16,7 @@ const TrialVideo = () => {
   );
   const [videosLoaded, setVideosLoaded] = useState(0);
   const [finalVideo, setFinalVideo] = useState(Detour_Walgreen);
+  const [trialType, setTrialType] = useState(null);
 
   const videoPlaying = useRef(null);
   const trialStartVideo = useRef(null);
@@ -22,7 +28,7 @@ const TrialVideo = () => {
 
   const onVideoLoaded = () => {
     setVideosLoaded((prevState) => prevState + 1);
-    if (videosLoaded === 3) {
+    if (videosLoaded === 7) { // Change this number to the number of videos you have
       setButtonText("Press this to fullscreen trial footage");
     }
   };
@@ -80,11 +86,32 @@ const TrialVideo = () => {
     );
   };
 
+  const finalVideoEnded = () => {
+    window.opener.postMessage(
+      {
+        action: "finalVideoEnded",
+      },
+      "*"
+    );
+  };
+
   useEffect(() => {
     function handleMessage(e) {
       const action = e.data.action;
       console.log(action);
       switch (action) {
+        case "setType":
+          setTrialType(e.data.trialType);
+          console.log(e.data.trialType);
+
+          // Add your starting video logic for new trials here !
+          if (e.data.trialType === "Detour") {
+            trialStartVideo.current.src = Detour_Start;
+          } else if (e.data.trialType === "Breakdown") {
+            trialStartVideo.current.src = Breakdown_Start;
+          }
+          break;
+
         case "play":
           videoPlaying.current.play();
           break;
@@ -132,17 +159,23 @@ const TrialVideo = () => {
     }
   };
 
+
   return (
     <VideoWrapper>
       <video
         ref={trialStartVideo}
-        src={Detour_Start}
-        onLoadedData={onVideoLoaded}
         onEnded={handleTrialStartVideoEnded}
       />
       <video
         ref={trialEndVideo}
         src={finalVideo}
+        onLoadedData={onVideoLoaded}
+        style={{ display: "none" }}
+        preload="auto"
+        onEnded={finalVideoEnded}
+      />
+      <video
+        src={Detour_Start}
         onLoadedData={onVideoLoaded}
         style={{ display: "none" }}
         preload="auto"
@@ -165,6 +198,24 @@ const TrialVideo = () => {
         style={{ display: "none" }}
         preload="auto"
       />
+      <video
+        src={Breakdown_Start}
+        onLoadedData={onVideoLoaded}
+        style={{ display: "none" }}
+        preload="auto"
+      />
+      <video
+        src={Breakdown_Not_Pull_Over}
+        onLoadedData={onVideoLoaded}
+        style={{ display: "none" }}
+        preload="auto"
+      />
+      <video
+        src={Breakdown_Pull_Over}
+        onLoadedData={onVideoLoaded}
+        style={{ display: "none" }}
+        preload="auto"
+      />
       <FullScreenButton onClick={handleFullscreen}>
         {buttonText}
       </FullScreenButton>
@@ -180,6 +231,7 @@ const VideoWrapper = styled.div`
   align-items: center;
   height: 100vh;
   position: relative;
+  background-color: black;
 `;
 
 const FullScreenButton = styled.button`

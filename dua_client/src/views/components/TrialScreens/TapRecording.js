@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { createTap, updateTap } from "../../../redux/actions/tapActions";
 import { useDispatch } from "react-redux";
 
-function Trial({
+function TapRecording({
   participant,
-  column,
+  trialType,
   test,
   children,
   videoWindow,
@@ -90,7 +90,7 @@ function Trial({
           targetOrigin,
           participant,
           test,
-          column,
+          trialType,
           actionInitiated,
         })
       )}
@@ -98,4 +98,4 @@ function Trial({
   );
 }
 
-export default Trial;
+export default TapRecording;

@@ -9,7 +9,7 @@ import Detour from "../../../assets/DetourMap.png";
 import waffleHouse from "../../../assets/WaffleHouseMap.png";
 import home from "../../../assets/HomeMap.png";
 
-const DefaultDisplay = ({ videoWindow, targetOrigin, column }) => {
+const DefaultDisplay = ({ videoWindow, targetOrigin }) => {
   const destination = useSelector((state) => state.trial.destination);
 
   const [map, setMap] = useState(Start);

@@ -5,6 +5,7 @@ import { getAllParticipants } from "../../../redux/actions/participantActions";
 import { useEffect } from "react";
 import styled from "styled-components";
 import TrialButton from "./TrialButton";
+import trialDataArray from "../../../data/TrialData";
 
 const StyledTable = styled.table`
   width: 100%;
@@ -50,8 +51,9 @@ export function ParticipantTable() {
             <th>UID</th>
             <th>Participant ID</th>
             <th>Starting Scenario</th>
-            <th>Detour</th>
-            <th>Breakdown</th>
+            {trialDataArray.map((trial, index) => (
+            <th key={index}>{trial.trialType}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -61,12 +63,15 @@ export function ParticipantTable() {
                 <td>{row.UID}</td>
                 <td>{row.PARTICIPANT_ID}</td>
                 <td>{test && test.ORDER}</td>
-                <td>
-                  <TrialButton participant={row} column={0} setTest={setTest} />
-                </td>
-                <td>
-                  <TrialButton participant={row} column={1} setTest={setTest} />
-                </td>
+                {trialDataArray.map((trial, index) => (
+                  <td key={index}>
+                    <TrialButton
+                      participant={row}
+                      trialType={trial.trialType}
+                      setTest={setTest}
+                    />
+                  </td>
+                ))}
               </tr>
             ))}
         </tbody>
