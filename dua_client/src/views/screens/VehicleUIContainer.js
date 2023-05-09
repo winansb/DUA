@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { updateParticipant } from "../../redux/actions/participantActions";
 import DefaultDisplay from "../components/VehicleUI/DefaultDisplay";
 import VehicleDate from "../components/VehicleUI/VehicleDate";
 import ButtonColumn from "../components/VehicleUI/ButtonColumn";
@@ -9,24 +8,18 @@ import tvPic from "../../assets/EntertainmentApp.png";
 import twoPhones from "../../assets/TwoPhones.png";
 import phoneApp from "../../assets/PhoneApp.png";
 import carSettings from "../../assets/CarSettings.png";
-import TrialScreenInformation from "../components/VehicleUI/TrialScreenInformation";
-import TrialScreenPrompt from "../components/VehicleUI/TrialScreenPrompt";
-import TrialScreenNotif from "../components/VehicleUI/TrialScreenNotif";
-import TrialScreenCall from "../components/VehicleUI/TrialScreenCall";
-import { setPaused } from "../../redux/actions/trialActions";
-import { createScreen, finishScreen } from "../../redux/actions/screenActions";
-import { useNavigate } from "react-router-dom";
-
-// Trial Videos Add new videos here to add to trial 
-import Detour_Home from "../../assets/Detour_Home.mp4";
-import Detour_Waffle_House from "../../assets/Detour_Waffle_House.mp4";
-import Detour_Walgreen from "../../assets/Detour_Walgreen.mp4";
-import Breakdown_Start from "../../assets/Breakdown_Breakdown.mp4";
-import Breakdown_Not_Pull_Over from "../../assets/Breakdown_Not_Pull_Over.mp4";
-import Breakdown_Pull_Over from "../../assets/Breakdown_Pull_Over.mp4";
+import TrialScreenRenderer from "../components/VehicleUI/utils/TrialScreenRenderer";
 
 // Trial Data structure
 import trialDataArray from "../../data/TrialData";
+
+// util functions 
+import { handleScreenClose } from "../components/VehicleUI/utils/screenCloser";
+import { extractTrialData } from "../components/VehicleUI/utils/trialDataExtractor";
+import { useTrialScheduler } from "../components/VehicleUI/utils/useTrialScheduler";
+import { useDestinationHandler } from "../components/VehicleUI/utils/useDestinationHandler";
+import { useParticipantHandler } from "../components/VehicleUI/utils/useParticipantHandler";
+
 
 const buttonData = [
   {
@@ -45,182 +38,25 @@ const VehicleUI = (props) => {
     test,
     videoWindow,
     targetOrigin,
-    updateCurrentScreen,
     trialType,
   } = props;
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
-  const dispatch = useDispatch();
-  const isPaused = useSelector((state) => state.trial.isPaused);
   const destination = useSelector((state) => state.trial.destination);
-  const navigate = useNavigate();
 
-  // Counter timer logic
-  const [counter, setCounter] = useState(0);
-  useEffect(() => {
-    let timer;
-    if (!isPaused) {
-      timer = setInterval(() => {
-        setCounter((prevCounter) => prevCounter + 1000);
-      }, 1000);
-    } else {
-      clearInterval(timer);
-    }
+  // Get the data, based on the trialType, from the trialDataArray
+  const { screens, screenTimings, pauses } = useMemo(() => extractTrialData(trialType, trialDataArray), [trialType]);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isPaused]);
-
-  // Get the data based on the trialType
-  const { screens, pauses, screenTimings } = useMemo(() => {
-    if (trialType) {
-      const trialData = trialDataArray.find((item) => item.trialType === trialType);
-
-      if (trialData) {
-        return {
-          screens: trialData.screens,
-          pauses: trialData.pauses,
-          screenTimings: trialData.screenTimings,
-        };
-      } else {
-        console.log(trialDataArray);
-        console.error(`Invalid trialType: ${trialType}`);
-        return { screens: [], pauses: [], screenTimings: {} };
-      }
-    }
-  }, [trialType]);
-
-  const handlePause = useCallback(() => {
-    dispatch(setPaused(!isPaused));
-  }, [dispatch, isPaused]);
-
-  useEffect(() => {
-    const seconds = counter / 1000;
-  
-    if (pauses.includes(seconds)) {
-      dispatch(setPaused((prevState) => !prevState));
-    }
-  
-    if (Object.keys(screenTimings).includes(String(seconds))) {
-      const targetScreenIndex = screenTimings[seconds];
-  
-      if (currentScreenIndex === targetScreenIndex && !showOverlay) {
-        setShowOverlay(true);
-  
-        // Send screen open information to the database
-        const newScreen = {
-          SCREEN_NUMBER_IN_ORDER: targetScreenIndex,
-          LOCAL_TIME_AT_START: new Date().toLocaleString(),
-          TRIAL_RUNTIME_AT_START_SECONDS: counter / 1000,
-          SCREEN_NAME: screens[targetScreenIndex].screenName,
-          TRIAL_ID: test.UID,
-          VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
-          VIDEO_TIME_AT_START_SECONDS: counter,
-        };
-        dispatch(createScreen(newScreen));
-      }
-    }
-  }, [dispatch, counter, currentScreenIndex, showOverlay]);
-
-  useEffect(() => {
-    if (videoWindow) {
-      videoWindow.postMessage(
-        { action: isPaused ? "pause" : "play" },
-        targetOrigin || "*"
-      );
-    }
-  }, [isPaused, targetOrigin, videoWindow]);
-
+  // Feed this data into the trialScheduler 
+  useTrialScheduler(currentScreenIndex, showOverlay, setShowOverlay, screens, test, column, screenTimings, pauses);
 
   // Destination Changing Logic! Add new videos here to add to the trial
-  useEffect(() => {
-    if (destination) {
-      console.log(destination);
+  useDestinationHandler(destination, videoWindow, targetOrigin);
 
-      const videoSrcMap = {
-        walgreens: Detour_Walgreen,
-        walgreensDetour: Detour_Walgreen,
-        waffleHouse: Detour_Waffle_House,
-        home: Detour_Home,
+  // The participant handler is responsible for updating the participant object in the database
+  useParticipantHandler(trialType, participant);
 
-        breakdown: Breakdown_Start,
-        breakdownPullOver: Breakdown_Pull_Over,
-        breakdownNotPullOver: Breakdown_Not_Pull_Over,
-      };
-
-      const finalVideoSrc = videoSrcMap[destination];
-
-      if (!finalVideoSrc) {
-        console.warn(`Unknown destination: ${destination}`);
-        return;
-      }
-
-      videoWindow.postMessage(
-        {
-          action: "setFinalVideo",
-          finalVideo: finalVideoSrc,
-        },
-        targetOrigin || "*"
-      );
-    }
-  }, [destination]);
-
-  // Listen for the end of the trial and close down the trial
-  
-  function updateParticipantComplete(participant) {
-    const upperCaseTrialType = trialType.toUpperCase();
-    participant[`${upperCaseTrialType}_COMPLETE`] = true;
-    participant[`${upperCaseTrialType}_IN_PROGRESS`] = false;
-    return participant;
-  }
-
-  useEffect(() => {
-    const handleMessage = (e) => {
-      if (e.data.action === "finalVideoEnded") {
-        const updatedParticipant = updateParticipantComplete(participant);
-        dispatch(updateParticipant(updatedParticipant.UID, updatedParticipant));
-        navigate("/ThankYou");
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
-  }, [dispatch, participant]);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === "Space") {
-        handlePause();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [handlePause]);
-
-  const handleScreenClose = (nextIndex) => {
-    setShowOverlay(false);
-    setCurrentScreenIndex(nextIndex);
-  
-    // Send screen close information to the database
-    const closingScreen = {
-      SCREEN_NUMBER_IN_ORDER: currentScreenIndex,
-      LOCAL_TIME_AT_CLOSE: new Date().toLocaleString(),
-      TRIAL_RUNTIME_AT_CLOSE_SECONDS: counter / 1000,
-      TRIAL_ID: test.UID,
-      VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
-      VIDEO_TIME_AT_CLOSE_SECONDS: counter,
-    };
-    dispatch(finishScreen(closingScreen));
-  };
 
   const handleHelpButtonClick = () => {
     setShowOverlay(!showOverlay);
@@ -250,67 +86,6 @@ const VehicleUI = (props) => {
   //   return impact ? impact.impact.show : true;
   // };
 
-  const renderTrialScreen = () => {
-    const currentScreen = screens[currentScreenIndex];
-
-    if (!currentScreen) return null;
-
-    switch (currentScreen.type) {
-      case "Information":
-        return (
-          <TrialScreenInformation
-            information={currentScreen.content}
-            onClose={handleScreenClose}
-            nextIndex={currentScreen.nextIndex}
-            videoWindow={videoWindow}
-            targetOrigin={targetOrigin}
-            screenName={currentScreen.screenName}
-            displayTimeSeconds={currentScreen.displayTimeSeconds}
-          />
-        );
-      case "Prompt":
-        return (
-          <TrialScreenPrompt
-            contents={currentScreen.content}
-            onClose={handleScreenClose}
-            videoWindow={videoWindow}
-            targetOrigin={targetOrigin}
-            screenName={currentScreen.screenName}
-            displayTimeSeconds={currentScreen.displayTimeSeconds}
-            yesIndex={currentScreen.yesIndex}
-            noIndex={currentScreen.noIndex}
-            yesDestination={currentScreen.yesDestination}
-          />
-        );
-      case "Notif":
-        return (
-          <TrialScreenNotif
-            contents={currentScreen.content}
-            onClose={handleScreenClose}
-            videoWindow={videoWindow}
-            targetOrigin={targetOrigin}
-            screenName={currentScreen.screenName}
-            displayTimeSeconds={currentScreen.displayTimeSeconds}
-            nextIndex={currentScreen.nextIndex}
-            okDestination={currentScreen.okDestination}
-          />
-        );
-      case "Call":
-        return (
-          <TrialScreenCall
-            onClose={handleScreenClose}
-            videoWindow={videoWindow}
-            targetOrigin={targetOrigin}
-            screenName={currentScreen.screenName}
-            displayTimeSeconds={currentScreen.displayTimeSeconds}
-            nextIndex={currentScreen.nextIndex}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
   return (
     <Grid>
       <TopLeft>
@@ -318,14 +93,14 @@ const VehicleUI = (props) => {
       </TopLeft>
       <TopRight>
       {/* onClick={handleHelpButtonClick} */}
-        <HelpButton >Help</HelpButton>
+        <HelpButton onClick={handleHelpButtonClick}>Help</HelpButton>
       </TopRight>
       <LargeLeft className={showOverlay ? "overlay-active" : ""}>
         <DefaultDisplay
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
         />
-        {showOverlay && renderTrialScreen()}
+        {showOverlay && <TrialScreenRenderer currentScreen={screens[currentScreenIndex]} handleScreenClose={handleScreenClose} videoWindow={videoWindow} targetOrigin={targetOrigin} />}
       </LargeLeft>
       <LargeRight>
         <ButtonColumn buttonData={buttonData} />
