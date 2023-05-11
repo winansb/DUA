@@ -8,7 +8,7 @@ import TrialScreenCall from "../TrialScreenCall";
 
 // As such you can add new types of screens here
 
-export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScreen, handleScreenClose, videoWindow, targetOrigin }) {
+export default function TrialScreenRenderer({ screens, setShowOverlay, trialType, setCurrentScreenIndex, currentScreen, handleScreenClose, videoWindow, targetOrigin }) {
   if (!currentScreen) return null;
 
   switch (currentScreen.type) {
@@ -17,6 +17,9 @@ export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScre
         <TrialScreenInformation
         // The key value is not used in file but is important for proper rendering
           key={currentScreen.screenName}
+          screens={screens}
+          setShowOverlay={setShowOverlay}
+          trialType={trialType}
           information={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
@@ -31,6 +34,9 @@ export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScre
       return (
         <TrialScreenPrompt
           key={currentScreen.screenName}
+          screens={screens}
+          setShowOverlay={setShowOverlay}
+          trialType={trialType}
           contents={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
@@ -47,6 +53,9 @@ export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScre
       return (
         <TrialScreenNotif
           key={currentScreen.screenName}
+          screens={screens}
+          setShowOverlay={setShowOverlay}
+          trialType={trialType}
           contents={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
@@ -62,6 +71,9 @@ export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScre
       return (
         <TrialScreenCall
           key={currentScreen.screenName}
+          screens={screens}
+          setShowOverlay={setShowOverlay}
+          trialType={trialType}
           setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
           videoWindow={videoWindow}

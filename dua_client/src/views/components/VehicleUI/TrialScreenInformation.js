@@ -31,6 +31,9 @@ const popOut = keyframes`
 
 const TrialScreenInformation = ({
   onClose,
+  screens,
+  setShowOverlay,
+  trialType,
   setCurrentScreenIndex,
   information,
   nextIndex,
@@ -44,7 +47,7 @@ const TrialScreenInformation = ({
     setClosing(true);
     console.log("handleTimeout: closing screen");
     const actionName = screenName + "_timeout";
-    onClose(nextIndex, screenName, actionName, setCurrentScreenIndex);
+    onClose(screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex);
   };
 
   // This custom hook handles the timeout functionality
@@ -54,7 +57,7 @@ const TrialScreenInformation = ({
 
     const actionName = screenName + "_ok";
     setClosing(true);
-    setTimeout(() => onClose(nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
+    setTimeout(() => onClose(screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
   };
 
   useEffect(() => {

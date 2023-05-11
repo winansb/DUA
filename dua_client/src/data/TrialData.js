@@ -69,6 +69,7 @@ const trialData = {
         nextIndex: 1,
         screenName: "Detour1",
         displayTimeSeconds: 5,
+        sequential: true, // Detour 2 will trigger immedietaly after Detour 1
       },
       //Detour 2
       {
@@ -78,6 +79,7 @@ const trialData = {
         nextIndex: 2, // Detour 3 is next
         screenName: "Detour2",
         displayTimeSeconds: 5,
+        sequential: false, // Detour 3 will not trigger immedietaly after Detour 2
       },
       //Detour 3
       {
@@ -91,6 +93,7 @@ const trialData = {
         // on Yes location becomes walgreens
         // map becomes detour map.
         //pass it a map and video to send when yes or no are selected
+        sequential: true, // Detour 4 or 5 will appear directly after
       },
       //Detour 4
       {
@@ -99,6 +102,7 @@ const trialData = {
         screenName: "Detour4",
         displayTimeSeconds: 5,
         nextIndex: 9, //Detour 10
+        sequential: true,
       },
       //Detour 5
       {
@@ -109,6 +113,7 @@ const trialData = {
         yesIndex: 5, // Detour 6
         noIndex: 6, // Detour 7
         yesDestination: "waffleHouse",
+        sequential: true,
       },
       //Detour 6
       {
@@ -117,6 +122,7 @@ const trialData = {
         screenName: "Detour6",
         displayTimeSeconds: 5,
         nextIndex: 9, // Detour 10
+        sequential: true,
       },
       //Detour 7
       {
@@ -127,6 +133,7 @@ const trialData = {
         yesIndex: 7, // Detour 8
         noIndex: 8, // Detour 9
         yesDestination: "home",
+        sequential: true,
       },
       //Detour 8
       {
@@ -135,6 +142,7 @@ const trialData = {
         screenName: "Detour8",
         displayTimeSeconds: 5,
         nextIndex: 9, // Detour 10
+        sequential: true,
       },
       //Detour 9
       {
@@ -144,6 +152,7 @@ const trialData = {
         displayTimeSeconds: 5,
         nextIndex: 9, // Detour 10
         okDestination: "walgreensDetour",
+        sequential: true,
       },
       //Detour 10
       {
@@ -153,6 +162,7 @@ const trialData = {
         displayTimeSeconds: 5,
         yesIndex: 10, // Detour 11
         noIndex: 11, // Detour 12
+        sequential: true,
       },
       //Detour 11
       {
@@ -160,6 +170,7 @@ const trialData = {
         screenName: "Detour11",
         displayTimeSeconds: 5,
         nextIndex: 11, // Detour 12
+        sequential: true,
       },
       //Detour 12
       {
@@ -169,9 +180,7 @@ const trialData = {
         screenName: "Detour12",
         displayTimeSeconds: 5,
         nextIndex: 12, // end of trial next Index just needs to be something out of bounds
-      },
-      {
-        Type: "End Trial",
+        sequential: true,
       },
     ],
     screenTimings: {
@@ -179,7 +188,7 @@ const trialData = {
       // You will have to make sure that the timing of the screens works out. If the screen leading to the next group of sequential screens finished 
       // after the timer for the next group of sequential screens, the next group of sequential screens will not appear. 
       2: 0, // Detour 1 will appear 2 seconds into the trial, 1-2 will be sequential, 2 will be time triggered, everything after 2 will be sequential
-      18: 2, // Detour 3 will appear 18 seconds into the trial
+      20: 2, // Detour 3 will appear 20 seconds into the trial
     },
     pauses: [
       10, // Pause the trial 10 seconds in

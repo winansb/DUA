@@ -117,7 +117,7 @@ const VehicleUI = (props) => {
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
         />
-        {showOverlay && <TrialScreenRenderer setCurrentScreenIndex={setCurrentScreenIndex} currentScreen={screens[currentScreenIndex]} handleScreenClose={handleScreenClose} videoWindow={videoWindow} targetOrigin={targetOrigin} />}
+        {showOverlay && <TrialScreenRenderer screens={screens} setShowOverlay={setShowOverlay} trialType={trialType} setCurrentScreenIndex={setCurrentScreenIndex} currentScreen={screens[currentScreenIndex]} handleScreenClose={handleScreenClose} videoWindow={videoWindow} targetOrigin={targetOrigin} />}
       </LargeLeft>
       <LargeRight>
         <ButtonColumn buttonData={buttonData} />
