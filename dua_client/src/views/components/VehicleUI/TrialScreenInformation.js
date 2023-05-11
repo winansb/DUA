@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import {
   setCurrentScreen,
   setPriorScreens,
 } from "../../../redux/actions/trialActions";
+import useTimeout from "./utils/useTimeout";
 
 const popIn = keyframes`
   0% {
@@ -37,22 +38,17 @@ const TrialScreenInformation = ({
   displayTimeSeconds,
 }) => {
   const [closing, setClosing] = useState(false);
+  
+  // This handles changing screens when the Timeout happens
+  const handleTimeout = () => {
+    setClosing(true);
+    console.log("handleTimeout: closing screen");
+    const actionName = screenName + "_timeout";
+    onClose(nextIndex, screenName, actionName, setCurrentScreenIndex);
+  };
 
-  useEffect(() => {
-    if (!closing) {
-      const timer = setTimeout(() => {
-        setClosing(true);
-        const actionName = screenName + "_timeout";
-        onClose(nextIndex, screenName, actionName, setCurrentScreenIndex)
-      }, displayTimeSeconds * 1000);
-
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [displayTimeSeconds, onClose, nextIndex]);
-
-  const dispatch = useDispatch();
+  // This custom hook handles the timeout functionality
+  useTimeout(handleTimeout, displayTimeSeconds);
 
   const handleOk = async (nextIndex) => {
 

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import PhoneScreen from "../../../assets/PhoneScreen.png";
 import PhoneCallEnd from "../../../assets/PhoneCallEnd.png";
+import useTimeout from "./utils/useTimeout";
 
 const popIn = keyframes`
   0% {
@@ -49,20 +50,16 @@ const TrialScreenCall = ({
     return () => setClosing(false);
   }, []);
 
-  useEffect(() => {
-    if (!closing) {
-      const timer = setTimeout(() => {
-        setClosing(true);
+  // This handles changing screens when the Timeout happens
+  const handleTimeout = () => {
+    setClosing(true);
+    console.log("handleTimeout: closing screen");
+    const actionName = screenName + "_timeout";
+    onClose(nextIndex, screenName, actionName, setCurrentScreenIndex);
+  };
 
-        const actionName = screenName + "_timeout";
-        onClose(nextIndex, screenName, actionName, setCurrentScreenIndex)
-      }, displayTimeSeconds * 1000);
-
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [closing, displayTimeSeconds, onClose]);
+  // This custom hook handles the timeout functionality
+  useTimeout(handleTimeout, displayTimeSeconds);
 
   return (
     <StyledTrialScreen closing={closing}>

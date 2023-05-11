@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDestination, setMap } from "../../../redux/actions/trialActions";
+import useTimeout from "./utils/useTimeout";
 const popIn = keyframes`
   0% {
     transform: translate(-50%, -50%) scale(0.7);
@@ -46,19 +47,16 @@ const TrialScreenNotif = ({
     setTimeout(() => onClose(nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
   };
 
-  useEffect(() => {
-    if (!closing) {
-      const timer = setTimeout(() => {
-        setClosing(true);
-        const actionName = screenName + "_timeout";
-        onClose(nextIndex, screenName, actionName, setCurrentScreenIndex)
-      }, displayTimeSeconds * 1000);
+  // This handles changing screens when the Timeout happens
+  const handleTimeout = () => {
+    setClosing(true);
+    console.log("handleTimeout: closing screen");
+    const actionName = screenName + "_timeout";
+    onClose(nextIndex, screenName, actionName, setCurrentScreenIndex);
+  };
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [closing, displayTimeSeconds, onClose, nextIndex]);
+  // This custom hook handles the timeout functionality
+  useTimeout(handleTimeout, displayTimeSeconds);
 
   return (
     <StyledTrialScreen closing={closing}>

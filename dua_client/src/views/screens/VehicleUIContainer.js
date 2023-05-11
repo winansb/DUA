@@ -81,7 +81,6 @@ const VehicleUI = (props) => {
 
     if (videoWindow) {
       const action = isPaused ? 'pause' : 'play';
-      console.log(videoWindow); 
       videoWindow.postMessage(
         { action },
         targetOrigin || "*"

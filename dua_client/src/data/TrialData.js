@@ -178,13 +178,13 @@ const trialData = {
       // TimeinSeconds : screen index (detour1=0, detour2=1 etc. )
       // You will have to make sure that the timing of the screens works out. If the screen leading to the next group of sequential screens finished 
       // after the timer for the next group of sequential screens, the next group of sequential screens will not appear. 
-      2: 0, // Detour 1 will appear 5 seconds into the trial, 1-2 will be sequential, 2 will be time triggered, everything after 2 will be sequential
+      2: 0, // Detour 1 will appear 2 seconds into the trial, 1-2 will be sequential, 2 will be time triggered, everything after 2 will be sequential
       18: 2, // Detour 3 will appear 18 seconds into the trial
     },
     pauses: [
-      5, // Pause the trial 5 seconds in
       10, // Pause the trial 10 seconds in
-      15, // Pause the trial 15 seconds in
+       // Pause the trial 10 seconds in
+       // Pause the trial 15 seconds in
     ],
   },
   Breakdown: {

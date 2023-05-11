@@ -15,6 +15,8 @@ export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScre
     case "Information":
       return (
         <TrialScreenInformation
+        // The key value is not used in file but is important for proper rendering
+          key={currentScreen.screenName}
           information={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
@@ -28,6 +30,7 @@ export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScre
     case "Prompt":
       return (
         <TrialScreenPrompt
+          key={currentScreen.screenName}
           contents={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
@@ -43,6 +46,7 @@ export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScre
     case "Notif":
       return (
         <TrialScreenNotif
+          key={currentScreen.screenName}
           contents={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
@@ -57,6 +61,7 @@ export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScre
     case "Call":
       return (
         <TrialScreenCall
+          key={currentScreen.screenName}
           setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
           videoWindow={videoWindow}

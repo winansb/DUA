@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import { getScreen } from "../../../redux/actions/screenActions";
 import { setDestination } from "../../../redux/actions/trialActions";
+import useTimeout from "./utils/useTimeout";
 
 const popIn = keyframes`
   0% {
@@ -62,20 +63,17 @@ const TrialScreenPrompt = ({
     return () => setClosing(false);
   }, []);
 
-  // Add timeout functionality to close the screen after a certain amount of time has passed 
-  // This could be pulled out into a separate component and replaced in each screen type
-  useEffect(() => {
-    if (!closing) {
-      const timer = setTimeout(() => {
-        const actionName = screenName + "_timeout";
-        handleClose(actionName, noIndex); // on timeout we assume no. This can be changed to its own timeoutIndex in the future if desired. 
-      }, displayTimeSeconds * 1000);
+  // This handles changing screens when the Timeout happens
+  const handleTimeout = () => {
+    setClosing(true);
+    console.log("handleTimeout: closing screen");
+    const actionName = screenName + "_timeout";
+    //Here is the line where we assume the next index is the no index when timeout. This could be replaced by a unique timoutIndex
+    onClose(noIndex, screenName, actionName, setCurrentScreenIndex);
+  };
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [closing, displayTimeSeconds, onClose]);
+  // This custom hook handles the timeout functionality
+  useTimeout(handleTimeout, displayTimeSeconds);
 
   // Here are the visuals of the screen
   return (
