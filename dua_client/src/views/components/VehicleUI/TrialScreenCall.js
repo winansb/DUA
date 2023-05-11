@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import PhoneScreen from "../../../assets/PhoneScreen.png";
 import PhoneCallEnd from "../../../assets/PhoneCallEnd.png";
-import { getTap, updateTap } from "../../../redux/actions/tapActions";
 
 const popIn = keyframes`
   0% {
@@ -29,23 +28,21 @@ const popOut = keyframes`
 
 const TrialScreenCall = ({
   onClose,
-  timeLeft,
+  setCurrentScreenIndex,
   displayTimeSeconds,
   nextIndex,
   screenName,
 }) => {
-  const dispatch = useDispatch();
   const [closing, setClosing] = useState(false);
   const destination = useSelector((state) => state.destination);
   const travelTime = useSelector((state) => state.travelTime);
 
   const handleClose = async (nextIndex) => {
-    const response = await dispatch(getTap());
-    const lastTap = response.data;
-    lastTap.action_initiated = screenName + "_ok";
-    dispatch(updateTap(lastTap.UID, lastTap));
     setClosing(true);
-    setTimeout(onClose(nextIndex), 300);
+
+    const actionName = screenName + "_ok";
+    setTimeout(() => onClose(nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
+
   };
 
   useEffect(() => {
@@ -55,8 +52,10 @@ const TrialScreenCall = ({
   useEffect(() => {
     if (!closing) {
       const timer = setTimeout(() => {
-        setClosing(false);
-        onClose(nextIndex);
+        setClosing(true);
+
+        const actionName = screenName + "_timeout";
+        onClose(nextIndex, screenName, actionName, setCurrentScreenIndex)
       }, displayTimeSeconds * 1000);
 
       return () => {

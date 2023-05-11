@@ -5,11 +5,13 @@ import { createScreen } from "../../../../redux/actions/screenActions";
 
 // This is a TrialScheduler hook that is used in VehicleUIContainer.js
 
-// This hook is used to schedule the opening and closing of screens as well as the pausing of the trial
+// This hook initiates all timer elements of the trial.  Timers are made for each pause scheduled at the start of the trial
+// Additionally, timers are made for each screen that is scheduled to open at a certain time.  When the timer for a screen goes off,
+// if we are currently on that screen. We will open that screen. 
 
 export const useTrialScheduler = (currentScreenIndex, showOverlay, setShowOverlay, screens, test, column, screenTimings, pauses) => {
   const dispatch = useDispatch();
-  const isPaused = useSelector((state) => state.isPaused); 
+  const isPaused = useSelector((state) => state.trial.isPaused); 
 
   const [counter, setCounter] = useState(0);
 
@@ -27,20 +29,8 @@ export const useTrialScheduler = (currentScreenIndex, showOverlay, setShowOverla
     if (Object.keys(screenTimings).includes(String(seconds))) {
       const targetScreenIndex = screenTimings[seconds];
 
-      if (currentScreenIndex === targetScreenIndex && !showOverlay) {
+      if (currentScreenIndex === targetScreenIndex && !showOverlay ) {
         setShowOverlay(true);
-
-        // Send screen open information to the database
-        const newScreen = {
-          SCREEN_NUMBER_IN_ORDER: targetScreenIndex,
-          LOCAL_TIME_AT_START: new Date().toLocaleString(),
-          TRIAL_RUNTIME_AT_START_SECONDS: counter / 1000,
-          SCREEN_NAME: screens[targetScreenIndex].screenName,
-          TRIAL_ID: test.UID,
-          VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
-          VIDEO_TIME_AT_START_SECONDS: counter,
-        };
-        dispatch(createScreen(newScreen));
       }
     }
   }, [dispatch, counter, currentScreenIndex, showOverlay]);

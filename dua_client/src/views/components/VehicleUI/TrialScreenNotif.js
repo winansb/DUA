@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useDispatch } from "react-redux";
-import { getTap, updateTap } from "../../../redux/actions/tapActions";
 import { setDestination, setMap } from "../../../redux/actions/trialActions";
 const popIn = keyframes`
   0% {
@@ -27,6 +26,7 @@ const popOut = keyframes`
 
 const TrialScreenNotif = ({
   onClose,
+  setCurrentScreenIndex, 
   screenName,
   contents,
   nextIndex,
@@ -36,24 +36,22 @@ const TrialScreenNotif = ({
   const [closing, setClosing] = useState(false);
   const dispatch = useDispatch();
 
-  const handleClose = async (nextIndex) => {
+  const handleOk = async (nextIndex) => {
     if (okDestination) {
       dispatch(setDestination(okDestination));
     }
 
-    const response = await dispatch(getTap());
-    const lastTap = response.data;
-    lastTap.action_initiated = screenName + "_ok";
-    dispatch(updateTap(lastTap.UID, lastTap));
+    const actionName = screenName + "_ok";
     setClosing(true);
-    setTimeout(onClose(nextIndex), 300);
+    setTimeout(() => onClose(nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
   };
 
   useEffect(() => {
     if (!closing) {
       const timer = setTimeout(() => {
-        setClosing(false);
-        onClose(nextIndex);
+        setClosing(true);
+        const actionName = screenName + "_timeout";
+        onClose(nextIndex, screenName, actionName, setCurrentScreenIndex)
       }, displayTimeSeconds * 1000);
 
       return () => {
@@ -67,7 +65,7 @@ const TrialScreenNotif = ({
       <TopBorder />
       {contents}
       <ButtonRow>
-        <OkButton onClick={() => handleClose(nextIndex)}>OK</OkButton>
+        <OkButton onClick={() => handleOk(nextIndex)}>OK</OkButton>
       </ButtonRow>
     </StyledTrialScreen>
   );

@@ -8,7 +8,7 @@ import TrialScreenCall from "../TrialScreenCall";
 
 // As such you can add new types of screens here
 
-export default function TrialScreenRenderer({ currentScreen, handleScreenClose, videoWindow, targetOrigin }) {
+export default function TrialScreenRenderer({ setCurrentScreenIndex, currentScreen, handleScreenClose, videoWindow, targetOrigin }) {
   if (!currentScreen) return null;
 
   switch (currentScreen.type) {
@@ -16,6 +16,7 @@ export default function TrialScreenRenderer({ currentScreen, handleScreenClose, 
       return (
         <TrialScreenInformation
           information={currentScreen.content}
+          setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
           nextIndex={currentScreen.nextIndex}
           videoWindow={videoWindow}
@@ -28,6 +29,7 @@ export default function TrialScreenRenderer({ currentScreen, handleScreenClose, 
       return (
         <TrialScreenPrompt
           contents={currentScreen.content}
+          setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
@@ -42,6 +44,7 @@ export default function TrialScreenRenderer({ currentScreen, handleScreenClose, 
       return (
         <TrialScreenNotif
           contents={currentScreen.content}
+          setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
@@ -54,6 +57,7 @@ export default function TrialScreenRenderer({ currentScreen, handleScreenClose, 
     case "Call":
       return (
         <TrialScreenCall
+          setCurrentScreenIndex={setCurrentScreenIndex}
           onClose={handleScreenClose}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}

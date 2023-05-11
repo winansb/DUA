@@ -13,7 +13,6 @@ const tapController = {
         press_start,
         press_end,
         press_duration_ms,
-        action_initiated,
         press_location_x_pixels,
         press_location_y_pixels,
       } = req.body;
@@ -27,7 +26,6 @@ const tapController = {
         PRESS_START: press_start,
         PRESS_END: press_end,
         PRESS_DURATION_MS: press_duration_ms,
-        ACTION_INITIATED: action_initiated,
         PRESS_LOCATION_X_PIXELS: press_location_x_pixels,
         PRESS_LOCATION_Y_PIXELS: press_location_y_pixels,
       });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
-import { getTap, updateTap } from "../../../redux/actions/tapActions";
+import { getScreen } from "../../../redux/actions/screenActions";
 import { setDestination } from "../../../redux/actions/trialActions";
 
 const popIn = keyframes`
@@ -27,7 +27,8 @@ const popOut = keyframes`
 `;
 
 const TrialScreenPrompt = ({
-  onClose,
+  onClose, // handleScreenClose from screenCloser.js 
+  setCurrentScreenIndex, // setScreenIndex from VehicleUIContainer.js
   screenName,
   contents,
   displayTimeSeconds,
@@ -39,38 +40,35 @@ const TrialScreenPrompt = ({
   const dispatch = useDispatch();
 
   const handleYes = async (nextIndex) => {
+    // Example of changing the destination of the trial when a user clicks an option
     console.log(yesDestination);
     dispatch(setDestination(yesDestination));
 
-    const response = await dispatch(getTap());
-    const lastTap = response.data;
-    lastTap.action_initiated = screenName + "_yes";
-    dispatch(updateTap(lastTap.UID, lastTap));
-    handleClose(nextIndex);
+    const actionName = screenName + "_yes";
+    handleClose(actionName, nextIndex);
   };
 
   const handleNo = async (nextIndex) => {
-    const response = await dispatch(getTap());
-    const lastTap = response.data;
-    lastTap.action_initiated = screenName + "_no";
-    dispatch(updateTap(lastTap.UID, lastTap));
-    handleClose(nextIndex);
+    const actionName = screenName + "_no";
+    handleClose(actionName, nextIndex);
   };
 
-  const handleClose = (nextIndex) => {
+  const handleClose = (actionName, nextIndex) => {
     setClosing(true);
-    setTimeout(onClose(nextIndex), 300);
+    setTimeout(() => onClose(nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
   };
 
   useEffect(() => {
     return () => setClosing(false);
   }, []);
 
+  // Add timeout functionality to close the screen after a certain amount of time has passed 
+  // This could be pulled out into a separate component and replaced in each screen type
   useEffect(() => {
     if (!closing) {
       const timer = setTimeout(() => {
-        setClosing(false);
-        onClose(noIndex);
+        const actionName = screenName + "_timeout";
+        handleClose(actionName, noIndex); // on timeout we assume no. This can be changed to its own timeoutIndex in the future if desired. 
       }, displayTimeSeconds * 1000);
 
       return () => {
@@ -79,6 +77,7 @@ const TrialScreenPrompt = ({
     }
   }, [closing, displayTimeSeconds, onClose]);
 
+  // Here are the visuals of the screen
   return (
     <StyledTrialScreen closing={closing}>
       <TopBorder />

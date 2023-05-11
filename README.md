@@ -29,23 +29,23 @@ The Reed Laboratory Trials Management System is a client-server application deve
 - Node Package Manager (LTS version) https://nodejs.org/en/download
 - git https://git-scm.com/downloads
 
-### Install the project
+
+### Get the Latest Version 
+
+*Prior to changing versions remember to save you db if applicable. It will be found under dua_server/db/Trial_Data.db. Put that db inside of the new project to maintain the same db between updates. 
+
+*The videos for this project are saved separately. Obtain the needed videos and put them inside of dua_client/src/assets for the project to run. This will be needed between each re-installation too. 
 
 ( In the command line )
 
 1. Clone the repository:
    -git clone https://github.com/winansb/DUA.git (alternatively download from this link)
 
-
-### Get the Latest Version 
-
-1. Double click the Update.cmd script
-
-2. Double click the Install Client Dependencies.cmd & Install Server Dependencies scripts
+2. Run both update scripts to make sure all dependencies are present for the server and client.
 
 ### Run the project
 
-1. Double Click the Run Client.cmd & Run Server.cmd scripts
+1. Run both start scipts, one for the client and one for the server. 
 
 2. If a window does not automatically open, you can now access the project by opening your browser and inputting 'localhost'. This project was tested for and developed with google chrome. Image below is dated and should be localhost:3000
 ![Typing localhost into the navigation bar of google chrome](./assets/Navigation.png)
@@ -54,7 +54,6 @@ The Reed Laboratory Trials Management System is a client-server application deve
 
    ![Web Homepage opening after starting the client](./assets/Home_Page.png)
 
-## Usage
 
 ## How to Edit Trials
 

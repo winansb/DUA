@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
-import { getTap, updateTap } from "../../../redux/actions/tapActions";
 import {
   setCurrentScreen,
   setPriorScreens,
@@ -31,37 +30,35 @@ const popOut = keyframes`
 
 const TrialScreenInformation = ({
   onClose,
+  setCurrentScreenIndex,
   information,
   nextIndex,
   screenName,
   displayTimeSeconds,
-  mapName,
 }) => {
   const [closing, setClosing] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    if (isOpen) {
+    if (!closing) {
       const timer = setTimeout(() => {
-        setIsOpen(false);
-        onClose(nextIndex);
+        setClosing(true);
+        const actionName = screenName + "_timeout";
+        onClose(nextIndex, screenName, actionName, setCurrentScreenIndex)
       }, displayTimeSeconds * 1000);
 
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [isOpen, displayTimeSeconds, onClose, nextIndex]);
+  }, [displayTimeSeconds, onClose, nextIndex]);
 
   const dispatch = useDispatch();
 
-  const handleClose = async (nextIndex) => {
-    const response = await dispatch(getTap());
-    const lastTap = response.data;
-    lastTap.action_initiated = screenName + "_ok";
-    dispatch(updateTap(lastTap.UID, lastTap));
+  const handleOk = async (nextIndex) => {
+
+    const actionName = screenName + "_ok";
     setClosing(true);
-    setTimeout(onClose(nextIndex), 300);
+    setTimeout(() => onClose(nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
   };
 
   useEffect(() => {
@@ -73,7 +70,7 @@ const TrialScreenInformation = ({
     <StyledTrialScreen closing={closing}>
       <TopBorder />
       <InfoText>{information}</InfoText>
-      <OkButton onClick={() => handleClose(nextIndex)}>Ok</OkButton>
+      <OkButton onClick={() => handleOk(nextIndex)}>Ok</OkButton>
     </StyledTrialScreen>
   );
 };

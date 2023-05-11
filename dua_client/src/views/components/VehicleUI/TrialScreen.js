@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+// This component is to keep the same overall look for each screen 
 const TrialScreen = ({ onClose }) => {
   return (
     <StyledTrialScreen>

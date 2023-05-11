@@ -31,6 +31,9 @@ const buttonData = [
   { text: "Call", imgSrc: phoneApp },
 ];
 
+
+// This vehicleUI container is responsible for rendering the vehicle UI and calling all of the hooks that are responsible for the logic of the trial
+
 const VehicleUI = (props) => {
   const {
     participant,
@@ -43,13 +46,15 @@ const VehicleUI = (props) => {
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
-  const destination = useSelector((state) => state.trial.destination);
+  const destination = useSelector((state) => state.trial.destination);  
+  const isPaused = useSelector((state) => state.trial.isPaused);  
 
   // Get the data, based on the trialType, from the trialDataArray
   const { screens, screenTimings, pauses } = useMemo(() => extractTrialData(trialType, trialDataArray), [trialType]);
 
-  // Feed this data into the trialScheduler 
-  useTrialScheduler(currentScreenIndex, showOverlay, setShowOverlay, screens, test, column, screenTimings, pauses);
+  // This is the trial scheduler. It handles pausing the system when spacebar is pressed, when a pre timed pause comes up
+  // it also handles setting showOverlay to true when it is time to show a screen after returning to the defaultUI
+  useTrialScheduler(currentScreenIndex, showOverlay, setShowOverlay, screens, test, column, screenTimings, pauses, videoWindow, targetOrigin);
 
   // Destination Changing Logic! Add new videos here to add to the trial
   useDestinationHandler(destination, videoWindow, targetOrigin);
@@ -62,15 +67,28 @@ const VehicleUI = (props) => {
     setShowOverlay(!showOverlay);
   };
 
-  // DOM manipulation 
+  // This useEffect runs once when the component is mounted
+  // It sends the initial screen change to the server
   useEffect(() => {
     document.body.style.overflow = "hidden";
     console.log(test);
-
     return () => {
       document.body.style.overflow = "";
     };
   }, []);
+
+  useEffect(() => {
+
+    if (videoWindow) {
+      const action = isPaused ? 'pause' : 'play';
+      console.log(videoWindow); 
+      videoWindow.postMessage(
+        { action },
+        targetOrigin || "*"
+      );
+    }
+  }, [videoWindow, targetOrigin, isPaused]);
+  
 
   // logic to determine if a screen should be shown or not
   // const shouldShowScreen = (screenName) => {
@@ -100,7 +118,7 @@ const VehicleUI = (props) => {
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
         />
-        {showOverlay && <TrialScreenRenderer currentScreen={screens[currentScreenIndex]} handleScreenClose={handleScreenClose} videoWindow={videoWindow} targetOrigin={targetOrigin} />}
+        {showOverlay && <TrialScreenRenderer setCurrentScreenIndex={setCurrentScreenIndex} currentScreen={screens[currentScreenIndex]} handleScreenClose={handleScreenClose} videoWindow={videoWindow} targetOrigin={targetOrigin} />}
       </LargeLeft>
       <LargeRight>
         <ButtonColumn buttonData={buttonData} />

@@ -14,6 +14,7 @@ const DefaultDisplay = ({ videoWindow, targetOrigin }) => {
 
   const [map, setMap] = useState(Start);
 
+  //map switching funcionality based on destination change in redux 
   useEffect(() => {
     let newMap;
     switch (destination) {

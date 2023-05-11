@@ -7,6 +7,7 @@ export const FINISH_SCREEN_SUCCESS = "FINISH_SCREEN_SUCCESS";
 export const FINISH_SCREEN_FAILURE = "FINISH_SCREEN_FAILURE";
 export const GET_SCREEN_SUCCESS = "GET_SCREEN_SUCCESS";
 export const GET_SCREEN_FAILURE = "GET_SCREEN_FAILURE";
+export const SCREEN_TRANSITION = "SCREEN_TRANSITION";
 
 // action creators
 export const createScreen = (newScreen) => {
@@ -49,4 +50,11 @@ export const getScreen = (uid) => {
       dispatch({ type: GET_SCREEN_FAILURE, payload: error.message });
     }
   };
+};
+
+export const screenTransition = (currentScreen, nextScreen) => {
+    return {
+        type: SCREEN_TRANSITION,
+        payload: { currentScreen, nextScreen },
+    };
 };
