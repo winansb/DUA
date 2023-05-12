@@ -59,15 +59,22 @@ The Reed Laboratory Trials Management System is a client-server application deve
 
 ### How to change trial screen timings 
 
-Edit screenTimings inside of dua_client/src/data/TrialData.js 
+Edit screenTimings inside of dua_client/src/data/TrialData.js. Time measured in seconds since the start of the trial. 
 
 ![Lines of code depicting screenTimings array](./assets/ScreenTimings.png)
 
 ### How to change screen durations 
 
-Edit displayTimeSeconds entry within the screens arry in dua_client/src/data/TrialData.js
+Edit displayTimeSeconds entry within the screens arry in dua_client/src/data/TrialData.js. Time measured in seconds from when the screen first appeared. 
 
 ![Lines of code depicting Screen code within screens array](./assets/Duration.png)
+
+### How to change pauses during trials 
+
+Edit the pauses array for the corresponding trial type in dua_client/src/data/TrialData.js.Time is measured in seconds from the start of the trial. 
+
+![Lines of code depicting pauses array found in TrialData.js](./assets/Pauses.png)
+
 
 Trials are composed from a series of components generated from one array per a trial. Arrays can be as long or short as you like and cover three basic screens. To create a new screen or edit old ones navigate to dua_client/src/views/components/IVA_Components/Trial_Info/TrialInformation.js. This file contains the three arrays responsible for defining trial behavior. There are DetourScreens, DetourScreenTimings, and detourPauses and the equivalent for the breakdown test. Simply edit the text in these files and save them for most changes.
 
