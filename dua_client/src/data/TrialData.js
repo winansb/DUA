@@ -68,7 +68,7 @@ const trialData = {
           "We have detected a road blockage ahead that is preventing us from driving.",
         nextIndex: 1,
         screenName: "Detour1",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 20,
         sequential: true, // Detour 2 will trigger immedietaly after Detour 1
       },
       //Detour 2
@@ -78,7 +78,7 @@ const trialData = {
           "Please stay calm and remain inside the car while we solve the issue.",
         nextIndex: 2, // Detour 3 is next
         screenName: "Detour2",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 20,
         sequential: false, // Detour 3 will not trigger immedietaly after Detour 2
       },
       //Detour 3
@@ -86,7 +86,7 @@ const trialData = {
         type: "Prompt",
         content: <Detour3Content arrivalTime="5:30 PM" mapImage={Detour} />,
         screenName: "Detour3",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 20,
         yesIndex: 3, // Detour 4 appears
         noIndex: 4, // Detour 5 appears
         yesDestination: "walgreensDetour",
@@ -100,7 +100,7 @@ const trialData = {
         type: "Notif",
         content: <Detour4Content arrivalTime="5:30 PM" mapImage={Detour} />,
         screenName: "Detour4",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         nextIndex: 9, //Detour 10
         sequential: true,
       },
@@ -109,7 +109,7 @@ const trialData = {
         type: "Prompt",
         content: <Detour5Content arrivalTime="5:30 PM" mapImage={WaffleHouse} />,
         screenName: "Detour5",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         yesIndex: 5, // Detour 6
         noIndex: 6, // Detour 7
         yesDestination: "waffleHouse",
@@ -120,7 +120,7 @@ const trialData = {
         type: "Notif",
         content: <Detour6Content arrivalTime="5:30 PM" mapImage={WaffleHouse} />,
         screenName: "Detour6",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         nextIndex: 9, // Detour 10
         sequential: true,
       },
@@ -129,7 +129,7 @@ const trialData = {
         type: "Prompt",
         content: <Detour7Content arrivalTime="5:30 PM" mapImage={Home} />,
         screenName: "Detour7",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         yesIndex: 7, // Detour 8
         noIndex: 8, // Detour 9
         yesDestination: "home",
@@ -140,7 +140,7 @@ const trialData = {
         type: "Notif",
         content: <Detour8Content arrivalTime="5:30 PM" mapImage={Home} />,
         screenName: "Detour8",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         nextIndex: 9, // Detour 10
         sequential: true,
       },
@@ -149,7 +149,7 @@ const trialData = {
         type: "Notif",
         content: <Detour9Content mapImage={Detour} />,
         screenName: "Detour9",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         nextIndex: 9, // Detour 10
         okDestination: "walgreensDetour",
         sequential: true,
@@ -159,7 +159,7 @@ const trialData = {
         type: "Prompt",
         content: <Detour10Content />,
         screenName: "Detour10",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         yesIndex: 10, // Detour 11
         noIndex: 11, // Detour 12
         sequential: true,
@@ -168,7 +168,7 @@ const trialData = {
       {
         type: "Call",
         screenName: "Detour11",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         nextIndex: 11, // Detour 12
         sequential: true,
       },
@@ -178,7 +178,7 @@ const trialData = {
         content:
           "The detouring issue has been resolved if you need further help, tap on the help button in the upper right corner of the screen",
         screenName: "Detour12",
-        displayTimeSeconds: 5,
+        displayTimeSeconds: 30,
         nextIndex: 12, // end of trial next Index just needs to be something out of bounds
         sequential: true,
       },
@@ -187,13 +187,11 @@ const trialData = {
       // TimeinSeconds : screen index (detour1=0, detour2=1 etc. )
       // You will have to make sure that the timing of the screens works out. If the screen leading to the next group of sequential screens finished 
       // after the timer for the next group of sequential screens, the next group of sequential screens will not appear. 
-      2: 0, // Detour 1 will appear 2 seconds into the trial, 1-2 will be sequential, 2 will be time triggered, everything after 2 will be sequential
-      20: 2, // Detour 3 will appear 20 seconds into the trial
+      30: 0, // Detour 1 will appear 30 seconds into the trial, 1-2 will be sequential, 2 will be time triggered, everything after 2 will be sequential
+      95: 2, // Detour 3 will appear 95 seconds into the trial
     },
     pauses: [
-      10, // Pause the trial 10 seconds in
-       // Pause the trial 10 seconds in
-       // Pause the trial 15 seconds in
+      70, // Pause the trial 70 seconds in
     ],
   },
   Breakdown: {
