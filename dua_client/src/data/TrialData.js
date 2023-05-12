@@ -191,7 +191,7 @@ const trialData = {
       95: 2, // Detour 3 will appear 95 seconds into the trial
     },
     pauses: [
-      70, // Pause the trial 70 seconds in
+      96, // Pause the trial 70 seconds in
     ],
   },
   Breakdown: {
