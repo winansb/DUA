@@ -8,7 +8,7 @@ import TrialScreenCall from "../TrialScreenCall";
 
 // As such you can add new types of screens here
 
-export default function TrialScreenRenderer({ screens, setShowOverlay, trialType, setCurrentScreenIndex, currentScreen, handleScreenClose, videoWindow, targetOrigin }) {
+export default function TrialScreenRenderer({ test, screens, setShowOverlay, trialType, setCurrentScreenIndex, currentScreen, handleScreenClose, videoWindow, targetOrigin }) {
   if (!currentScreen) return null;
 
   switch (currentScreen.type) {
@@ -17,6 +17,7 @@ export default function TrialScreenRenderer({ screens, setShowOverlay, trialType
         <TrialScreenInformation
         // The key value is not used in file but is important for proper rendering
           key={currentScreen.screenName}
+          test= {test}
           screens={screens}
           setShowOverlay={setShowOverlay}
           trialType={trialType}
@@ -34,6 +35,7 @@ export default function TrialScreenRenderer({ screens, setShowOverlay, trialType
       return (
         <TrialScreenPrompt
           key={currentScreen.screenName}
+          test= {test}
           screens={screens}
           setShowOverlay={setShowOverlay}
           trialType={trialType}
@@ -53,6 +55,7 @@ export default function TrialScreenRenderer({ screens, setShowOverlay, trialType
       return (
         <TrialScreenNotif
           key={currentScreen.screenName}
+          test= {test}
           screens={screens}
           setShowOverlay={setShowOverlay}
           trialType={trialType}
@@ -71,6 +74,7 @@ export default function TrialScreenRenderer({ screens, setShowOverlay, trialType
       return (
         <TrialScreenCall
           key={currentScreen.screenName}
+          test= {test}
           screens={screens}
           setShowOverlay={setShowOverlay}
           trialType={trialType}

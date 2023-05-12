@@ -27,6 +27,7 @@ const popOut = keyframes`
 
 const TrialScreenNotif = ({
   onClose,
+  test,
   screens,
   setShowOverlay,
   trialType,
@@ -47,7 +48,7 @@ const TrialScreenNotif = ({
 
     const actionName = screenName + "_ok";
     setClosing(true);
-    setTimeout(() => onClose(screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
+    setTimeout(() => onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
   };
 
   // This handles changing screens when the Timeout happens
@@ -55,7 +56,7 @@ const TrialScreenNotif = ({
     setClosing(true);
     console.log("handleTimeout: closing screen");
     const actionName = screenName + "_timeout";
-    onClose(screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex);
+    onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex);
   };
 
   // This custom hook handles the timeout functionality

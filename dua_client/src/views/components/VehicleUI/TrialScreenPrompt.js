@@ -30,6 +30,7 @@ const popOut = keyframes`
 const TrialScreenPrompt = ({
   onClose, // handleScreenClose from screenCloser.js 
   setCurrentScreenIndex, // setScreenIndex from VehicleUIContainer.js
+  test,
   screens,
   setShowOverlay,
   trialType,
@@ -59,7 +60,7 @@ const TrialScreenPrompt = ({
 
   const handleClose = (actionName, nextIndex) => {
     setClosing(true);
-    setTimeout(() => onClose(screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
+    setTimeout(() => onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
   };
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const TrialScreenPrompt = ({
     console.log("handleTimeout: closing screen");
     const actionName = screenName + "_timeout";
     //Here is the line where we assume the next index is the no index when timeout. This could be replaced by a unique timoutIndex
-    onClose(screens, setShowOverlay, trialType, noIndex, screenName, actionName, setCurrentScreenIndex);
+    onClose(test, screens, setShowOverlay, trialType, noIndex, screenName, actionName, setCurrentScreenIndex);
   };
 
   // This custom hook handles the timeout functionality
