@@ -68,7 +68,7 @@ const trialData = {
           "We have detected a road blockage ahead that is preventing us from driving.",
         nextIndex: 1,
         screenName: "Detour1",
-        displayTimeSeconds: 20,
+        displayTimeSeconds: 30,
         sequential: true, // Detour 2 will trigger immedietaly after Detour 1
       },
       //Detour 2
@@ -78,7 +78,7 @@ const trialData = {
           "Please stay calm and remain inside the car while we solve the issue.",
         nextIndex: 2, // Detour 3 is next
         screenName: "Detour2",
-        displayTimeSeconds: 20,
+        displayTimeSeconds: 30,
         sequential: false, // Detour 3 will not trigger immedietaly after Detour 2
       },
       //Detour 3
@@ -86,7 +86,7 @@ const trialData = {
         type: "Prompt",
         content: <Detour3Content arrivalTime="5:30 PM" mapImage={Detour} />,
         screenName: "Detour3",
-        displayTimeSeconds: 20,
+        displayTimeSeconds: 30,
         yesIndex: 3, // Detour 4 appears
         noIndex: 4, // Detour 5 appears
         yesDestination: "walgreensDetour",
