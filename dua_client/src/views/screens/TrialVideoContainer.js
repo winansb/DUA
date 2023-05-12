@@ -22,6 +22,8 @@ const TrialVideo = () => {
   const trialStartVideo = useRef(null);
   const trialEndVideo = useRef(null);
 
+  const numVideos = 7; // Change this number to the number of videos you have
+
   useEffect(() => {
     videoPlaying.current = trialStartVideo.current;
   }, []);
@@ -216,9 +218,11 @@ const TrialVideo = () => {
         style={{ display: "none" }}
         preload="auto"
       />
-      <FullScreenButton onClick={handleFullscreen}>
-        {buttonText}
-      </FullScreenButton>
+      {videosLoaded <= numVideos && (
+        <FullScreenButton>
+          {buttonText}
+        </FullScreenButton>
+      )}
     </VideoWrapper>
   );
 };
