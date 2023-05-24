@@ -40,6 +40,7 @@ const TrialScreenPrompt = ({
   yesIndex,
   noIndex,
   yesDestination,
+  videoWindow,
 }) => {
   const [closing, setClosing] = useState(false);
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ const TrialScreenPrompt = ({
 
   const handleClose = (actionName, nextIndex) => {
     setClosing(true);
-    setTimeout(() => onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
+    setTimeout(() => onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex, videoWindow, dispatch), 300);
   };
 
   useEffect(() => {
@@ -73,7 +74,7 @@ const TrialScreenPrompt = ({
     console.log("handleTimeout: closing screen");
     const actionName = screenName + "_timeout";
     //Here is the line where we assume the next index is the no index when timeout. This could be replaced by a unique timoutIndex
-    onClose(test, screens, setShowOverlay, trialType, noIndex, screenName, actionName, setCurrentScreenIndex);
+    onClose(test, screens, setShowOverlay, trialType, noIndex, screenName, actionName, setCurrentScreenIndex, videoWindow, dispatch);
   };
 
   // This custom hook handles the timeout functionality

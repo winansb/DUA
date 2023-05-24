@@ -37,6 +37,7 @@ const TrialScreenNotif = ({
   nextIndex,
   displayTimeSeconds,
   okDestination,
+  videoWindow,
 }) => {
   const [closing, setClosing] = useState(false);
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const TrialScreenNotif = ({
 
     const actionName = screenName + "_ok";
     setClosing(true);
-    setTimeout(() => onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
+    setTimeout(() => onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex, videoWindow, dispatch), 300);
   };
 
   // This handles changing screens when the Timeout happens
@@ -56,7 +57,7 @@ const TrialScreenNotif = ({
     setClosing(true);
     console.log("handleTimeout: closing screen");
     const actionName = screenName + "_timeout";
-    onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex);
+    onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex, videoWindow, dispatch);
   };
 
   // This custom hook handles the timeout functionality

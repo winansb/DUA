@@ -8,7 +8,7 @@ import TrialScreenCall from "../TrialScreenCall";
 
 // As such you can add new types of screens here
 
-export default function TrialScreenRenderer({ test, screens, setShowOverlay, trialType, setCurrentScreenIndex, currentScreen, handleScreenClose, videoWindow, targetOrigin }) {
+export default function TrialScreenRenderer({ test, screens, setShowOverlay, trialType, setCurrentScreenIndex, currentScreen, useScreenCloser, videoWindow, targetOrigin, dispatch }) {
   if (!currentScreen) return null;
 
   switch (currentScreen.type) {
@@ -23,12 +23,13 @@ export default function TrialScreenRenderer({ test, screens, setShowOverlay, tri
           trialType={trialType}
           information={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
-          onClose={handleScreenClose}
+          onClose={useScreenCloser}
           nextIndex={currentScreen.nextIndex}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
           screenName={currentScreen.screenName}
           displayTimeSeconds={currentScreen.displayTimeSeconds}
+          dispatch={dispatch}
         />
       );
     case "Prompt":
@@ -41,7 +42,7 @@ export default function TrialScreenRenderer({ test, screens, setShowOverlay, tri
           trialType={trialType}
           contents={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
-          onClose={handleScreenClose}
+          onClose={useScreenCloser}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
           screenName={currentScreen.screenName}
@@ -49,6 +50,7 @@ export default function TrialScreenRenderer({ test, screens, setShowOverlay, tri
           yesIndex={currentScreen.yesIndex}
           noIndex={currentScreen.noIndex}
           yesDestination={currentScreen.yesDestination}
+          dispatch={dispatch}
         />
       );
     case "Notif":
@@ -61,13 +63,14 @@ export default function TrialScreenRenderer({ test, screens, setShowOverlay, tri
           trialType={trialType}
           contents={currentScreen.content}
           setCurrentScreenIndex={setCurrentScreenIndex}
-          onClose={handleScreenClose}
+          onClose={useScreenCloser}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
           screenName={currentScreen.screenName}
           displayTimeSeconds={currentScreen.displayTimeSeconds}
           nextIndex={currentScreen.nextIndex}
           okDestination={currentScreen.okDestination}
+          dispatch={dispatch}
         />
       );
     case "Call":
@@ -79,12 +82,13 @@ export default function TrialScreenRenderer({ test, screens, setShowOverlay, tri
           setShowOverlay={setShowOverlay}
           trialType={trialType}
           setCurrentScreenIndex={setCurrentScreenIndex}
-          onClose={handleScreenClose}
+          onClose={useScreenCloser}
           videoWindow={videoWindow}
           targetOrigin={targetOrigin}
           screenName={currentScreen.screenName}
           displayTimeSeconds={currentScreen.displayTimeSeconds}
           nextIndex={currentScreen.nextIndex}
+          dispatch={dispatch}
         />
       );
     default:

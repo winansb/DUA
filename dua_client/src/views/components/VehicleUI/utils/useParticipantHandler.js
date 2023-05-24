@@ -2,8 +2,12 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateParticipant } from "../../../../redux/actions/participantActions";
 import { useNavigate } from 'react-router-dom';
+import { handleScreenTransition } from './handleScreenTransition';
 
-export const useParticipantHandler = (trialType, participant) => {
+//This changes the backend name for the final action in trials
+const trialEndAction = "Trial_End";
+
+export const useParticipantHandler = (trialType, participant, videoWindow, test) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,6 +23,7 @@ export const useParticipantHandler = (trialType, participant) => {
       if (e.data.action === "finalVideoEnded") {
         const updatedParticipant = updateParticipantComplete(participant);
         dispatch(updateParticipant(updatedParticipant.UID, updatedParticipant));
+        handleScreenTransition('end', test, trialEndAction, videoWindow, dispatch);
         navigate("/ThankYou");
       }
     };

@@ -1,10 +1,21 @@
 import trialDataArray from '../../../../data/TrialData';
+import { handleScreenTransition } from './handleScreenTransition';
+// handleScreenClose has the responsibility of coordinating the logic of a trial. Based on the many inputs from the trialData array
+// as well as realtime data from the trial, this function will determine what screen to show next and when to show it.
 
-export const handleScreenClose = (test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex) => {
+//This variable changes how the name of the default screen is saved in the server
+const defaultUI = 'DefaultUI';
+
+export const useScreenCloser = (test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex, videoWindow, dispatch) => {
+
   // Check if screens[nextIndex] exists if not we assume the trial is over but still say something for debugging purposes 
   if (!screens[nextIndex]) {
     // This will be the final call to this function. As such it will close the final overlay if its timer runs outs
     setShowOverlay(false); 
+
+    // Handle transition from our last screen to our default screen 
+    handleScreenTransition('continue', test, actionName, defaultUI, videoWindow, dispatch);
+
     console.log(`No screen found. If there should be more screens then this is an error.`);
     return;
   }
@@ -27,15 +38,10 @@ export const handleScreenClose = (test, screens, setShowOverlay, trialType, next
       );
 
       if (relatedQuestion) {
-        console.log("Related question:", relatedQuestion);
-        console.log("test", test);
 
         const serverName = relatedQuestion.serverName;
         const optionChosen = test[serverName];
 
-        console.log("serverName", serverName);
-        console.log("optionChosen", optionChosen);
-        
         // Get the index of the chosen option
         const chosenIndex = relatedQuestion.options.indexOf(optionChosen);
         if (chosenIndex === -1) {
@@ -48,7 +54,6 @@ export const handleScreenClose = (test, screens, setShowOverlay, trialType, next
         
         if (matchingResult) { 
           let impact = matchingResult.impact;
-          console.log("impact", impact);
         
           while (!impact.show) { // While we shouldn't show the screen
             // we don't show this screen and instead we follow the no route to the next screen in the sequence
@@ -112,26 +117,19 @@ export const handleScreenClose = (test, screens, setShowOverlay, trialType, next
   // If the current screen is sequential, we need to show the overlay without waiting
   if (currentScreen && currentScreen.sequential) {
     setShowOverlay(true);
+    //This is the point at which our new screen is showing to the user and where we can Save the data to our server
+    // Handle changing the screen to the next screen in the sequence
+    handleScreenTransition('continue', test, actionName, screenName, videoWindow, dispatch);
+    
   // Otherwise, we need to wait for a time based trigger before showing the next screen to the participant. This is where
   // some groups of screens could be missed if the previous screen is not closed in time.
   } else {
     setShowOverlay(false);
+
+      // Handle changing the screen to the defaultUI when the next screen is triggered by time delay 
+      handleScreenTransition('continue', test, actionName, defaultUI, videoWindow, dispatch);
+      // At this point we have to wait for the overlay to be triggered by a time delay so instead we save the next screen as the default UI but follow the same pattern. 
   }
 
-  // const closingScreen = {
-  //   SCREEN_NUMBER_IN_ORDER: currentScreenIndex,
-  //   LOCAL_TIME_AT_CLOSE: new Date().toLocaleString(),
-  //   TRIAL_RUNTIME_AT_CLOSE_SECONDS: counter / 1000,
-  //   TRIAL_ID: test.UID,
-  //   VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
-  //   VIDEO_TIME_AT_CLOSE_SECONDS: counter,
-  // };
-  // const openingScreen = {
-  //   SCREEN_NUMBER_IN_ORDER: currentScreenIndex,
-  //   LOCAL_TIME_AT_CLOSE: new Date().toLocaleString(),
-  //   TRIAL_RUNTIME_AT_CLOSE_SECONDS: counter / 1000,
-  //   TRIAL_ID: test.UID,
-  //   VIDEO_PLAYING: column === 0 ? "Detour_Start" : "Breakdown_Start",
-  //   VIDEO_TIME_AT_CLOSE_SECONDS: counter,
-  // };
+
 };

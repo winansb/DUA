@@ -37,6 +37,8 @@ const TrialScreenCall = ({
   displayTimeSeconds,
   nextIndex,
   screenName,
+  videoWindow,
+  dispatch,
 }) => {
   const [closing, setClosing] = useState(false);
   const destination = useSelector((state) => state.destination);
@@ -46,7 +48,7 @@ const TrialScreenCall = ({
     setClosing(true);
 
     const actionName = screenName + "_ok";
-    setTimeout(() => onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex), 300);
+    setTimeout(() => onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex, videoWindow, dispatch), 300);
 
   };
 
@@ -59,7 +61,7 @@ const TrialScreenCall = ({
     setClosing(true);
     console.log("handleTimeout: closing screen");
     const actionName = screenName + "_timeout";
-    onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex);
+    onClose(test, screens, setShowOverlay, trialType, nextIndex, screenName, actionName, setCurrentScreenIndex, videoWindow, dispatch);
   };
 
   // This custom hook handles the timeout functionality
