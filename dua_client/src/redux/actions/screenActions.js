@@ -24,10 +24,10 @@ export const createScreen = (newScreen) => {
   };
 };
 
-export const finishScreen = (uid) => {
+export const finishScreen = (uid, updatedScreen) => {
   return async (dispatch) => {
     try {
-      const screen = await screenController.finishScreen(uid);
+      const screen = await screenController.finishScreen(uid, updatedScreen);
       dispatch({ type: FINISH_SCREEN_SUCCESS, payload: screen });
 
       return screen;

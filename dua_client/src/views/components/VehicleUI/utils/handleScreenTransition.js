@@ -20,6 +20,7 @@
   //   VIDEO_TIME_AT_CLOSE_SECONDS: counter,
   // };
 
+import { postMessageWithResponse } from '../../../../controllers/videoWindowController';
 import { createScreen, finishScreen } from '../../../../redux/actions/screenActions';
 
 // Load state from local storage
@@ -44,7 +45,7 @@ const saveState = (state) => {
     // Ignore write errors.
   }
 };
-export const handleScreenTransition = (option, test, actionName, screenName, videoWindow, dispatch) => {
+export const handleScreenTransition = async (option, test, actionName, screenName, videoWindow, dispatch) => {
   // Load previous screens from local storage
   let state = loadState();
   console.log('Initial state from local storage:', state);
@@ -67,13 +68,22 @@ export const handleScreenTransition = (option, test, actionName, screenName, vid
 
   // Request video details
   if (videoWindow && videoWindow.videoWindow) {
-    videoWindow.videoWindow.postMessage({ action: 'getCurrentTime' }, '*');
-    videoWindow.videoWindow.postMessage({ action: 'getCurrentVideo' }, '*');
-    videoWindow.videoWindow.postMessage({ action: 'getTimeRemaining' }, '*');
+    const currentTimeData = await postMessageWithResponse(videoWindow.videoWindow, { action: 'getCurrentTime' });
+    const currentVideoData = await postMessageWithResponse(videoWindow.videoWindow, { action: 'getCurrentVideo' });
+    const timeRemainingData = await postMessageWithResponse(videoWindow.videoWindow, { action: 'getTimeRemaining' });
+
+    videoTimeStart = currentTimeData.currentTime;
+    videoPlaying = currentVideoData.currentVideo;
+    videoTimeEnd = videoTimeStart + timeRemainingData.timeRemaining;
+    screenDuration = timeRemainingData.timeRemaining;
   }
 
   // Update screen details based on response from video window
   window.addEventListener('message', (event) => {
+    if (event.data.action === 'receiveTimeRemaining') {
+      return; // Ignore this message
+    }
+
     console.log('Received message from video window:', event.data.action, event.data);
   
     if (event.data.action === 'receiveCurrentTime') {
@@ -98,28 +108,42 @@ export const handleScreenTransition = (option, test, actionName, screenName, vid
       VIDEO_PLAYING: videoPlaying,
       VIDEO_TIME_AT_START_SECONDS: videoTimeStart,
     };
-
+  
     console.log('New screen:', newScreen);
-
-    dispatch(createScreen(newScreen));
-    // Add the new screen to the state
-    state[trialId].push(newScreen);
+  
+    try {
+      const response = await dispatch(createScreen(newScreen));
+      console.log('Response from create screen:', response.data)
+      newScreen.UID = response.data.UID;
+      state[trialId].push(newScreen);
+    } catch (error) {
+      console.log('Error creating screen:', error);
+    }
   }
 
   if (option === 'continue' || option === 'end') {
-    const finishedScreen = {
-      ...previousScreen,
-      SCREEN_DURATION_SECONDS: screenDuration,
-      EXIT_METHOD: actionName,
-      VIDEO_TIME_AT_END: videoTimeEnd,
-    };
+    if (previousScreen && previousScreen.UID) {
+      const finishedScreen = {
+        UID: previousScreen.UID,
+        SCREEN_DURATION_SECONDS: screenDuration,
+        EXIT_METHOD: actionName,
+        VIDEO_TIME_AT_END: videoTimeEnd,
+      };
+  
+      console.log('Finished screen:', finishedScreen);
+  
+      try {
+        const response = await dispatch(finishScreen(finishedScreen.UID, finishedScreen));
+        
+        console.log('Finished screen server response:', response.data);
 
-    console.log('Finished screen:', finishedScreen);
-
-
-    dispatch(finishScreen(previousScreen.UID, finishedScreen));
-    // Update the last screen in the state
-    state[trialId][state[trialId].length - 1] = finishedScreen;
+        state[trialId][state[trialId].length - 1] = response.data;
+      } catch (error) {
+        console.log('Error finishing screen:', error);
+      }
+    } else {
+      console.log('Cannot update screen: previous screen is not defined or does not have a UID');
+    }
   }
 
   // If the trial has ended, remove its data from the state

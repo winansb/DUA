@@ -15,9 +15,9 @@ export const screenController = {
     }
   },
 
-  finishScreen: async (uid) => {
+  finishScreen: async (uid, finishedScreenData) => {
     try {
-      const response = await axios.put(API_ROUTES.FINISH_SCREEN(uid));
+      const response = await axios.put(API_ROUTES.FINISH_SCREEN(uid), finishedScreenData);
       return response.data;
     } catch (error) {
       console.error(

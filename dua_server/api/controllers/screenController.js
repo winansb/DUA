@@ -22,7 +22,11 @@ const screenController = {
         VIDEO_PLAYING: VIDEO_PLAYING,
         VIDEO_TIME_AT_START_SECONDS: VIDEO_TIME_AT_START_SECONDS,
       });
-      res.status(201).json(newScreen);
+      res.status(201).json({
+        success: true,
+        message: "New tap created successfully",
+        data: newScreen,
+      });
     } catch (err) {
       console.error(err);
       res.status(500).json({
@@ -33,37 +37,40 @@ const screenController = {
   },
 
   finishScreen: async (req, res) => {
-    const { uid } = req.params;
-    const { SCREEN_DURATION_SECONDS, EXIT_METHOD, VIDEO_TIME_AT_END } =
-      req.body;
-
     try {
-      const [updatedRowsCount, updatedRows] = await Screen.update(
-        {
-          SCREEN_DURATION_SECONDS,
-          EXIT_METHOD,
-          VIDEO_TIME_AT_END,
-        },
-        {
-          where: { UID: uid },
-          returning: true,
-        }
-      );
+      const uid = req.params.uid;
+      const updatedScreen = {
+        SCREEN_DURATION_SECONDS: req.body.SCREEN_DURATION_SECONDS,
+        EXIT_METHOD: req.body.EXIT_METHOD,
+        VIDEO_TIME_AT_END: req.body.VIDEO_TIME_AT_END,
+      };
 
-      if (updatedRowsCount === 0) {
-        return res
-          .status(404)
-          .send({ error: "ScreenController - finishScreen: Screen not found" });
+      console.log("Updated screen:", updatedScreen);
+      console.log("UID:", uid);
+      console.log("body:", req.body);
+      const result = await Screen.update(updatedScreen, {
+        where: { UID: uid },
+      });
+
+      if (result[0] === 0) {
+        return res.status(404).json({
+          message:
+            "ScreenController - finishScreen: Screen not found",
+        });
       }
-
-      return res.send(updatedRows[0].toJSON());
+      return res.status(200).json({
+        message:
+          "ScreenController - finishScreen: Screen updated successfully",
+      });
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .send({ error: "Error in screenController - finishScreen" });
+      console.error("Error updating screen:", error);
+      return res.status(500).json({
+        message:
+          "ScreenController - finishScreen: Error updating screen",
+      });
     }
   },
+  
 
   getScreen: async (req, res) => {
     try {
