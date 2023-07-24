@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Detour4Content = ({ arrivalTime, mapImage }) => {
   return (
     <ContentContainer>
-      <Header>We are on the new route</Header>
+      <Header>We are pulling over the vehicle</Header>
       <MapImage src={mapImage} alt="Map" />
     </ContentContainer>
   );
