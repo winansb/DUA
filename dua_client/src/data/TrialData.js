@@ -11,6 +11,15 @@ import Detour from "../assets/DetourMap.png";
 import WaffleHouse from "../assets/WaffleHouseMap.png";
 import Home from "../assets/HomeMap.png";
 
+import Breakdown3Content from "../views/components/TrialScreens/Breakdown/Breakdown3Content";
+import Breakdown4Content from "../views/components/TrialScreens/Breakdown/Breakdown4Content";
+import Breakdown5Content from "../views/components/TrialScreens/Breakdown/Breakdown5Content";
+import Breakdown7Content from "../views/components/TrialScreens/Breakdown/Breakdown7Content";
+import Breakdown9Content from "../views/components/TrialScreens/Breakdown/Breakdown9Content";
+import Breakdown10Content from "../views/components/TrialScreens/Breakdown/Breakdown10Content";
+
+import PullOver from "../assets/PullOverMap.png";
+
 const trialData = {
   Detour: {
     preTrialQuestions: [
